@@ -11,7 +11,12 @@ const ASSETS = {
   warehouse: "/attached_assets/Gemini_Generated_Image_fx3qlvfx3qlvfx3q_1764267587665.png",
   logo_qualitheo: "/attached_assets/IMG-20230823-WA0095_1764268475827.jpg",
   farm_worker: "/attached_assets/Screenshot_20251009_180100_Instagram_1764267587667.jpg",
-  certificate: "/attached_assets/Cocoa Awards 2_1764268462716.jpg",
+  certificate: "/attached_assets/IMG_20210503_092102_287_1764268614308.jpg",
+  
+  // New Assets
+  cocoa_hands: "/attached_assets/IMG-20230614-WA0086_1764268614307.jpg",
+  cut_test: "/attached_assets/IMG_20210427_224010_677_1764268614308.jpg",
+  factory_ext: "/attached_assets/IMG_20241105_080348_768_1764268614309.jpg",
   
   // Product specific assets
   nectar: "/attached_assets/Gemini_Generated_Image_v3bi8bv3bi8bv3bi_1764267587666.png",
@@ -187,8 +192,8 @@ const AboutSplit = () => {
       <div className="flex flex-col lg:flex-row h-auto min-h-[800px]">
         <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-auto group">
           <img 
-            src={ASSETS.cocoa_pod} 
-            alt="Cacau Fino" 
+            src={ASSETS.cut_test} 
+            alt="Teste de Corte Cacau Fino" 
             className="absolute inset-0 w-full h-full object-cover"
           />
            <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
@@ -196,8 +201,8 @@ const AboutSplit = () => {
            {/* Award Badge Overlay */}
            <div className="absolute bottom-8 left-8 right-8 bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 text-white">
               <div className="flex items-start gap-4">
-                 <div className="w-16 h-20 rounded-lg overflow-hidden shadow-lg border border-white/30 bg-white">
-                    <img src={ASSETS.certificate} alt="Award" className="w-full h-full object-cover" />
+                 <div className="w-16 h-16 rounded-full overflow-hidden shadow-lg border-2 border-gold-400 bg-white p-1">
+                    <img src={ASSETS.certificate} alt="Award" className="w-full h-full object-contain" />
                  </div>
                  <div>
                    <div className="flex items-center gap-2 text-gold-400 mb-1">
@@ -444,7 +449,7 @@ const Impact = () => {
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="w-full lg:w-1/2">
              <img 
-              src={ASSETS.farm_worker} 
+              src={ASSETS.cocoa_hands} 
               alt="Produtor Qualitheo" 
               className="rounded-2xl shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500"
             />
@@ -500,7 +505,9 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6">Contato</h4>
             <ul className="space-y-3 text-cocoa-400">
+              <li className="font-medium text-white">Helton Gutzeit | CEO</li>
               <li>contato@qualitheo.com.br</li>
+              <li>+55 93 99235-6251</li>
               <li>Pará, Amazônia, Brasil</li>
               <li className="pt-4 flex gap-4">
                 {/* Social Icons Placeholders */}
