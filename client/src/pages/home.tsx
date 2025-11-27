@@ -48,12 +48,11 @@ import partner_btm from "@assets/partner_btm.webp";
 import partner_lasevicius from "@assets/partner_lasevicius.avif";
 
 import infra_hero from "@assets/infra_hero.jpg";
-import infra_hero_highres from "@assets/infra_hero_highres.png";
 import infra_aerial_1 from "@assets/infra_aerial_1.jpg";
 import infra_aerial_2 from "@assets/infra_aerial_2.jpg";
 
 const ASSETS = {
-  hero_bg: infra_hero_highres, // Updated to high-res generated version
+  hero_bg: infra_hero, // Updated to new requested image
   infra_hero,
   infra_aerial_1,
   infra_aerial_2,
