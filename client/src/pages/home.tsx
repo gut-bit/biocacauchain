@@ -50,12 +50,28 @@ import partner_lasevicius from "@assets/partner_lasevicius.avif";
 import infra_hero from "@assets/infra_hero.jpg";
 import infra_aerial_1 from "@assets/infra_aerial_1.jpg";
 import infra_aerial_2 from "@assets/infra_aerial_2.jpg";
+import infra_drying_beds from "@assets/infra_drying_beds.jpg";
+import infra_aerial_3 from "@assets/infra_aerial_3.jpg";
+import infra_aerial_4 from "@assets/infra_aerial_4.jpg";
+import infra_interior_1 from "@assets/infra_interior_1.jpg";
+import infra_cold_room from "@assets/infra_cold_room.jpg";
+import infra_interior_2 from "@assets/infra_interior_2.jpg";
+import infra_warehouse_wide from "@assets/infra_warehouse_wide.jpg";
+import infra_fermentation from "@assets/infra_fermentation.jpg";
 
 const ASSETS = {
   hero_bg: infra_hero, // Updated to new requested image
   infra_hero,
   infra_aerial_1,
   infra_aerial_2,
+  infra_drying_beds,
+  infra_aerial_3,
+  infra_aerial_4,
+  infra_interior_1,
+  infra_cold_room,
+  infra_interior_2,
+  infra_warehouse_wide,
+  infra_fermentation,
   cocoa_pod,
   warehouse,
   logo_qualitheo,
@@ -260,27 +276,86 @@ const Hero = () => {
 };
 
 const InfrastructureShowcase = () => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   return (
     <section className="relative py-24 bg-cocoa-900 -mt-10 rounded-t-[3rem] z-30 overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row gap-8 items-center mb-12">
-           <div className="md:w-1/3">
+        <div className="flex flex-col gap-12 mb-12">
+           <div className="max-w-3xl">
               <h3 className="text-gold-400 font-bold uppercase tracking-widest text-sm mb-4">Infraestrutura de Ponta</h3>
-              <h2 className="font-display text-3xl md:text-4xl text-white mb-4">Tecnologia em Meio à Floresta</h2>
-              <p className="text-cocoa-200 leading-relaxed">
-                Nossa unidade de beneficiamento conta com estufas solares automatizadas e pátios de secagem com capacidade para toneladas/dia, garantindo homogeneidade para grandes volumes.
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-white mb-6">Tecnologia em Meio à Floresta</h2>
+              <p className="text-cocoa-200 leading-relaxed text-lg">
+                Nossa unidade de beneficiamento conta com estufas solares automatizadas, pátios de secagem de alta capacidade e armazéns climatizados, garantindo homogeneidade e segurança alimentar para grandes volumes.
               </p>
            </div>
-           <div className="md:w-2/3 grid grid-cols-2 gap-4">
-              <div className="rounded-2xl overflow-hidden h-64 shadow-2xl border border-white/10 group">
-                <img src={ASSETS.infra_aerial_1} alt="Estufas e Infraestrutura" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+           
+           {/* Bento Grid Layout for Collage */}
+           <div className="grid grid-cols-1 md:grid-cols-6 md:grid-rows-2 gap-4 h-auto md:h-[600px]">
+              {/* Large Main Image - Factory Aerial */}
+              <div className="md:col-span-4 md:row-span-2 relative group overflow-hidden rounded-2xl shadow-2xl border border-white/10 cursor-pointer" onClick={() => setSelectedImage(ASSETS.infra_aerial_3)}>
+                <div className="absolute top-4 left-4 z-10 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-xs font-medium text-white">
+                   Unidade de Beneficiamento
+                </div>
+                <img 
+                  src={ASSETS.infra_aerial_3} 
+                  alt="Vista Aérea da Fábrica" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
               </div>
-              <div className="rounded-2xl overflow-hidden h-64 shadow-2xl border border-white/10 group mt-8">
-                <img src={ASSETS.infra_aerial_2} alt="Plantação e Fábrica" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+
+              {/* Top Right - Drying Beds */}
+              <div className="md:col-span-2 md:row-span-1 relative group overflow-hidden rounded-2xl shadow-xl border border-white/10 cursor-pointer" onClick={() => setSelectedImage(ASSETS.infra_drying_beds)}>
+                 <div className="absolute top-4 left-4 z-10 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-xs font-medium text-white">
+                   Estufas Solares
+                </div>
+                <img 
+                  src={ASSETS.infra_drying_beds} 
+                  alt="Estufas de Secagem" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+              </div>
+
+              {/* Bottom Right - Interior/Warehouse */}
+              <div className="md:col-span-2 md:row-span-1 relative group overflow-hidden rounded-2xl shadow-xl border border-white/10 cursor-pointer" onClick={() => setSelectedImage(ASSETS.infra_warehouse_wide)}>
+                 <div className="absolute top-4 left-4 z-10 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-xs font-medium text-white">
+                   Armazenamento
+                </div>
+                <img 
+                  src={ASSETS.infra_warehouse_wide} 
+                  alt="Armazém Interno" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+              </div>
+           </div>
+
+           {/* Secondary Row of Smaller Images */}
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="h-40 rounded-xl overflow-hidden border border-white/10 group cursor-pointer" onClick={() => setSelectedImage(ASSETS.infra_fermentation)}>
+                <img src={ASSETS.infra_fermentation} alt="Fermentação" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              </div>
+              <div className="h-40 rounded-xl overflow-hidden border border-white/10 group cursor-pointer" onClick={() => setSelectedImage(ASSETS.infra_interior_1)}>
+                <img src={ASSETS.infra_interior_1} alt="Maquinário" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              </div>
+              <div className="h-40 rounded-xl overflow-hidden border border-white/10 group cursor-pointer" onClick={() => setSelectedImage(ASSETS.infra_aerial_4)}>
+                <img src={ASSETS.infra_aerial_4} alt="Vista Alta" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              </div>
+              <div className="h-40 rounded-xl overflow-hidden border border-white/10 group cursor-pointer" onClick={() => setSelectedImage(ASSETS.infra_cold_room)}>
+                <img src={ASSETS.infra_cold_room} alt="Câmara Fria" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               </div>
            </div>
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {selectedImage && (
+        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-12" onClick={() => setSelectedImage(null)}>
+          <div className="relative w-full max-w-6xl h-full flex items-center justify-center">
+             <img src={selectedImage} alt="Full screen view" className="max-w-full max-h-full object-contain rounded-lg shadow-2xl" />
+             <button className="absolute top-4 right-4 text-white/80 hover:text-white text-sm uppercase tracking-widest">Fechar [ESC]</button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
