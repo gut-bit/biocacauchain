@@ -60,9 +60,11 @@ import infra_interior_2 from "@assets/infra_interior_2.jpg";
 import infra_warehouse_wide from "@assets/infra_warehouse_wide.jpg";
 import infra_fermentation from "@assets/infra_fermentation.jpg";
 import infra_interior_branded from "@assets/infra_interior_branded.png";
+import hero_video from "@assets/hero_video.mp4";
 
 const ASSETS = {
   hero_bg: infra_hero, // Fallback/Initial
+  hero_video,
   infra_interior_branded,
   infra_hero,
   infra_aerial_1,
@@ -235,18 +237,20 @@ const Hero = () => {
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   
   // Background slider logic
-  const [currentBgIndex, setCurrentBgIndex] = useState(0);
-  const heroImages = [
-    ASSETS.infra_interior_branded,
-    ASSETS.infra_hero // Aerial view
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  
+  const slides = [
+    { type: 'video', src: ASSETS.hero_video, duration: 12000 }, // Play video for 12s
+    { type: 'image', src: ASSETS.infra_interior_branded, duration: 6000 } // Show image for 6s
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentBgIndex((prev) => (prev + 1) % heroImages.length);
-    }, 5000); // Change every 5 seconds
-    return () => clearInterval(interval);
-  }, [heroImages.length]);
+    const timer = setTimeout(() => {
+      setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
+    }, slides[currentSlideIndex].duration);
+    
+    return () => clearTimeout(timer);
+  }, [currentSlideIndex]);
 
   return (
     <div className="relative h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-cocoa-950">
@@ -259,16 +263,36 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-cocoa-900/90 z-20" />
         
         <AnimatePresence mode="popLayout">
-          <motion.img
-            key={currentBgIndex}
-            src={heroImages[currentBgIndex]}
-            alt="Agroindústria Qualitheo"
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
-            className="absolute inset-0 w-full h-full object-cover z-10"
-          />
+          {slides[currentSlideIndex].type === 'video' ? (
+             <motion.div
+                key="video-slide"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 2.5, ease: "easeInOut" }} // Slow fade
+                className="absolute inset-0 w-full h-full"
+             >
+               <video
+                 src={slides[currentSlideIndex].src}
+                 autoPlay
+                 muted
+                 loop
+                 playsInline
+                 className="absolute inset-0 w-full h-full object-cover"
+               />
+             </motion.div>
+          ) : (
+            <motion.img
+              key="image-slide"
+              src={slides[currentSlideIndex].src}
+              alt="Agroindústria Qualitheo"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 2.5, ease: "easeInOut" }} // Slow fade
+              className="absolute inset-0 w-full h-full object-cover z-10"
+            />
+          )}
         </AnimatePresence>
       </motion.div>
 
