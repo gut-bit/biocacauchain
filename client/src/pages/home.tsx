@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Leaf, Factory, Globe, CheckCircle2, Menu, Snowflake, Layers, Box, Droplet, Scale } from "lucide-react";
+import { ArrowRight, Leaf, Factory, Globe, CheckCircle2, Menu, Snowflake, Layers, Box, Droplet, Scale, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
@@ -9,8 +9,9 @@ const ASSETS = {
   hero_bg: "/attached_assets/dji_fly_20240713_195956_0136_1721755357579_photo_1764267587664.jpg",
   cocoa_pod: "/attached_assets/20250503_153303~2_1764267587664.jpg",
   warehouse: "/attached_assets/Gemini_Generated_Image_fx3qlvfx3qlvfx3q_1764267587665.png",
-  logo_qualitheo: "/attached_assets/IMG-20230823-WA0095_1764267587666.jpg",
+  logo_qualitheo: "/attached_assets/IMG-20230823-WA0095_1764268475827.jpg",
   farm_worker: "/attached_assets/Screenshot_20251009_180100_Instagram_1764267587667.jpg",
+  certificate: "/attached_assets/Cocoa Awards 2_1764268462716.jpg",
   
   // Product specific assets
   nectar: "/attached_assets/Gemini_Generated_Image_v3bi8bv3bi8bv3bi_1764267587666.png",
@@ -38,7 +39,10 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+             <div className="w-10 h-10 rounded-full overflow-hidden bg-white/90 flex items-center justify-center">
+                <img src={ASSETS.logo_qualitheo} alt="Qualitheo Logo" className="w-full h-full object-cover scale-110" />
+             </div>
             <span className={`font-display text-2xl font-bold tracking-tight ${isScrolled ? 'text-cocoa-900' : 'text-white'}`}>
               Qualitheo
             </span>
@@ -109,15 +113,16 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <span className="inline-block py-1 px-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-xs font-medium uppercase tracking-widest mb-6">
-            Agroindústria Bioeconômica da Amazônia
-          </span>
+          <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-xs font-medium uppercase tracking-widest mb-6">
+            <Award className="w-3 h-3 text-gold-400" />
+            <span>Cocoa of Excellence Award Winner</span>
+          </div>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white font-medium leading-[1.1] mb-6">
             Excelência <br />
             <span className="italic font-light text-gold-400">em cada amêndoa</span>
           </h1>
           <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-            Do cultivo no coração do Pará à exportação global. Elevamos a cadeia do cacau com tecnologia, rastreabilidade e impacto real.
+            Do cultivo premiado no Pará à exportação global. Elevamos a cadeia do cacau com tecnologia, rastreabilidade e impacto real.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-gold-500 hover:bg-gold-600 text-cocoa-950 font-bold rounded-full px-8 h-14 text-base">
@@ -180,13 +185,30 @@ const AboutSplit = () => {
   return (
     <section className="py-0 bg-white overflow-hidden" id="processo">
       <div className="flex flex-col lg:flex-row h-auto min-h-[800px]">
-        <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-auto">
+        <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-auto group">
           <img 
             src={ASSETS.cocoa_pod} 
             alt="Cacau Fino" 
             className="absolute inset-0 w-full h-full object-cover"
           />
-           <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent" />
+           <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
+           
+           {/* Award Badge Overlay */}
+           <div className="absolute bottom-8 left-8 right-8 bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 text-white">
+              <div className="flex items-start gap-4">
+                 <div className="w-16 h-20 rounded-lg overflow-hidden shadow-lg border border-white/30 bg-white">
+                    <img src={ASSETS.certificate} alt="Award" className="w-full h-full object-cover" />
+                 </div>
+                 <div>
+                   <div className="flex items-center gap-2 text-gold-400 mb-1">
+                      <Award className="w-4 h-4" />
+                      <span className="text-xs font-bold uppercase tracking-wider">Reconhecimento Internacional</span>
+                   </div>
+                   <h4 className="font-display text-xl mb-1">Cocoa of Excellence</h4>
+                   <p className="text-sm text-white/80">Selecionado entre os 50 melhores do mundo (Salon du Chocolat, Paris).</p>
+                 </div>
+              </div>
+           </div>
         </div>
         <div className="w-full lg:w-1/2 bg-cocoa-900 text-cocoa-50 p-12 md:p-24 flex flex-col justify-center">
           <span className="text-gold-500 font-bold uppercase tracking-widest text-sm mb-6">O Padrão Qualitheo</span>
@@ -457,8 +479,8 @@ const Footer = () => {
     <footer className="bg-cocoa-950 text-cocoa-200 py-16 border-t border-cocoa-900" id="contato">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-2">
-            <span className="font-display text-3xl text-white block mb-6">Qualitheo</span>
+          <div className="col-span-1 md:col-span-2 flex flex-col items-start">
+            <img src={ASSETS.logo_qualitheo} alt="Qualitheo Logo" className="h-16 mb-6 rounded-lg opacity-90" />
             <p className="max-w-md text-cocoa-400 leading-relaxed">
               Agroindústria bioeconômica que conecta a riqueza da Amazônia ao mundo com qualidade, tecnologia e transparência.
             </p>

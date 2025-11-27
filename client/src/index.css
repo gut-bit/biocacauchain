@@ -4,29 +4,32 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Typography - keeping Fraunces as it matches the organic/serif vibe well */
   --font-display: "Fraunces", serif;
   --font-sans: "Manrope", sans-serif;
 
-  /* Brand Colors - H S% L% */
-  --color-cocoa-50: 30 30% 97%;
-  --color-cocoa-100: 30 30% 94%;
-  --color-cocoa-200: 28 30% 88%;
-  --color-cocoa-300: 28 28% 75%;
-  --color-cocoa-400: 26 28% 60%;
-  --color-cocoa-500: 25 30% 45%;
-  --color-cocoa-600: 25 35% 35%;
-  --color-cocoa-700: 25 40% 25%;  /* Primary Brand Color */
-  --color-cocoa-800: 25 45% 20%;
-  --color-cocoa-900: 25 50% 15%;
-  --color-cocoa-950: 25 60% 10%;
+  /* Brand Colors - Extracted from Qualitheo Logo */
+  /* Brown: Deep, earthy coffee/chocolate */
+  --color-cocoa-50: 30 20% 97%;
+  --color-cocoa-100: 30 20% 94%;
+  --color-cocoa-200: 28 25% 88%;
+  --color-cocoa-300: 28 25% 75%;
+  --color-cocoa-400: 25 30% 60%;
+  --color-cocoa-500: 25 35% 45%;
+  --color-cocoa-600: 25 40% 35%;
+  --color-cocoa-700: 22 55% 22%;  /* Main Brand Brown - Warmer/Richer */
+  --color-cocoa-800: 22 60% 18%;
+  --color-cocoa-900: 22 65% 12%;
+  --color-cocoa-950: 22 70% 8%;
+
+  /* Gold: Warm amber/yolk from the flower icon */
+  --color-gold-400: 42 90% 65%;
+  --color-gold-500: 40 95% 55%;  /* Primary Brand Gold */
+  --color-gold-600: 38 100% 45%;
 
   --color-leaf-500: 100 40% 50%;
   --color-leaf-600: 100 45% 40%;
-  --color-leaf-700: 100 50% 30%; /* Secondary Nature Color */
-
-  --color-gold-400: 45 85% 60%;
-  --color-gold-500: 45 90% 50%;  /* Accent/Pulp */
-  --color-gold-600: 45 95% 40%;
+  --color-leaf-700: 100 50% 30%;
 
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
@@ -42,8 +45,8 @@
   --color-primary: var(--color-cocoa-700);
   --color-primary-foreground: var(--color-cocoa-50);
 
-  --color-secondary: var(--color-leaf-700);
-  --color-secondary-foreground: var(--color-cocoa-50);
+  --color-secondary: var(--color-gold-500);
+  --color-secondary-foreground: var(--color-cocoa-950);
 
   --color-muted: var(--color-cocoa-100);
   --color-muted-foreground: var(--color-cocoa-600);
@@ -61,7 +64,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply font-sans antialiased bg-background text-foreground selection:bg-cocoa-200 selection:text-cocoa-900;
+    @apply font-sans antialiased bg-background text-foreground selection:bg-gold-200 selection:text-cocoa-950;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight text-cocoa-950;
