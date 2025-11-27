@@ -15,11 +15,24 @@ const ASSETS = {
   farm_worker: "/attached_assets/Screenshot_20251009_180100_Instagram_1764267587667.jpg",
   certificate: "/attached_assets/IMG_20210503_092102_287_1764268614308.jpg",
   
-  // New Assets
-  cocoa_hands: "/attached_assets/IMG-20230614-WA0086_1764268614307.jpg",
-  cut_test: "/attached_assets/IMG_20210427_224010_677_1764268614308.jpg",
-  factory_ext: "/attached_assets/IMG_20241105_080348_768_1764268614309.jpg",
-  
+  // New Assets - Storytelling
+  pod_qr: "/attached_assets/DSC08015 - Copia_1764269121201.JPG",
+  helton_teaching: "/attached_assets/DSC08139_1764269121202.JPG",
+  logo_shirt: "/attached_assets/DSC08144_1764269121202.JPG",
+  helton_profile: "/attached_assets/DSC08145_1764269121202.JPG",
+  field_team: "/attached_assets/DSC08162_1764269121202.JPG",
+  open_pod_smile: "/attached_assets/DSC08076 - Copia_1764269121202.JPG",
+  worker_portrait: "/attached_assets/DSC07809 - Copia_1764269121203.JPG",
+  macaw: "/attached_assets/DSC07862 - Copia_1764269121203.JPG",
+  dense_trees: "/attached_assets/DSC07995 - Copia_1764269121203.JPG",
+  harvest_pole: "/attached_assets/DSC07996 - Copia_1764269121203.JPG",
+
+  // Generated Decorative Assets
+  floating_beans: "/attached_assets/generated_images/floating_cacao_beans_with_transparent_background.png",
+  nibs_pile: "/attached_assets/generated_images/pile_of_cacao_nibs_with_transparent_background.png",
+  pod_isolated: "/attached_assets/generated_images/whole_cacao_pod_isolated_transparent_background.png",
+  tech_wireframe: "/attached_assets/generated_images/abstract_tech_cacao_wireframe_element.png",
+
   // Product specific assets
   nectar: "/attached_assets/Gemini_Generated_Image_v3bi8bv3bi8bv3bi_1764267587666.png",
   beans_container: "/attached_assets/Gemini_Generated_Image_197q3q197q3q197q_1764267587665.png",
@@ -99,12 +112,55 @@ const Navbar = () => {
   );
 };
 
+const FloatingElements = () => {
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 1000], [0, 300]);
+  const y2 = useTransform(scrollY, [0, 1000], [0, -200]);
+  const rotate = useTransform(scrollY, [0, 1000], [0, 180]);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {/* Hero Section Elements */}
+      <motion.div 
+        style={{ y: y1, rotate }}
+        className="absolute top-[10%] right-[5%] w-32 md:w-48 opacity-60 blur-[1px]"
+      >
+        <img src={ASSETS.floating_beans} alt="" className="w-full h-auto" />
+      </motion.div>
+      
+      <motion.div 
+        style={{ y: y2 }}
+        className="absolute top-[40%] left-[2%] w-24 md:w-32 opacity-40 blur-[2px]"
+      >
+        <img src={ASSETS.floating_beans} alt="" className="w-full h-full scale-x-[-1]" />
+      </motion.div>
+
+      {/* Process Section Elements */}
+      <motion.div 
+        style={{ y: y1 }}
+        className="absolute top-[120vh] right-[-5%] w-64 md:w-96 opacity-20"
+      >
+        <img src={ASSETS.tech_wireframe} alt="" className="w-full h-full invert opacity-50" />
+      </motion.div>
+
+       {/* Product Section Elements */}
+       <motion.div 
+        style={{ y: y2, rotate: -45 }}
+        className="absolute top-[250vh] left-[5%] w-40 opacity-80"
+      >
+        <img src={ASSETS.pod_isolated} alt="" className="w-full h-full drop-shadow-2xl" />
+      </motion.div>
+    </div>
+  );
+};
+
 const Hero = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
 
   return (
-    <div className="relative h-[100dvh] w-full overflow-hidden flex items-center justify-center">
+    <div className="relative h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-cocoa-950">
+      <FloatingElements />
       <motion.div 
         style={{ y: y1 }}
         className="absolute inset-0 z-0"
@@ -193,48 +249,58 @@ const Features = () => {
 
 const AboutSplit = () => {
   return (
-    <section className="py-0 bg-white overflow-hidden" id="processo">
-      <div className="flex flex-col lg:flex-row h-auto min-h-[800px]">
+    <section className="py-0 bg-white overflow-hidden relative" id="processo">
+      {/* Decorative background element */}
+      <div className="absolute top-0 right-0 w-full h-full opacity-5 pointer-events-none z-0">
+         <img src={ASSETS.tech_wireframe} className="w-[800px] h-[800px] absolute -right-40 -top-40 rotate-12" />
+      </div>
+
+      <div className="flex flex-col lg:flex-row h-auto min-h-[800px] relative z-10">
         <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-auto group">
           <img 
-            src={ASSETS.cut_test} 
-            alt="Teste de Corte Cacau Fino" 
-            className="absolute inset-0 w-full h-full object-cover"
+            src={ASSETS.pod_qr} 
+            alt="Rastreabilidade QR Code" 
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
-           <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
+           <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
            
-           {/* Award Badge Overlay */}
-           <div className="absolute bottom-8 left-8 right-8 bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 text-white">
+           {/* Tech Overlay Badge */}
+           <div className="absolute bottom-8 left-8 right-8 bg-black/40 backdrop-blur-xl p-6 rounded-xl border border-white/10 text-white">
               <div className="flex items-start gap-4">
-                 <div className="w-16 h-16 rounded-full overflow-hidden shadow-lg border-2 border-gold-400 bg-white p-1">
-                    <img src={ASSETS.certificate} alt="Award" className="w-full h-full object-contain" />
+                 <div className="w-16 h-16 rounded-lg overflow-hidden shadow-lg border border-white/20 bg-white p-1">
+                    <img src={ASSETS.qr_code} alt="QR Code" className="w-full h-full object-contain" />
                  </div>
                  <div>
-                   <div className="flex items-center gap-2 text-gold-400 mb-1">
-                      <Award className="w-4 h-4" />
-                      <span className="text-xs font-bold uppercase tracking-wider">Reconhecimento Internacional</span>
+                   <div className="flex items-center gap-2 text-green-400 mb-1">
+                      <Globe className="w-4 h-4" />
+                      <span className="text-xs font-bold uppercase tracking-wider">Traceability Tech</span>
                    </div>
-                   <h4 className="font-display text-xl mb-1">Cocoa of Excellence</h4>
-                   <p className="text-sm text-white/80">Selecionado entre os 50 melhores do mundo (Salon du Chocolat, Paris).</p>
+                   <h4 className="font-display text-xl mb-1">Rastreabilidade Total</h4>
+                   <p className="text-sm text-white/80">Cada lote conta uma história. Do clone 24 ao produto final.</p>
                  </div>
               </div>
            </div>
         </div>
-        <div className="w-full lg:w-1/2 bg-cocoa-900 text-cocoa-50 p-12 md:p-24 flex flex-col justify-center">
+        <div className="w-full lg:w-1/2 bg-cocoa-900 text-cocoa-50 p-12 md:p-24 flex flex-col justify-center relative">
+          {/* Subtle bean background */}
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-64 opacity-10 pointer-events-none">
+            <img src={ASSETS.floating_beans} alt="" />
+          </div>
+          
           <span className="text-gold-500 font-bold uppercase tracking-widest text-sm mb-6">O Padrão Qualitheo</span>
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight">
             Ciência e Natureza em <span className="text-gold-400 italic">Sintonia</span>
           </h2>
           <p className="text-cocoa-200 text-lg leading-relaxed mb-8">
-            Não vendemos apenas cacau; vendemos consistência. Nossa estrutura de originação e compra aplica protocolos rigorosos de pós-colheita. Transformamos amêndoas brutas em ingredientes finos, controlando cada variável de sabor, acidez e aroma.
+            Não vendemos apenas cacau; vendemos consistência. Nossa estrutura de originação e compra aplica protocolos rigorosos de pós-colheita, monitorados digitalmente.
           </p>
           
           <ul className="space-y-4 mb-10">
             {[
-              "Rastreabilidade total via QR Code",
-              "Fermentação controlada em cochos de madeira",
-              "Secagem em estufas solares monitoradas",
-              "Análise sensorial laboratorial"
+              "Rastreabilidade total via QR Code por lote",
+              "Monitoramento biométrico da fermentação",
+              "Secagem híbrida em estufas solares tech",
+              "Análise sensorial em laboratório próprio"
             ].map((item, i) => (
               <li key={i} className="flex items-center gap-3 text-cocoa-100">
                 <CheckCircle2 className="w-5 h-5 text-leaf-500" />
@@ -243,9 +309,14 @@ const AboutSplit = () => {
             ))}
           </ul>
 
-          <Button variant="outline" className="self-start border-cocoa-700 text-cocoa-100 hover:bg-cocoa-800 hover:text-white">
-            Conheça Nossos Protocolos
-          </Button>
+          <div className="flex gap-4">
+             <Button variant="outline" className="self-start border-cocoa-700 text-cocoa-100 hover:bg-cocoa-800 hover:text-white">
+              Protocolos Técnicos
+            </Button>
+             <Button variant="ghost" className="text-gold-400 hover:text-gold-300 hover:bg-transparent p-0">
+              Ver Certificações <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </section>
@@ -330,7 +401,7 @@ const Products = () => {
           subtitle="Bloco 1: A Essência Fresca"
           title="Néctar de Cacau Congelado"
           description="O puro frescor da floresta, conhecido como 'Suco de Deus'. Extraído via 'Clean Extraction' e submetido a congelamento rápido para preservar nutrientes e o sabor cítrico único."
-          image={ASSETS.nectar}
+          image={ASSETS.open_pod_smile} // Using the open pod photo which implies fresh pulp
           accentColor="leaf"
           products={[
             {
@@ -367,7 +438,7 @@ const Products = () => {
           subtitle="Bloco 3: Crocância e Sabor Puro"
           title="Nibs de Cacau"
           description="Amêndoas torradas e trituradas em pedaços puros. Sabor intenso de chocolate e textura crocante sem adição de açúcar."
-          image={ASSETS.nibs_bags}
+          image={ASSETS.nibs_bags} // Keeping this as it was a generated bag image, potentially accurate
           products={[
             {
               name: "Cacao Nibs",
@@ -376,6 +447,11 @@ const Products = () => {
             }
           ]}
         />
+        
+        {/* Decorative element between blocks */}
+        <div className="flex justify-center my-12 opacity-20">
+            <img src={ASSETS.nibs_pile} alt="" className="w-32 h-auto" />
+        </div>
 
         <Separator className="my-24 bg-cocoa-100" />
 
@@ -446,31 +522,46 @@ const Products = () => {
 
 const Impact = () => {
   return (
-    <section className="py-24 bg-leaf-700 text-white relative overflow-hidden" id="impacto">
-      {/* Grain texture overlay could go here */}
-      <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-overlay"></div>
+    <section className="py-24 bg-leaf-800 text-white relative overflow-hidden" id="impacto">
+      {/* Background Image Overlay */}
+      <div className="absolute inset-0 z-0 opacity-20 mix-blend-overlay">
+         <img src={ASSETS.dense_trees} className="w-full h-full object-cover" alt="Floresta de Cacau" />
+      </div>
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
-          <div className="w-full lg:w-1/2">
+          <div className="w-full lg:w-1/2 relative">
+             <div className="absolute -top-10 -left-10 w-32 z-20 animate-pulse delay-1000">
+                <img src={ASSETS.macaw} alt="Arara" className="rounded-full border-4 border-white/20 shadow-xl" />
+             </div>
              <img 
-              src={ASSETS.cocoa_hands} 
-              alt="Produtor Qualitheo" 
-              className="rounded-2xl shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500"
+              src={ASSETS.field_team} 
+              alt="Equipe Qualitheo no Campo" 
+              className="rounded-2xl shadow-2xl rotate-1 border border-white/10"
             />
+            <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-xl max-w-[200px] text-cocoa-900 z-20">
+                <p className="font-display text-lg leading-tight">"Garantimos a compra, garantimos o futuro."</p>
+                <p className="text-xs text-cocoa-500 mt-2 font-bold uppercase tracking-wider">- Helton Gutzeit</p>
+            </div>
           </div>
           <div className="w-full lg:w-1/2">
-            <h2 className="font-display text-4xl md:text-5xl mb-8">
-              Impacto Real no Campo
+            <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-leaf-600/50 border border-leaf-400/30 text-leaf-100 text-xs font-bold uppercase tracking-widest">
+                <Globe className="w-3 h-3" />
+                <span>Bioeconomia Amazônica</span>
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl mb-8 leading-tight">
+              Impacto Real <br/><span className="text-leaf-300">além da floresta</span>
             </h2>
             <p className="text-leaf-100 text-lg leading-relaxed mb-8">
-              A Qualitheo não é apenas uma compradora; somos parceiros. Ao profissionalizar a produção e garantir a compra, aumentamos a renda das famílias produtoras e incentivamos a preservação da floresta em pé.
+              A Qualitheo não é apenas uma agroindústria; somos um ecossistema. Ao profissionalizar o produtor com assistência técnica e garantir a compra de toda a safra, criamos um ciclo virtuoso onde a floresta em pé vale mais.
             </p>
             
             <div className="grid grid-cols-2 gap-8 mt-12 border-t border-leaf-600 pt-8">
               <div>
-                <div className="text-4xl font-display text-gold-400 mb-2">+300%</div>
-                <div className="text-sm text-leaf-200 uppercase tracking-wider">Valor Agregado</div>
+                <div className="text-4xl font-display text-gold-400 mb-2 flex items-baseline gap-1">
+                    +300<span className="text-xl">%</span>
+                </div>
+                <div className="text-sm text-leaf-200 uppercase tracking-wider">Renda do Produtor</div>
               </div>
               <div>
                 <div className="text-4xl font-display text-gold-400 mb-2">100%</div>
