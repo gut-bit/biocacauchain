@@ -29,11 +29,12 @@ import warehouse from "@assets/warehouse.png";
 import logo_qualitheo from "@assets/logo_qualitheo.jpg";
 import farm_worker from "@assets/farm_worker.jpg";
 
-import product_nectar from "@assets/product_nectar.png";
-import product_beans from "@assets/product_beans.png";
-import product_nibs from "@assets/product_nibs.png";
-import product_liquor from "@assets/product_liquor.png";
-import product_butter from "@assets/product_butter.png";
+import product_nectar_branded from "@assets/product_nectar_branded.png";
+import product_beans_branded from "@assets/product_beans_branded.png";
+import product_nibs_branded from "@assets/product_nibs_branded.png";
+import product_liquor_branded from "@assets/product_liquor_branded.png";
+import product_butter_branded from "@assets/product_butter_branded.png";
+import product_powder_branded from "@assets/product_powder_branded.png";
 
 import art_floating_beans from "@assets/art_floating_beans.png";
 import art_nibs_pile from "@assets/art_nibs_pile.png";
@@ -95,11 +96,14 @@ const ASSETS = {
   dense_trees,
   harvest_pole,
   qr_code,
-  nectar: product_nectar,
-  beans_container: product_beans,
-  nibs_bags: product_nibs,
-  liquor_blocks: product_liquor,
-  butter_blocks: product_butter,
+  // Products (Updated)
+  nectar: product_nectar_branded,
+  beans_container: product_beans_branded,
+  nibs_bags: product_nibs_branded,
+  liquor_blocks: product_liquor_branded,
+  butter_blocks: product_butter_branded,
+  powder_bags: product_powder_branded,
+  
   floating_beans: art_floating_beans,
   nibs_pile: art_nibs_pile,
   pod_isolated: art_pod_isolated,
@@ -629,16 +633,16 @@ const Products = () => {
         {/* BLOCO 1: Néctar */}
         <ProductBlock
           align="left"
-          subtitle="Bloco 1: A Essência Fresca"
-          title="Néctar de Cacau Congelado"
-          description="O puro frescor da floresta, conhecido como 'Suco de Deus'. Extraído via 'Clean Extraction' e submetido a congelamento rápido para preservar nutrientes e o sabor cítrico único."
-          image={ASSETS.open_pod_smile} // Using the open pod photo which implies fresh pulp
+          subtitle="A Essência Fresca"
+          title="Frozen Cacao Nectar"
+          description="O puro frescor da floresta, conhecido como 'Suco de Deus'. Extraído via 'Clean Extraction' e submetido a congelamento rápido (Flash Frozen) para preservar nutrientes e o sabor cítrico único."
+          image={ASSETS.nectar}
           accentColor="leaf"
           products={[
             {
-              name: "Néctar de Cacau (Suco de Deus)",
+              name: "Néctar de Cacau",
               desc: "Ideal para indústria de bebidas, sucos premium, sorveterias e mixologia.",
-              formats: ["Tetra Pak 1L", "Galão 5L", "Bombona 25L", "Barrica 80L"]
+              formats: ["Tetra Pak 1L", "Galão 5L", "Galão 25L", "Tambor"]
             }
           ]}
         />
@@ -648,15 +652,15 @@ const Products = () => {
         {/* BLOCO 2: Amêndoas */}
         <ProductBlock
           align="right"
-          subtitle="Bloco 2: Matéria-Prima Fundamental"
-          title="Amêndoas Fermentadas"
+          subtitle="Matéria-Prima Fundamental"
+          title="Fermented Cacao Beans"
           description="O alicerce da indústria. Amêndoas selecionadas na origem, com fermentação rigorosa para perfil aromático superior. Qualidade 'Export Standard'."
           image={ASSETS.beans_container}
           products={[
             {
               name: "Amêndoas Padrão Exportação",
               desc: "Para fabricantes Bean-to-Bar e grandes indústrias moageiras.",
-              formats: ["Sacos Juta 60kg", "Paletes 1 Ton", "Meio Container (12.5T)", "Container Cheio (25T)"]
+              formats: ["Sacos Juta 60kg", "Palete 1 Ton", "Meio Container (12.5T)", "Container Cheio (25T)"]
             }
           ]}
         />
@@ -666,85 +670,72 @@ const Products = () => {
         {/* BLOCO 3: Nibs */}
         <ProductBlock
           align="left"
-          subtitle="Bloco 3: Crocância e Sabor Puro"
-          title="Nibs de Cacau"
+          subtitle="Crocância e Sabor Puro"
+          title="Cacao Nibs"
           description="Amêndoas torradas e trituradas em pedaços puros. Sabor intenso de chocolate e textura crocante sem adição de açúcar."
-          image={ASSETS.nibs_bags} // Keeping this as it was a generated bag image, potentially accurate
+          image={ASSETS.nibs_bags}
           products={[
             {
               name: "Cacao Nibs",
               desc: "Perfeito para barras de cereais, granolas, iogurtes e cervejarias artesanais.",
-              formats: ["Varejo 100g/500g", "Sacos 5kg/25kg/60kg", "Big Bags 1 Ton"]
+              formats: ["Varejo (100g - 1kg)", "Sacos (5kg - 60kg)", "Big Bag 1 Ton", "Container (12.5T/25T)"]
             }
           ]}
         />
         
-        {/* Decorative element between blocks */}
-        <div className="flex justify-center my-12 opacity-20">
-            <img src={ASSETS.nibs_pile} alt="" className="w-32 h-auto" />
-        </div>
+        <Separator className="my-24 bg-cocoa-100" />
+
+        {/* BLOCO 4: Liquor */}
+        <ProductBlock
+          align="right"
+          subtitle="O Coração do Chocolate"
+          title="Cacao Liquor Block"
+          description="Pasta de cacau pura, obtida da moagem das amêndoas torradas. A base essencial para qualquer chocolate de alta qualidade."
+          image={ASSETS.liquor_blocks}
+          products={[
+            {
+              name: "Cacao Liquor",
+              desc: "Matéria-prima base para chocolates, coberturas e confeitaria.",
+              formats: ["Blocos 12.5kg", "Blocos 100kg", "Blocos 500kg", "Bloco 1 Ton", "Container (12.5T/25T)"]
+            }
+          ]}
+        />
 
         <Separator className="my-24 bg-cocoa-100" />
 
-        {/* BLOCO 4: Processamento Secundário */}
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start mb-12">
-           <div className="w-full lg:w-1/2 sticky top-24">
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-              {/* Using liquor/butter image */}
-              <img src={ASSETS.liquor_blocks} alt="Processamento Secundário" className="w-full h-full object-cover" />
-               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-               <div className="absolute bottom-8 left-8 text-white">
-                 <h3 className="font-display text-3xl mb-2">O Coração do Chocolate</h3>
-                 <p className="text-white/80">Processamento Secundário de Alta Precisão</p>
-               </div>
-            </div>
-          </div>
+        {/* BLOCO 5: Butter */}
+        <ProductBlock
+          align="left"
+          subtitle="A Nobreza da Gordura"
+          title="Cacao Butter Block"
+          description="Manteiga de cacau pura, extraída por prensagem. Responsável pela textura aveludada e derretimento perfeito do chocolate."
+          image={ASSETS.butter_blocks}
+          products={[
+            {
+              name: "Cacao Butter",
+              desc: "Essencial para chocolates nobres, cosméticos e indústria farmacêutica.",
+              formats: ["Blocos 12.5kg", "Blocos 100kg", "Blocos 500kg", "Bloco 1 Ton", "Container (12.5T/25T)"]
+            }
+          ]}
+        />
 
-          <div className="w-full lg:w-1/2">
-             <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-6 bg-gold-500/10 text-gold-700">
-              Bloco 4: Processamento Secundário
-            </span>
-            <h3 className="font-display text-3xl md:text-4xl text-cocoa-900 mb-6">Ingredientes Industriais</h3>
-            <p className="text-cocoa-600 text-lg mb-10 leading-relaxed">
-              Os produtos resultantes da moagem e prensagem. Ingredientes base essenciais para a indústria de confeitaria mundial.
-            </p>
+        <Separator className="my-24 bg-cocoa-100" />
 
-            <div className="space-y-10">
-              {[
-                {
-                  title: "Líquor de Cacau (Massa)",
-                  desc: "100% cacau puro moído. A alma de qualquer chocolate.",
-                  formats: ["Blocos Sólidos 25kg", "Paletes 500kg a 25T"]
-                },
-                {
-                  title: "Manteiga de Cacau",
-                  desc: "Gordura nobre 'The Golden Fat'. Para chocolate, confeitaria e cosméticos.",
-                  formats: ["Blocos Sólidos 25kg", "Paletes Industriais"]
-                },
-                {
-                  title: "Pó de Cacau (Fine Quality)",
-                  desc: "Pó finíssimo de cor rica e sabor intenso. Para bebidas e panificação.",
-                  formats: ["Sacos Papel 25kg", "Sacos Juta 60kg", "Big Bags 1 Ton"]
-                }
-              ].map((item, idx) => (
-                <div key={idx} className="bg-cocoa-50 p-6 rounded-xl border border-cocoa-100 hover:border-gold-400 transition-colors">
-                  <div className="flex items-start justify-between mb-4">
-                    <h4 className="font-display text-xl text-cocoa-900">{item.title}</h4>
-                    {idx === 1 ? <Droplet className="text-gold-500 w-5 h-5" /> : idx === 0 ? <Layers className="text-cocoa-700 w-5 h-5" /> : <Snowflake className="text-cocoa-500 w-5 h-5" />}
-                  </div>
-                  <p className="text-cocoa-600 text-sm mb-4">{item.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.formats.map((fmt, i) => (
-                       <span key={i} className="inline-flex items-center px-2 py-1 bg-white border border-cocoa-200 text-cocoa-600 text-xs font-medium rounded">
-                        {fmt}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        {/* BLOCO 6: Powder */}
+        <ProductBlock
+          align="right"
+          subtitle="Versatilidade em Pó"
+          title="Cacao Powder"
+          description="Cacau em pó alcalino ou natural, resultado da prensagem da torta de cacau. Sabor intenso e solubilidade ideal."
+          image={ASSETS.powder_bags}
+          products={[
+            {
+              name: "Fine Quality Standard Cacao Powder",
+              desc: "Para bebidas, panificação, sobremesas e indústria de lácteos.",
+              formats: ["Sacos 25kg", "Sacos 60kg", "Big Bag 1 Ton"]
+            }
+          ]}
+        />
 
       </div>
     </section>
