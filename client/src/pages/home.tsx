@@ -766,11 +766,112 @@ const Products = () => {
   );
 };
 
+const QuoteForm = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
+    
+    // Format message for WhatsApp
+    const message = `Olá! Gostaria de solicitar um orçamento.\n\n*Nome:* ${data.name}\n*Empresa:* ${data.company}\n*Interesse:* ${data.product}\n*Mensagem:* ${data.message}`;
+    
+    const whatsappUrl = `https://wa.me/5593992356251?text=${encodeURIComponent(message)}`;
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappUrl, '_blank');
+    
+    // Optional: Attempt mailto as fallback/secondary (browsers might block dual popups)
+    // const mailtoUrl = `mailto:gut@qualihteo.com?subject=Orçamento Qualitheo - ${data.company}&body=${encodeURIComponent(message)}`;
+    // window.location.href = mailtoUrl;
+    
+    setIsOpen(false);
+  };
+
+  return (
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
+         <Button size="lg" className="bg-gold-500 hover:bg-gold-600 text-cocoa-950 font-bold rounded-full px-8 h-14 text-base shadow-lg shadow-gold-500/20 animate-pulse">
+            Solicitar Orçamento
+         </Button>
+      </SheetTrigger>
+      <SheetContent className="bg-cocoa-50 border-cocoa-200 overflow-y-auto sm:max-w-md w-full">
+        <div className="flex flex-col gap-6 mt-8">
+          <div>
+            <h3 className="font-display text-2xl text-cocoa-900 mb-2">Solicite Cotação</h3>
+            <p className="text-cocoa-600 text-sm">Preencha os dados abaixo para iniciar seu atendimento comercial.</p>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="space-y-1">
+              <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">Nome Completo</label>
+              <input 
+                required
+                name="name"
+                id="name"
+                className="w-full px-4 py-3 rounded-lg bg-white border border-cocoa-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 outline-none transition-all text-cocoa-900"
+                placeholder="Seu nome"
+              />
+            </div>
+            
+            <div className="space-y-1">
+              <label htmlFor="company" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">Empresa</label>
+              <input 
+                required
+                name="company"
+                id="company"
+                className="w-full px-4 py-3 rounded-lg bg-white border border-cocoa-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 outline-none transition-all text-cocoa-900"
+                placeholder="Nome da sua empresa"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label htmlFor="product" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">Interesse Principal</label>
+              <select 
+                name="product"
+                id="product"
+                className="w-full px-4 py-3 rounded-lg bg-white border border-cocoa-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 outline-none transition-all text-cocoa-900"
+              >
+                <option value="Néctar de Cacau">Néctar de Cacau</option>
+                <option value="Amêndoas">Amêndoas Fermentadas</option>
+                <option value="Nibs">Nibs de Cacau</option>
+                <option value="Líquor">Líquor (Massa)</option>
+                <option value="Manteiga">Manteiga de Cacau</option>
+                <option value="Pó">Cacau em Pó</option>
+                <option value="Outro">Outro / Múltiplos</option>
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">Mensagem (Opcional)</label>
+              <textarea 
+                name="message"
+                id="message"
+                rows={3}
+                className="w-full px-4 py-3 rounded-lg bg-white border border-cocoa-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 outline-none transition-all text-cocoa-900 resize-none"
+                placeholder="Volume estimado ou detalhes adicionais..."
+              />
+            </div>
+
+            <Button type="submit" size="lg" className="mt-4 bg-green-600 hover:bg-green-700 text-white w-full font-bold h-12 text-base">
+               Enviar via WhatsApp
+            </Button>
+            <p className="text-center text-xs text-cocoa-400 mt-2">
+              Você será redirecionado para o WhatsApp da Qualitheo.
+            </p>
+          </form>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+};
+
 const Impact = () => {
   return (
     <section className="py-24 bg-leaf-800 text-white relative overflow-hidden" id="impacto">
       {/* Background Image Overlay */}
-      <div className="absolute inset-0 z-0 opacity-20 mix-blend-overlay">
+      <div className="absolute inset-0 z-0 opacity-40 mix-blend-overlay">
          <img src={ASSETS.dense_trees} className="w-full h-full object-cover" alt="Floresta de Cacau" />
       </div>
       
@@ -780,10 +881,11 @@ const Impact = () => {
              <div className="absolute -top-10 -left-10 w-32 z-20 animate-pulse delay-1000">
                 <img src={ASSETS.macaw} alt="Arara" className="rounded-full border-4 border-white/20 shadow-xl" />
              </div>
+             {/* Swapped image to focus on plantation/nature as requested */}
              <img 
-              src={ASSETS.field_team} 
-              alt="Equipe Qualitheo no Campo" 
-              className="rounded-2xl shadow-2xl rotate-1 border border-white/10"
+              src={ASSETS.infra_aerial_1} 
+              alt="Plantação e Fábrica na Floresta" 
+              className="rounded-2xl shadow-2xl rotate-1 border border-white/10 w-full h-[500px] object-cover"
             />
             <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-xl max-w-[200px] text-cocoa-900 z-20">
                 <p className="font-display text-lg leading-tight">"Garantimos a compra, garantimos o futuro."</p>
@@ -814,6 +916,10 @@ const Impact = () => {
                 <div className="text-sm text-leaf-200 uppercase tracking-wider">Rastreabilidade</div>
               </div>
             </div>
+            
+             <div className="mt-10">
+                <QuoteForm />
+             </div>
           </div>
         </div>
       </div>
@@ -867,6 +973,9 @@ const Footer = () => {
             <p className="max-w-md text-cocoa-400 leading-relaxed">
               Agroindústria bioeconômica que conecta a riqueza da Amazônia ao mundo com qualidade, tecnologia e transparência.
             </p>
+            <div className="mt-8">
+               <QuoteForm />
+            </div>
           </div>
           
           <div>
@@ -884,8 +993,17 @@ const Footer = () => {
             <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6">Contato</h4>
             <ul className="space-y-3 text-cocoa-400">
               <li className="font-medium text-white">Helton Gutzeit | CEO</li>
-              <li>contato@qualitheo.com.br</li>
-              <li>+55 93 99235-6251</li>
+              <li>
+                <a href="mailto:gut@qualihteo.com" className="hover:text-gold-400">gut@qualihteo.com</a>
+              </li>
+              <li>
+                 <a href="mailto:Qualitheo@gmail.com" className="hover:text-gold-400">Qualitheo@gmail.com</a>
+              </li>
+              <li>
+                 <a href="https://wa.me/5593992356251" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400">
+                  +55 93 99235-6251
+                 </a>
+              </li>
               <li>Pará, Amazônia, Brasil</li>
               <li className="pt-4 flex flex-col gap-4">
                 <div className="flex gap-4">
