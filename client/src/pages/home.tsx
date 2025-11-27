@@ -40,6 +40,13 @@ import art_nibs_pile from "@assets/art_nibs_pile.png";
 import art_pod_isolated from "@assets/art_pod_isolated.png";
 import art_tech_wireframe from "@assets/art_tech_wireframe.png";
 
+import partner_beantobar from "@assets/partner_beantobar.png";
+import partner_bonnat from "@assets/partner_bonnat.png";
+import partner_ibc from "@assets/partner_ibc.png";
+import partner_mad from "@assets/partner_mad.webp";
+import partner_btm from "@assets/partner_btm.webp";
+import partner_lasevicius from "@assets/partner_lasevicius.avif";
+
 const ASSETS = {
   hero_bg,
   cocoa_pod,
@@ -72,6 +79,14 @@ const ASSETS = {
   nibs_pile: art_nibs_pile,
   pod_isolated: art_pod_isolated,
   tech_wireframe: art_tech_wireframe,
+  
+  // Partners
+  partner_beantobar,
+  partner_bonnat,
+  partner_ibc,
+  partner_mad,
+  partner_btm,
+  partner_lasevicius,
 };
 
 const Navbar = () => {
@@ -607,6 +622,40 @@ const Impact = () => {
   );
 };
 
+const Partners = () => {
+  return (
+    <section className="py-20 bg-white border-t border-cocoa-100">
+      <div className="container mx-auto px-6 text-center">
+        <p className="text-sm font-bold uppercase tracking-widest text-cocoa-300 mb-12">
+          Parceiros e Clientes que Confiam na Qualitheo
+        </p>
+        
+        <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-80">
+          {[
+            { src: ASSETS.partner_bonnat, alt: "Bonnat Chocolatier", width: "w-32" },
+            { src: ASSETS.partner_lasevicius, alt: "Casa Lasevicius", width: "w-28" },
+            { src: ASSETS.partner_beantobar, alt: "Bean to Bar Brasil", width: "w-36" },
+            { src: ASSETS.partner_mad, alt: "MAD", width: "w-28" },
+            { src: ASSETS.partner_btm, alt: "BTM", width: "w-24" },
+            { src: ASSETS.partner_ibc, alt: "IBC", width: "w-32" },
+          ].map((logo, idx) => (
+            <div 
+              key={idx} 
+              className={`grayscale hover:grayscale-0 transition-all duration-500 hover:scale-110 hover:opacity-100 opacity-60 ${logo.width} aspect-[3/2] flex items-center justify-center`}
+            >
+              <img 
+                src={logo.src} 
+                alt={logo.alt} 
+                className="max-w-full max-h-full object-contain mix-blend-multiply" 
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Footer = () => {
   return (
     <footer className="bg-cocoa-950 text-cocoa-200 py-16 border-t border-cocoa-900" id="contato">
@@ -678,6 +727,7 @@ export default function Home() {
       <AboutSplit />
       <Products />
       <Impact />
+      <Partners />
       <Footer />
     </div>
   );
