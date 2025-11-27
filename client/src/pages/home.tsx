@@ -10,6 +10,8 @@ const ASSETS = {
   cocoa_pod: "/attached_assets/20250503_153303~2_1764267587664.jpg",
   warehouse: "/attached_assets/Gemini_Generated_Image_fx3qlvfx3qlvfx3q_1764267587665.png",
   logo_qualitheo: "/attached_assets/IMG-20230823-WA0095_1764268475827.jpg",
+  logo_vertical: "/attached_assets/Logo vertical 01_1764268926778.png",
+  logo_horizontal: "/attached_assets/logo horizontal 2_1764268926779.png",
   farm_worker: "/attached_assets/Screenshot_20251009_180100_Instagram_1764267587667.jpg",
   certificate: "/attached_assets/IMG_20210503_092102_287_1764268614308.jpg",
   
@@ -46,12 +48,14 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
-             <div className="w-10 h-10 rounded-full overflow-hidden bg-white/90 flex items-center justify-center">
-                <img src={ASSETS.logo_qualitheo} alt="Qualitheo Logo" className="w-full h-full object-cover scale-110" />
+             <div className="h-12 w-auto flex items-center justify-center">
+                {/* Logo changes color based on scroll state using CSS filters for white version */}
+                <img 
+                  src={ASSETS.logo_horizontal} 
+                  alt="Qualitheo Logo" 
+                  className={`h-full w-auto object-contain transition-all duration-500 ${isScrolled ? '' : 'brightness-0 invert'}`} 
+                />
              </div>
-            <span className={`font-display text-2xl font-bold tracking-tight ${isScrolled ? 'text-cocoa-900' : 'text-white'}`}>
-              Qualitheo
-            </span>
         </div>
 
         <div className="hidden md:flex items-center gap-8">
@@ -486,7 +490,9 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-2 flex flex-col items-start">
-            <img src={ASSETS.logo_qualitheo} alt="Qualitheo Logo" className="h-16 mb-6 rounded-lg opacity-90" />
+            <div className="bg-white p-4 rounded-xl mb-6 w-fit">
+              <img src={ASSETS.logo_vertical} alt="Qualitheo Logo" className="h-32 w-auto object-contain" />
+            </div>
             <p className="max-w-md text-cocoa-400 leading-relaxed">
               Agroindústria bioeconômica que conecta a riqueza da Amazônia ao mundo com qualidade, tecnologia e transparência.
             </p>
