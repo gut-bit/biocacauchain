@@ -5,41 +5,73 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 
+// Asset Imports
+import hero_bg from "@assets/hero_bg.jpg";
+import cocoa_pod from "@assets/cocoa_pod.jpg";
+import certificate from "@assets/certificate.jpg";
+import logo_vertical from "@assets/logo_vertical.png";
+import logo_horizontal from "@assets/logo_horizontal.png";
+import cocoa_hands from "@assets/cocoa_hands.jpg";
+import cut_test from "@assets/cut_test.jpg";
+import factory_ext from "@assets/factory_ext.jpg";
+import pod_qr from "@assets/pod_qr.jpg";
+import helton_teaching from "@assets/helton_teaching.jpg";
+import logo_shirt from "@assets/logo_shirt.jpg";
+import helton_profile from "@assets/helton_profile.jpg";
+import field_team from "@assets/field_team.jpg";
+import open_pod_smile from "@assets/open_pod_smile.jpg";
+import worker_portrait from "@assets/worker_portrait.jpg";
+import macaw from "@assets/macaw.jpg";
+import dense_trees from "@assets/dense_trees.jpg";
+import harvest_pole from "@assets/harvest_pole.jpg";
+import qr_code from "@assets/qr_code.jpg";
+import warehouse from "@assets/warehouse.png";
+import logo_qualitheo from "@assets/logo_qualitheo.jpg";
+import farm_worker from "@assets/farm_worker.jpg";
+
+import product_nectar from "@assets/product_nectar.png";
+import product_beans from "@assets/product_beans.png";
+import product_nibs from "@assets/product_nibs.png";
+import product_liquor from "@assets/product_liquor.png";
+import product_butter from "@assets/product_butter.png";
+
+import art_floating_beans from "@assets/art_floating_beans.png";
+import art_nibs_pile from "@assets/art_nibs_pile.png";
+import art_pod_isolated from "@assets/art_pod_isolated.png";
+import art_tech_wireframe from "@assets/art_tech_wireframe.png";
+
 const ASSETS = {
-  hero_bg: "/attached_assets/dji_fly_20240713_195956_0136_1721755357579_photo_1764267587664.jpg",
-  cocoa_pod: "/attached_assets/20250503_153303~2_1764267587664.jpg",
-  warehouse: "/attached_assets/Gemini_Generated_Image_fx3qlvfx3qlvfx3q_1764267587665.png",
-  logo_qualitheo: "/attached_assets/IMG-20230823-WA0095_1764268475827.jpg",
-  logo_vertical: "/attached_assets/Logo vertical 01_1764268926778.png",
-  logo_horizontal: "/attached_assets/logo horizontal 2_1764268926779.png",
-  farm_worker: "/attached_assets/Screenshot_20251009_180100_Instagram_1764267587667.jpg",
-  certificate: "/attached_assets/IMG_20210503_092102_287_1764268614308.jpg",
-  
-  // New Assets - Storytelling
-  pod_qr: "/attached_assets/DSC08015 - Copia_1764269121201.JPG",
-  helton_teaching: "/attached_assets/DSC08139_1764269121202.JPG",
-  logo_shirt: "/attached_assets/DSC08144_1764269121202.JPG",
-  helton_profile: "/attached_assets/DSC08145_1764269121202.JPG",
-  field_team: "/attached_assets/DSC08162_1764269121202.JPG",
-  open_pod_smile: "/attached_assets/DSC08076 - Copia_1764269121202.JPG",
-  worker_portrait: "/attached_assets/DSC07809 - Copia_1764269121203.JPG",
-  macaw: "/attached_assets/DSC07862 - Copia_1764269121203.JPG",
-  dense_trees: "/attached_assets/DSC07995 - Copia_1764269121203.JPG",
-  harvest_pole: "/attached_assets/DSC07996 - Copia_1764269121203.JPG",
-
-  // Generated Decorative Assets
-  floating_beans: "/attached_assets/generated_images/floating_cacao_beans_with_transparent_background.png",
-  nibs_pile: "/attached_assets/generated_images/pile_of_cacao_nibs_with_transparent_background.png",
-  pod_isolated: "/attached_assets/generated_images/whole_cacao_pod_isolated_transparent_background.png",
-  tech_wireframe: "/attached_assets/generated_images/abstract_tech_cacao_wireframe_element.png",
-
-  // Product specific assets
-  nectar: "/attached_assets/Gemini_Generated_Image_v3bi8bv3bi8bv3bi_1764267587666.png",
-  beans_container: "/attached_assets/Gemini_Generated_Image_197q3q197q3q197q_1764267587665.png",
-  nibs_bags: "/attached_assets/Gemini_Generated_Image_t9rg9ut9rg9ut9rg_1764267587666.png",
-  liquor_blocks: "/attached_assets/Gemini_Generated_Image_h2fr4gh2fr4gh2fr_1764267587665.png",
-  butter_blocks: "/attached_assets/Gemini_Generated_Image_tvjurdtvjurdtvju_1764267587666.png",
-  qr_code: "/attached_assets/Imagem do WhatsApp de 2025-11-04 à(s) 20.15.21_25093819_1764268868956.jpg",
+  hero_bg,
+  cocoa_pod,
+  warehouse,
+  logo_qualitheo,
+  logo_vertical,
+  logo_horizontal,
+  farm_worker,
+  certificate,
+  cocoa_hands,
+  cut_test,
+  factory_ext,
+  pod_qr,
+  helton_teaching,
+  logo_shirt,
+  helton_profile,
+  field_team,
+  open_pod_smile,
+  worker_portrait,
+  macaw,
+  dense_trees,
+  harvest_pole,
+  qr_code,
+  nectar: product_nectar,
+  beans_container: product_beans,
+  nibs_bags: product_nibs,
+  liquor_blocks: product_liquor,
+  butter_blocks: product_butter,
+  floating_beans: art_floating_beans,
+  nibs_pile: art_nibs_pile,
+  pod_isolated: art_pod_isolated,
+  tech_wireframe: art_tech_wireframe,
 };
 
 const Navbar = () => {
