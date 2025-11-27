@@ -47,8 +47,15 @@ import partner_mad from "@assets/partner_mad.webp";
 import partner_btm from "@assets/partner_btm.webp";
 import partner_lasevicius from "@assets/partner_lasevicius.avif";
 
+import infra_hero from "@assets/infra_hero.jpg";
+import infra_aerial_1 from "@assets/infra_aerial_1.jpg";
+import infra_aerial_2 from "@assets/infra_aerial_2.jpg";
+
 const ASSETS = {
-  hero_bg,
+  hero_bg: infra_hero, // Updated to new requested image
+  infra_hero,
+  infra_aerial_1,
+  infra_aerial_2,
   cocoa_pod,
   warehouse,
   logo_qualitheo,
@@ -212,10 +219,11 @@ const Hero = () => {
         style={{ y: y1 }}
         className="absolute inset-0 z-0"
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-cocoa-900/90 z-10" />
+        {/* Gradient darkened for text readability on the bright aerial shot */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-cocoa-900/90 z-10" />
         <img
           src={ASSETS.hero_bg}
-          alt="Plantação de Cacau na Amazônia"
+          alt="Vista aérea da Agroindústria Qualitheo"
           className="w-full h-full object-cover"
         />
       </motion.div>
@@ -230,24 +238,50 @@ const Hero = () => {
             <Award className="w-3 h-3 text-gold-400" />
             <span>Cocoa of Excellence Award Winner</span>
           </div>
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white font-medium leading-[1.1] mb-6">
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white font-medium leading-[1.1] mb-6 drop-shadow-lg">
             Excelência <br />
-            <span className="italic font-light text-gold-400">em cada amêndoa</span>
+            <span className="italic font-light text-gold-400">em escala industrial</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-            Do cultivo premiado no Pará à exportação global. Elevamos a cadeia do cacau com tecnologia, rastreabilidade e impacto real.
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 font-light leading-relaxed drop-shadow-md">
+            A maior infraestrutura de pós-colheita da Amazônia. Conectamos a origem ao mundo com tecnologia, rastreabilidade e precisão.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-gold-500 hover:bg-gold-600 text-cocoa-950 font-bold rounded-full px-8 h-14 text-base">
+            <Button size="lg" className="bg-gold-500 hover:bg-gold-600 text-cocoa-950 font-bold rounded-full px-8 h-14 text-base shadow-lg shadow-gold-500/20">
               Nossos Produtos
             </Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 rounded-full px-8 h-14 text-base">
-              Conheça a Origem
+            <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-md border-white/40 text-white hover:bg-white/20 rounded-full px-8 h-14 text-base">
+              Conheça a Fabrica
             </Button>
           </div>
         </motion.div>
       </div>
     </div>
+  );
+};
+
+const InfrastructureShowcase = () => {
+  return (
+    <section className="relative py-24 bg-cocoa-900 -mt-10 rounded-t-[3rem] z-30 overflow-hidden">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col md:flex-row gap-8 items-center mb-12">
+           <div className="md:w-1/3">
+              <h3 className="text-gold-400 font-bold uppercase tracking-widest text-sm mb-4">Infraestrutura de Ponta</h3>
+              <h2 className="font-display text-3xl md:text-4xl text-white mb-4">Tecnologia em Meio à Floresta</h2>
+              <p className="text-cocoa-200 leading-relaxed">
+                Nossa unidade de beneficiamento conta com estufas solares automatizadas e pátios de secagem com capacidade para toneladas/dia, garantindo homogeneidade para grandes volumes.
+              </p>
+           </div>
+           <div className="md:w-2/3 grid grid-cols-2 gap-4">
+              <div className="rounded-2xl overflow-hidden h-64 shadow-2xl border border-white/10 group">
+                <img src={ASSETS.infra_aerial_1} alt="Estufas e Infraestrutura" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              </div>
+              <div className="rounded-2xl overflow-hidden h-64 shadow-2xl border border-white/10 group mt-8">
+                <img src={ASSETS.infra_aerial_2} alt="Plantação e Fábrica" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              </div>
+           </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -723,6 +757,7 @@ export default function Home() {
     <div className="min-h-screen bg-background font-sans selection:bg-gold-200 selection:text-cocoa-900">
       <Navbar />
       <Hero />
+      <InfrastructureShowcase />
       <Features />
       <AboutSplit />
       <Products />
