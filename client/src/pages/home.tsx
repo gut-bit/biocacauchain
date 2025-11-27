@@ -1,17 +1,23 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Leaf, Droplets, Factory, Truck, Globe, CheckCircle2, Menu, X } from "lucide-react";
+import { ArrowRight, Leaf, Factory, Globe, CheckCircle2, Menu, Snowflake, Layers, Box, Droplet, Scale } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 
 const ASSETS = {
   hero_bg: "/attached_assets/dji_fly_20240713_195956_0136_1721755357579_photo_1764267587664.jpg",
   cocoa_pod: "/attached_assets/20250503_153303~2_1764267587664.jpg",
   warehouse: "/attached_assets/Gemini_Generated_Image_fx3qlvfx3qlvfx3q_1764267587665.png",
-  products_mix: "/attached_assets/Gemini_Generated_Image_l31gphl31gphl31g_1764267587665.png",
-  nectar: "/attached_assets/Gemini_Generated_Image_v3bi8bv3bi8bv3bi_1764267587666.png",
   logo_qualitheo: "/attached_assets/IMG-20230823-WA0095_1764267587666.jpg",
-  farm_worker: "/attached_assets/Screenshot_20251009_180100_Instagram_1764267587667.jpg"
+  farm_worker: "/attached_assets/Screenshot_20251009_180100_Instagram_1764267587667.jpg",
+  
+  // Product specific assets
+  nectar: "/attached_assets/Gemini_Generated_Image_v3bi8bv3bi8bv3bi_1764267587666.png",
+  beans_container: "/attached_assets/Gemini_Generated_Image_197q3q197q3q197q_1764267587665.png",
+  nibs_bags: "/attached_assets/Gemini_Generated_Image_t9rg9ut9rg9ut9rg_1764267587666.png",
+  liquor_blocks: "/attached_assets/Gemini_Generated_Image_h2fr4gh2fr4gh2fr_1764267587665.png",
+  butter_blocks: "/attached_assets/Gemini_Generated_Image_tvjurdtvjurdtvju_1764267587666.png",
 };
 
 const Navbar = () => {
@@ -33,7 +39,6 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-2">
-            {/* Using text for logo as the image might need background removal or specific styling */}
             <span className={`font-display text-2xl font-bold tracking-tight ${isScrolled ? 'text-cocoa-900' : 'text-white'}`}>
               Qualitheo
             </span>
@@ -215,62 +220,193 @@ const AboutSplit = () => {
   );
 };
 
-const ProductCard = ({ title, desc, image, tag }: { title: string, desc: string, image: string, tag: string }) => (
-  <motion.div 
-    whileHover={{ y: -5 }}
-    className="group relative bg-white rounded-xl overflow-hidden border border-cocoa-100 shadow-sm hover:shadow-md transition-all duration-300"
-  >
-    <div className="aspect-[4/3] overflow-hidden bg-cocoa-100">
-      <img 
-        src={image} 
-        alt={title} 
-        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-      />
+const ProductBlock = ({
+  title,
+  subtitle,
+  description,
+  products,
+  image,
+  align = "left",
+  accentColor = "gold" // gold or leaf
+}: {
+  title: string;
+  subtitle: string;
+  description: string;
+  products: { name: string; desc: string; formats: string[] }[];
+  image: string;
+  align?: "left" | "right";
+  accentColor?: "gold" | "leaf";
+}) => {
+  return (
+    <div className={`flex flex-col lg:flex-row gap-12 lg:gap-20 items-center mb-32 ${align === "right" ? "lg:flex-row-reverse" : ""}`}>
+      <div className="w-full lg:w-1/2">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl"
+        >
+          <img src={image} alt={title} className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+        </motion.div>
+      </div>
+      
+      <div className="w-full lg:w-1/2">
+        <span className={`inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-6 ${accentColor === "leaf" ? "bg-leaf-500/10 text-leaf-700" : "bg-gold-500/10 text-gold-700"}`}>
+          {subtitle}
+        </span>
+        <h3 className="font-display text-3xl md:text-4xl text-cocoa-900 mb-6">{title}</h3>
+        <p className="text-cocoa-600 text-lg mb-10 leading-relaxed">{description}</p>
+        
+        <div className="space-y-8">
+          {products.map((product, idx) => (
+            <div key={idx} className="border-l-2 border-cocoa-200 pl-6 hover:border-gold-500 transition-colors">
+              <h4 className="font-display text-xl text-cocoa-800 mb-2">{product.name}</h4>
+              <p className="text-cocoa-500 text-sm mb-4">{product.desc}</p>
+              
+              <div className="flex flex-wrap gap-2">
+                {product.formats.map((fmt, i) => (
+                  <span key={i} className="inline-flex items-center px-2 py-1 bg-cocoa-100 text-cocoa-600 text-xs font-medium rounded">
+                    <Box className="w-3 h-3 mr-1 opacity-50" />
+                    {fmt}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
-    <div className="p-8">
-      <span className="inline-block px-3 py-1 bg-cocoa-50 text-cocoa-700 text-xs font-bold uppercase tracking-wider rounded-full mb-4">
-        {tag}
-      </span>
-      <h3 className="font-display text-2xl text-cocoa-900 mb-3">{title}</h3>
-      <p className="text-cocoa-600 mb-6 line-clamp-3">{desc}</p>
-      <a href="#" className="inline-flex items-center text-gold-600 font-semibold hover:text-gold-700 transition-colors group-hover:gap-2">
-        Especificações <ArrowRight className="w-4 h-4 ml-1" />
-      </a>
-    </div>
-  </motion.div>
-);
+  );
+};
 
 const Products = () => {
   return (
-    <section className="py-24 bg-cocoa-50" id="produtos">
+    <section className="py-24 bg-white" id="produtos">
       <div className="container mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="font-display text-4xl md:text-5xl text-cocoa-900 mb-6">Nosso Portfólio</h2>
+        <div className="text-center max-w-3xl mx-auto mb-24">
+          <h2 className="font-display text-4xl md:text-5xl text-cocoa-900 mb-6">Showcase de Produtos</h2>
           <p className="text-cocoa-600 text-lg">
-            Ingredientes desenvolvidos para a indústria de alimentos finos, cosméticos e chocolateria gourmet.
+            A Qualitheo apresenta sua linha completa de derivados, unindo a origem nobre do fruto à precisão da escala industrial para o mercado global B2B.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <ProductCard 
-            title="Amêndoas Fermentadas"
-            desc="Cacau fino de aroma com perfil sensorial complexo, notas frutadas e baixa adstringência. Ideal para chocolates Bean-to-Bar."
-            image={ASSETS.products_mix}
-            tag="Matéria-Prima"
-          />
-          <ProductCard 
-            title="Néctar de Cacau"
-            desc="O 'mel' do cacau extraído da polpa fresca. Rico em antioxidantes, com sabor agridoce único e tropical."
-            image={ASSETS.nectar}
-            tag="Inovação"
-          />
-          <ProductCard 
-            title="Nibs de Cacau"
-            desc="Amêndoas torradas e trituradas com precisão. Crocância perfeita e sabor intenso de chocolate puro."
-            image={ASSETS.products_mix} /* Using mix image as placeholder for specific nibs shot if not available */
-            tag="Derivado"
-          />
+        {/* BLOCO 1: Néctar */}
+        <ProductBlock
+          align="left"
+          subtitle="Bloco 1: A Essência Fresca"
+          title="Néctar de Cacau Congelado"
+          description="O puro frescor da floresta, conhecido como 'Suco de Deus'. Extraído via 'Clean Extraction' e submetido a congelamento rápido para preservar nutrientes e o sabor cítrico único."
+          image={ASSETS.nectar}
+          accentColor="leaf"
+          products={[
+            {
+              name: "Néctar de Cacau (Suco de Deus)",
+              desc: "Ideal para indústria de bebidas, sucos premium, sorveterias e mixologia.",
+              formats: ["Tetra Pak 1L", "Galão 5L", "Bombona 25L", "Barrica 80L"]
+            }
+          ]}
+        />
+
+        <Separator className="my-24 bg-cocoa-100" />
+
+        {/* BLOCO 2: Amêndoas */}
+        <ProductBlock
+          align="right"
+          subtitle="Bloco 2: Matéria-Prima Fundamental"
+          title="Amêndoas Fermentadas"
+          description="O alicerce da indústria. Amêndoas selecionadas na origem, com fermentação rigorosa para perfil aromático superior. Qualidade 'Export Standard'."
+          image={ASSETS.beans_container}
+          products={[
+            {
+              name: "Amêndoas Padrão Exportação",
+              desc: "Para fabricantes Bean-to-Bar e grandes indústrias moageiras.",
+              formats: ["Sacos Juta 60kg", "Paletes 1 Ton", "Meio Container (12.5T)", "Container Cheio (25T)"]
+            }
+          ]}
+        />
+
+        <Separator className="my-24 bg-cocoa-100" />
+
+        {/* BLOCO 3: Nibs */}
+        <ProductBlock
+          align="left"
+          subtitle="Bloco 3: Crocância e Sabor Puro"
+          title="Nibs de Cacau"
+          description="Amêndoas torradas e trituradas em pedaços puros. Sabor intenso de chocolate e textura crocante sem adição de açúcar."
+          image={ASSETS.nibs_bags}
+          products={[
+            {
+              name: "Cacao Nibs",
+              desc: "Perfeito para barras de cereais, granolas, iogurtes e cervejarias artesanais.",
+              formats: ["Varejo 100g/500g", "Sacos 5kg/25kg/60kg", "Big Bags 1 Ton"]
+            }
+          ]}
+        />
+
+        <Separator className="my-24 bg-cocoa-100" />
+
+        {/* BLOCO 4: Processamento Secundário */}
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start mb-12">
+           <div className="w-full lg:w-1/2 sticky top-24">
+            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+              {/* Using liquor/butter image */}
+              <img src={ASSETS.liquor_blocks} alt="Processamento Secundário" className="w-full h-full object-cover" />
+               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+               <div className="absolute bottom-8 left-8 text-white">
+                 <h3 className="font-display text-3xl mb-2">O Coração do Chocolate</h3>
+                 <p className="text-white/80">Processamento Secundário de Alta Precisão</p>
+               </div>
+            </div>
+          </div>
+
+          <div className="w-full lg:w-1/2">
+             <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-6 bg-gold-500/10 text-gold-700">
+              Bloco 4: Processamento Secundário
+            </span>
+            <h3 className="font-display text-3xl md:text-4xl text-cocoa-900 mb-6">Ingredientes Industriais</h3>
+            <p className="text-cocoa-600 text-lg mb-10 leading-relaxed">
+              Os produtos resultantes da moagem e prensagem. Ingredientes base essenciais para a indústria de confeitaria mundial.
+            </p>
+
+            <div className="space-y-10">
+              {[
+                {
+                  title: "Líquor de Cacau (Massa)",
+                  desc: "100% cacau puro moído. A alma de qualquer chocolate.",
+                  formats: ["Blocos Sólidos 25kg", "Paletes 500kg a 25T"]
+                },
+                {
+                  title: "Manteiga de Cacau",
+                  desc: "Gordura nobre 'The Golden Fat'. Para chocolate, confeitaria e cosméticos.",
+                  formats: ["Blocos Sólidos 25kg", "Paletes Industriais"]
+                },
+                {
+                  title: "Pó de Cacau (Fine Quality)",
+                  desc: "Pó finíssimo de cor rica e sabor intenso. Para bebidas e panificação.",
+                  formats: ["Sacos Papel 25kg", "Sacos Juta 60kg", "Big Bags 1 Ton"]
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="bg-cocoa-50 p-6 rounded-xl border border-cocoa-100 hover:border-gold-400 transition-colors">
+                  <div className="flex items-start justify-between mb-4">
+                    <h4 className="font-display text-xl text-cocoa-900">{item.title}</h4>
+                    {idx === 1 ? <Droplet className="text-gold-500 w-5 h-5" /> : idx === 0 ? <Layers className="text-cocoa-700 w-5 h-5" /> : <Snowflake className="text-cocoa-500 w-5 h-5" />}
+                  </div>
+                  <p className="text-cocoa-600 text-sm mb-4">{item.desc}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {item.formats.map((fmt, i) => (
+                       <span key={i} className="inline-flex items-center px-2 py-1 bg-white border border-cocoa-200 text-cocoa-600 text-xs font-medium rounded">
+                        {fmt}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
+
       </div>
     </section>
   );
