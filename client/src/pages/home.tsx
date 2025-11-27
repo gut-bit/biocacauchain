@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Leaf, Factory, Globe, CheckCircle2, Menu, Snowflake, Layers, Box, Droplet, Scale, Award, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -58,9 +58,11 @@ import infra_cold_room from "@assets/infra_cold_room.jpg";
 import infra_interior_2 from "@assets/infra_interior_2.jpg";
 import infra_warehouse_wide from "@assets/infra_warehouse_wide.jpg";
 import infra_fermentation from "@assets/infra_fermentation.jpg";
+import infra_interior_branded from "@assets/infra_interior_branded.png";
 
 const ASSETS = {
-  hero_bg: infra_hero, // Updated to new requested image
+  hero_bg: infra_hero, // Fallback/Initial
+  infra_interior_branded,
   infra_hero,
   infra_aerial_1,
   infra_aerial_2,
@@ -227,6 +229,20 @@ const FloatingElements = () => {
 const Hero = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  
+  // Background slider logic
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
+  const heroImages = [
+    ASSETS.infra_interior_branded,
+    ASSETS.infra_hero // Aerial view
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBgIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000); // Change every 5 seconds
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
 
   return (
     <div className="relative h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-cocoa-950">
@@ -236,15 +252,23 @@ const Hero = () => {
         className="absolute inset-0 z-0"
       >
         {/* Gradient darkened for text readability on the bright aerial shot */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-cocoa-900/90 z-10" />
-        <img
-          src={ASSETS.hero_bg}
-          alt="Vista aérea da Agroindústria Qualitheo"
-          className="w-full h-full object-cover"
-        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-cocoa-900/90 z-20" />
+        
+        <AnimatePresence mode="popLayout">
+          <motion.img
+            key={currentBgIndex}
+            src={heroImages[currentBgIndex]}
+            alt="Agroindústria Qualitheo"
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5 }}
+            className="absolute inset-0 w-full h-full object-cover z-10"
+          />
+        </AnimatePresence>
       </motion.div>
 
-      <div className="relative z-20 container mx-auto px-6 text-center">
+      <div className="relative z-30 container mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
