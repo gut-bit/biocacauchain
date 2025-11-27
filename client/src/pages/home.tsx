@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Leaf, Factory, Globe, CheckCircle2, Menu, Snowflake, Layers, Box, Droplet, Scale, Award } from "lucide-react";
+import { ArrowRight, Leaf, Factory, Globe, CheckCircle2, Menu, Snowflake, Layers, Box, Droplet, Scale, Award, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
@@ -24,6 +24,7 @@ const ASSETS = {
   nibs_bags: "/attached_assets/Gemini_Generated_Image_t9rg9ut9rg9ut9rg_1764267587666.png",
   liquor_blocks: "/attached_assets/Gemini_Generated_Image_h2fr4gh2fr4gh2fr_1764267587665.png",
   butter_blocks: "/attached_assets/Gemini_Generated_Image_tvjurdtvjurdtvju_1764267587666.png",
+  qr_code: "/attached_assets/Imagem do WhatsApp de 2025-11-04 à(s) 20.15.21_25093819_1764268868956.jpg",
 };
 
 const Navbar = () => {
@@ -509,10 +510,22 @@ const Footer = () => {
               <li>contato@qualitheo.com.br</li>
               <li>+55 93 99235-6251</li>
               <li>Pará, Amazônia, Brasil</li>
-              <li className="pt-4 flex gap-4">
-                {/* Social Icons Placeholders */}
-                <div className="w-10 h-10 rounded-full bg-cocoa-900 flex items-center justify-center hover:bg-cocoa-800 cursor-pointer transition-colors">IN</div>
-                <div className="w-10 h-10 rounded-full bg-cocoa-900 flex items-center justify-center hover:bg-cocoa-800 cursor-pointer transition-colors">LI</div>
+              <li className="pt-4 flex flex-col gap-4">
+                <div className="flex gap-4">
+                  <a 
+                    href="https://www.instagram.com/gutcacao" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-cocoa-900 flex items-center justify-center hover:bg-cocoa-800 cursor-pointer transition-colors text-gold-500 hover:text-gold-400"
+                    title="Siga-nos no Instagram"
+                  >
+                    <Instagram className="w-5 h-5" />
+                  </a>
+                </div>
+                {/* QR Code Display */}
+                <div className="mt-2 bg-white p-2 rounded-lg w-32 h-32 shadow-lg border border-cocoa-800">
+                  <img src={ASSETS.qr_code} alt="Instagram QR Code" className="w-full h-full object-contain" />
+                </div>
               </li>
             </ul>
           </div>
