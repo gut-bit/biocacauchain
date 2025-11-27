@@ -285,6 +285,57 @@ const InfrastructureShowcase = () => {
   );
 };
 
+const MarketThesis = () => {
+  return (
+    <section className="py-24 bg-white relative z-20">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col md:flex-row gap-16 items-start">
+           <div className="md:w-1/2">
+             <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-cocoa-100 text-cocoa-700 text-xs font-bold uppercase tracking-widest">
+                <Scale className="w-3 h-3" />
+                <span>Tese de Mercado</span>
+             </div>
+             <h2 className="font-display text-4xl md:text-5xl text-cocoa-900 mb-6 leading-tight">
+               Valorização em um <br/>Cenário Volátil
+             </h2>
+             <p className="text-cocoa-600 text-lg leading-relaxed mb-8">
+               Com a oferta global de cacau apertada e preços historicamente elevados, o mercado exige mais do que volume: exige confiança. A volatilidade reforça o prêmio pago por qualidade consistente e rastreabilidade real.
+             </p>
+             <div className="p-6 bg-cocoa-50 rounded-2xl border border-cocoa-100">
+                <h4 className="font-display text-xl text-cocoa-800 mb-2">O Diferencial Qualitheo</h4>
+                <p className="text-cocoa-600">
+                  Somos pioneiros na compra do fruto (pods) direto do produtor. Isso nos permite capturar valor integral: fermentação controlada, produção de nibs e extração de polpa, além de operar trading de bulk quando racional.
+                </p>
+             </div>
+           </div>
+           
+           <div className="md:w-1/2">
+              <div className="relative">
+                 <div className="absolute -top-6 -left-6 w-24 h-24 bg-gold-100 rounded-full -z-10 opacity-50 blur-xl"></div>
+                 <img src={ASSETS.cocoa_hands} alt="Negociação Justa" className="rounded-2xl shadow-xl w-full object-cover h-[500px]" />
+                 
+                 <div className="absolute bottom-8 -left-8 bg-white p-6 rounded-xl shadow-lg max-w-xs border border-cocoa-100">
+                    <h4 className="font-bold text-cocoa-900 mb-1">Política de Fornecedor</h4>
+                    <p className="text-sm text-cocoa-500 mb-3">Ganha-ganha orientado por eficiência.</p>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2 text-xs font-medium text-cocoa-700">
+                        <CheckCircle2 className="w-3 h-3 text-gold-500" />
+                        Preço Justo & Crédito Tokenizado
+                      </li>
+                      <li className="flex items-center gap-2 text-xs font-medium text-cocoa-700">
+                        <CheckCircle2 className="w-3 h-3 text-gold-500" />
+                        Assistência, Insumos & Carbono
+                      </li>
+                    </ul>
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Features = () => {
   return (
     <section className="py-24 bg-cocoa-50" id="origem">
@@ -758,6 +809,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <InfrastructureShowcase />
+      <MarketThesis />
       <Features />
       <AboutSplit />
       <Products />
