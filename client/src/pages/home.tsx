@@ -61,10 +61,12 @@ import infra_warehouse_wide from "@assets/infra_warehouse_wide.jpg";
 import infra_fermentation from "@assets/infra_fermentation.jpg";
 import infra_interior_branded from "@assets/infra_interior_branded.png";
 import hero_video from "@assets/hero_video.mp4";
+import infographic_process from "@assets/infographic_process.png";
 
 const ASSETS = {
   hero_bg: infra_hero, // Fallback/Initial
   hero_video,
+  infographic_process,
   infra_interior_branded,
   infra_hero,
   infra_aerial_1,
@@ -317,8 +319,13 @@ const Hero = () => {
             <Button size="lg" className="bg-gold-500 hover:bg-gold-600 text-cocoa-950 font-bold rounded-full px-8 h-14 text-base shadow-lg shadow-gold-500/20">
               Nossos Produtos
             </Button>
-            <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-md border-white/40 text-white hover:bg-white/20 rounded-full px-8 h-14 text-base">
-              Conheça a Fabrica
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="bg-white/10 backdrop-blur-md border-white/40 text-white hover:bg-white/20 rounded-full px-8 h-14 text-base"
+              onClick={() => document.getElementById('diagrama-processo')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Conheça a Fábrica
             </Button>
           </div>
         </motion.div>
@@ -510,131 +517,149 @@ const ProcessDiagram = () => {
   return (
     <section className="py-24 bg-slate-50 overflow-x-hidden" id="diagrama-processo">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-20">
+        <div className="text-center mb-16">
            <span className="text-slate-500 font-bold uppercase tracking-widest text-sm mb-4 block">Fluxo Pós-Colheita</span>
-           <h2 className="font-display text-3xl md:text-4xl text-cocoa-900">Linha Industrial de Precisão</h2>
+           <h2 className="font-display text-3xl md:text-4xl text-cocoa-900 mb-6">Linha Industrial de Precisão</h2>
+           <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+             Da recepção biométrica à agregação de valor industrial. Um processo desenhado para consistência e escala.
+           </p>
         </div>
 
-        {/* Desktop Horizontal Flow */}
-        <div className="hidden lg:flex flex-col gap-8 relative">
-           {/* Connecting Line Background */}
-           <div className="absolute top-[120px] left-0 right-0 h-2 bg-slate-200 z-0 rounded-full"></div>
-
-           <div className="grid grid-cols-6 gap-4 relative z-10">
-              {/* Zone 1 */}
-              <div className="flex flex-col items-center text-center group">
-                 <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">1</div>
-                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center">
-                    <div className="w-16 h-16 bg-leaf-100 rounded-full flex items-center justify-center mb-4 text-leaf-700">
-                       <Truck className="w-8 h-8" />
-                    </div>
-                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Recepção & Buffer</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">Recepção de frutos selecionados e armazenamento em buffer climatizado para organizar o fluxo (até 1 semana).</p>
-                    <div className="mt-auto pt-4 flex gap-2">
-                       <Thermometer className="w-4 h-4 text-blue-400" />
-                       <Clock className="w-4 h-4 text-slate-400" />
-                    </div>
+        {/* Infographic Overview */}
+        <div className="mb-24 bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+           <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="w-full md:w-1/3">
+                 <h3 className="font-display text-2xl text-cocoa-900 mb-4">O Mapa da Qualidade</h3>
+                 <p className="text-slate-600 mb-6">
+                   Este diagrama ilustra o fluxo completo de nossa unidade em Medicilândia. Cada etapa foi projetada para maximizar a qualidade sensorial e garantir segurança alimentar em escala.
+                 </p>
+                 <div className="flex gap-2 text-sm text-slate-500">
+                    <CheckCircle2 className="w-4 h-4 text-gold-500" />
+                    <span>Fluxo contínuo sem gargalos</span>
+                 </div>
+                 <div className="flex gap-2 text-sm text-slate-500 mt-2">
+                    <CheckCircle2 className="w-4 h-4 text-gold-500" />
+                    <span>Segregação total de lotes</span>
                  </div>
               </div>
-
-              {/* Zone 2 */}
-              <div className="flex flex-col items-center text-center group">
-                 <div className="w-10 h-10 rounded-full bg-gold-500 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">2</div>
-                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center relative overflow-hidden">
-                    <div className="w-16 h-16 bg-gold-100 rounded-full flex items-center justify-center mb-4 text-gold-700">
-                       <Spline className="w-8 h-8" />
-                    </div>
-                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Segregação</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">Abertura ergonômica e triagem rigorosa.</p>
-                    
-                    {/* Paths */}
-                    <div className="w-full mt-4 space-y-2">
-                       <div className="text-[10px] font-bold text-gold-600 bg-gold-50 px-2 py-1 rounded border border-gold-200">A. Premium</div>
-                       <div className="text-[10px] font-bold text-leaf-600 bg-leaf-50 px-2 py-1 rounded border border-leaf-200">B. Bulk</div>
-                       <div className="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-1 rounded border border-red-200">C. Descarte</div>
-                    </div>
-                 </div>
-              </div>
-
-              {/* Zone 3 */}
-              <div className="flex flex-col items-center text-center group">
-                 <div className="w-10 h-10 rounded-full bg-gold-600 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">3</div>
-                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gold-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center ring-2 ring-gold-100">
-                    <div className="w-16 h-16 bg-gold-100 rounded-full flex items-center justify-center mb-4 text-gold-700">
-                       <Beaker className="w-8 h-8" />
-                    </div>
-                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Fermentação Tech</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">Extração de Néctar (Theo Gold) e fermentação monitorada em caixas com viragem hidráulica.</p>
-                    <div className="mt-auto pt-4 flex gap-2">
-                       <Smartphone className="w-4 h-4 text-slate-400" />
-                       <Snowflake className="w-4 h-4 text-blue-400" />
-                    </div>
-                 </div>
-              </div>
-
-              {/* Zone 4 */}
-              <div className="flex flex-col items-center text-center group">
-                 <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">4</div>
-                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center">
-                    <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4 text-orange-700">
-                       <Sun className="w-8 h-8" />
-                    </div>
-                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Secagem Híbrida</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">Fase 1: Lenta em estufas solares (4-6 dias).<br/>Fase 2: Finalização mecânica precisa.</p>
-                 </div>
-              </div>
-
-              {/* Zone 5 */}
-              <div className="flex flex-col items-center text-center group">
-                 <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">5</div>
-                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center">
-                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-700">
-                       <QrCode className="w-8 h-8" />
-                    </div>
-                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Rastreabilidade</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">Limpeza final, classificação e carimbo de qualidade (Cut Test). Rastreabilidade total via QR Code.</p>
-                 </div>
-              </div>
-
-              {/* Zone 6 */}
-              <div className="flex flex-col items-center text-center group">
-                 <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">6</div>
-                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center bg-slate-50">
-                    <div className="w-16 h-16 bg-cocoa-100 rounded-full flex items-center justify-center mb-4 text-cocoa-700">
-                       <Factory className="w-8 h-8" />
-                    </div>
-                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Indústria</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">Torra, Nibs e agregação de valor final. Capacidade industrial.</p>
-                 </div>
+              <div className="w-full md:w-2/3">
+                 <img 
+                   src={ASSETS.infographic_process} 
+                   alt="Infográfico do Processo Qualitheo" 
+                   className="w-full h-auto rounded-lg shadow-md border border-slate-100"
+                 />
               </div>
            </div>
         </div>
 
-        {/* Mobile Vertical Flow */}
-        <div className="lg:hidden flex flex-col gap-8 relative pl-8 border-l-2 border-slate-200 ml-4">
-            {[
-              { step: 1, title: "Recepção & Buffer", desc: "Recepção de frutos e buffer climatizado.", icon: Truck, color: "bg-slate-900" },
-              { step: 2, title: "Segregação Premium", desc: "Separação rigorosa: Premium, Bulk e Descarte.", icon: Spline, color: "bg-gold-500" },
-              { step: 3, title: "Fermentação & Néctar", desc: "Extração do Theo Gold e fermentação controlada.", icon: Beaker, color: "bg-gold-600" },
-              { step: 4, title: "Secagem Híbrida", desc: "Solar lenta + Mecânica precisa.", icon: Sun, color: "bg-slate-900" },
-              { step: 5, title: "Qualidade Total", desc: "Classificação, laboratório e QR Code.", icon: QrCode, color: "bg-slate-900" },
-              { step: 6, title: "Indústria Final", desc: "Torra e Nibs em escala.", icon: Factory, color: "bg-slate-900" },
-            ].map((item, i) => (
-               <div key={i} className="relative">
-                  <div className={`absolute -left-[42px] top-0 w-8 h-8 rounded-full ${item.color} text-white flex items-center justify-center text-sm font-bold border-4 border-white shadow-md`}>
-                     {item.step}
-                  </div>
-                  <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                     <div className="flex items-center gap-4 mb-2">
-                        <div className="p-2 bg-slate-50 rounded-lg text-cocoa-700">
-                           <item.icon className="w-5 h-5" />
-                        </div>
-                        <h4 className="font-bold text-cocoa-900">{item.title}</h4>
-                     </div>
-                     <p className="text-sm text-slate-600">{item.desc}</p>
-                  </div>
-               </div>
-            ))}
+        {/* Detailed Step-by-Step with Real Photos */}
+        <div className="space-y-24">
+           {/* Steps Grid */}
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
+              
+              {/* Step 1 */}
+              <div className="group">
+                 <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden mb-8 shadow-lg">
+                    <img src={ASSETS.infra_warehouse_wide} alt="Recepção" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute top-4 left-4 bg-slate-900 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg border-2 border-white shadow-md">1</div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
+                    <div className="absolute bottom-6 left-6 text-white">
+                       <Truck className="w-8 h-8 mb-3 text-gold-400" />
+                       <h3 className="font-display text-2xl">Recepção & Buffer</h3>
+                    </div>
+                 </div>
+                 <p className="text-slate-600 leading-relaxed">
+                    Recepção de frutos selecionados e armazenamento em buffer climatizado ("Armazém Inteligente"). Organiza o fluxo de entrada e amplia a janela de processamento em até 1 semana, garantindo que a fábrica opere sempre na capacidade ideal de ~2.500 kg/dia.
+                 </p>
+              </div>
+
+              {/* Step 2 */}
+              <div className="group">
+                 <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden mb-8 shadow-lg">
+                    <img src={ASSETS.infra_interior_1} alt="Segregação" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute top-4 left-4 bg-gold-500 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg border-2 border-white shadow-md">2</div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
+                    <div className="absolute bottom-6 left-6 text-white">
+                       <Spline className="w-8 h-8 mb-3 text-gold-400" />
+                       <h3 className="font-display text-2xl">A Grande Segregação</h3>
+                    </div>
+                 </div>
+                 <p className="text-slate-600 leading-relaxed">
+                    O coração do processo. Triagem manual rigorosa que divide o fluxo em três caminhos: 
+                    <span className="font-bold text-gold-600"> Premium (Ouro)</span>, 
+                    <span className="font-bold text-leaf-600"> Bulk (Verde)</span> e 
+                    <span className="font-bold text-red-500"> Descarte</span>. 
+                    Garante que apenas amêndoas perfeitas sigam para a fermentação fina.
+                 </p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="group">
+                 <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden mb-8 shadow-lg">
+                    <img src={ASSETS.infra_fermentation} alt="Fermentação" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute top-4 left-4 bg-gold-600 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg border-2 border-white shadow-md">3</div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
+                    <div className="absolute bottom-6 left-6 text-white">
+                       <Beaker className="w-8 h-8 mb-3 text-gold-400" />
+                       <h3 className="font-display text-2xl">Fermentação Tech</h3>
+                    </div>
+                 </div>
+                 <p className="text-slate-600 leading-relaxed">
+                    Extração controlada do Néctar (Theo Gold) seguida de fermentação em cochos de madeira com monitoramento digital (pH, Brix, Temperatura). Uso de viragem hidráulica para oxigenação perfeita e repetibilidade do perfil aromático.
+                 </p>
+              </div>
+
+              {/* Step 4 */}
+              <div className="group">
+                 <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden mb-8 shadow-lg">
+                    <img src={ASSETS.infra_drying_beds} alt="Secagem" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute top-4 left-4 bg-slate-900 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg border-2 border-white shadow-md">4</div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
+                    <div className="absolute bottom-6 left-6 text-white">
+                       <Sun className="w-8 h-8 mb-3 text-gold-400" />
+                       <h3 className="font-display text-2xl">Secagem Híbrida</h3>
+                    </div>
+                 </div>
+                 <p className="text-slate-600 leading-relaxed">
+                    Sistema de duas fases: <br/>
+                    1. <strong>Fase Lenta:</strong> Estufas solares (4-6 dias) para saída gradual de ácidos voláteis.<br/>
+                    2. <strong>Finalização Mecânica:</strong> Secadores a lenha sem fumaça para atingir a umidade exata de exportação (7%) independente do clima.
+                 </p>
+              </div>
+
+              {/* Step 5 */}
+              <div className="group">
+                 <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden mb-8 shadow-lg">
+                    <img src={ASSETS.cut_test} alt="Qualidade" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute top-4 left-4 bg-slate-900 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg border-2 border-white shadow-md">5</div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
+                    <div className="absolute bottom-6 left-6 text-white">
+                       <QrCode className="w-8 h-8 mb-3 text-gold-400" />
+                       <h3 className="font-display text-2xl">Qualidade & Rastreio</h3>
+                    </div>
+                 </div>
+                 <p className="text-slate-600 leading-relaxed">
+                    Limpeza final por densimetria e classificação granulométrica. Análise laboratorial interna (Cut Test) para validação do lote. Emissão do QR Code de rastreabilidade total que acompanha a saca até o cliente.
+                 </p>
+              </div>
+
+              {/* Step 6 */}
+              <div className="group">
+                 <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden mb-8 shadow-lg">
+                    <img src={ASSETS.infra_interior_2} alt="Indústria" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute top-4 left-4 bg-slate-900 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg border-2 border-white shadow-md">6</div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
+                    <div className="absolute bottom-6 left-6 text-white">
+                       <Factory className="w-8 h-8 mb-3 text-gold-400" />
+                       <h3 className="font-display text-2xl">Agregação Industrial</h3>
+                    </div>
+                 </div>
+                 <p className="text-slate-600 leading-relaxed">
+                    Processamento secundário para produtos derivados. Linha de torra controlada e trituração para produção de Nibs, Líquor e Manteiga. Capacidade de escala para atender grandes contratos globais.
+                 </p>
+              </div>
+
+           </div>
         </div>
 
       </div>
