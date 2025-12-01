@@ -1,0 +1,100 @@
+Este é um descritivo completo e estruturado para a criação de um diagrama educativo, limpo e profissional.
+
+Você pode usar este descritivo como "prompt" para um designer gráfico, ou como guia para montar você mesmo em ferramentas como Canva, Figma, Illustrator ou PowerPoint.
+
+---
+
+## Guia de Design do Diagrama: Fluxo Pós-Colheita Qualitheo
+
+**Objetivo:** Criar um infográfico "limpo, bonito e educativo" que traduza o texto técnico em um fluxo visual claro, destacando a precisão industrial e a segregação de qualidade.
+
+**Estética Geral:**
+* **Estilo:** "Flat Design" moderno ou ícones de linha (line icons) limpos. Evitar excesso de texturas.
+* **Fundo:** Branco limpo ou cinza muito claro para destacar o fluxo.
+* **Tipografia:** Fonte sem serifa moderna (ex: Montserrat, Helvetica Neue, Open Sans). Títulos em negrito, descrições em peso normal.
+* **Paleta de Cores (Sugestão):**
+    * *Cacau/Premium (Ouro):* Amarelo mostarda/Dourado (#D4AF37).
+    * *Processo/Tecnologia (Industrial):* Azul ardósia ou cinza azulado (#546E7A).
+    * *Natureza/Bulk (Verde):* Verde folha sóbrio (#66BB6A).
+    * *Atenção/Descarte (Vermelho):* Vermelho terracota suave (#E57373).
+
+---
+
+## Estrutura do Diagrama (Fluxo Horizontal da Esquerda para a Direita)
+
+O diagrama deve ser dividido em **6 Zonas Principais**, conectadas por setas de fluxo grossas e claras.
+
+### Título Principal (Topo Centro)
+**QUALITHEO: LINHA INDUSTRIAL DE PRECISÃO PÓS-COLHEITA DO CACAU**
+
+---
+
+### ZONA 1: Recepção e Estruturação do Fluxo
+* **Título da Zona:** 1. RECEPÇÃO & BUFFER INTELIGENTE
+* **Ícones e Fluxo:**
+    * [Ícone: Caminhão/Frutos Inteiros] → Texto: "Recepção de Frutos Selecionados"
+    * [Ícone: Esteira de Limpeza/Triagem]
+    * → Seta para uma caixa grande transparente [Ícone: Armazém com Termômetro/Relógio]
+    * **Texto de Destaque no Armazém:** "BUFFER CONTROLADO".
+    * **Subtexto:** "Organiza fluxo, amplia janela (até 1 semana). Meta: processar ~2.500 kg/dia (amêndoas em baba)."
+
+### ZONA 2: A Grande Segregação (O "Coração" do Processo)
+* **Título da Zona:** 2. PROCESSAMENTO INICIAL & SEGREGAÇÃO POR DESTINO
+* **Ícones e Fluxo:**
+    * [Ícone: Máquina com Lâmina Curva e Fruto] → Texto: "Abertura Ergonômica (Sem dano à amêndoa)"
+    * → [Ícone: Esteira de Seleção Manual]
+    * **AQUI O FLUXO SE DIVIDE EM 3 CAMINHOS DISTINTOS (Use cores diferentes para as setas):**
+
+    * **CAMINHO A (Topo - Cor Dourada - PREMIUM):**
+        * [Ícone: Amêndoa Perfeita/Coração] → Texto: **LOTE PREMIUM (O "Coração")**
+        * *Nota:* Este é o caminho principal que segue o diagrama.
+
+    * **CAMINHO B (Meio - Cor Verde - BULK):**
+        * [Ícone: Amêndoa Verde/Pálida] → Texto: "Verdoso/Bulk" → [Ícone: Secador Rápido] → Texto: "Rota Rápida" (Fim desta linha).
+
+    * **CAMINHO C (Baixo - Cor Vermelha - DESCARTE):**
+        * [Ícone: Amêndoa com Defeito/X] → Texto: "Defeitos/Doença" → [Ícone: Lixeira] → Texto: "Segregado" (Fim desta linha).
+
+### ZONA 3: A Rota Premium: Extração e Fermentação de Precisão
+* **Título da Zona:** 3. DIFERENCIAL RARO & FERMENTAÇÃO CONTROLADA
+* *(Entrada alternativa aqui)*: Adicionar uma seta vinda de cima com [Ícone: Balde Fechado] → Texto: "Entrada Estratégica: Cacau 'em baba' selecionado pelo produtor". Esta seta se junta ao **Caminho A (Premium)** antes das prensas.
+
+* **Sub-etapa 3.1: O Néctar (Theo Gold)**
+    * [Ícone: Prensa Inox com gotas saindo] → Texto: "Extração Controlada de Néctar (~40% mucilagem)".
+    * → Seta para baixo → [Ícone: Freezer/Gelo] → Texto: **"THEO GOLD" CONGELADO** (Meta: 10t/semana bruto).
+
+* **Sub-etapa 3.2: Fermentação Industrial (As Amêndoas)**
+    * (O restante da massa que sai da prensa segue):
+    * [Ícone: Conjunto de Caixas/Bins Empilhados] → Texto: "Fermentação Monitorada (~6 dias)".
+    * **Destaque Visual (Ícones pequenos ao redor dos bins):** [Ícone: Termômetro], [Ícone: pH], [Ícone: Brix], [Ícone: App no Celular (Dados em tempo real)].
+    * **Ação Visual (A Virada):** Mostrar [Ícone: Empilhadeira com Tombador Hidráulico] movendo massa de uma caixa para outra.
+    * **Texto da Ação:** "Viragem Hidráulica 'Binária' (Oxigenação e repetibilidade a cada 24h)".
+
+### ZONA 4: Secagem Híbrida (Lapidando o Aroma)
+* **Título da Zona:** 4. SECAGEM EM DUAS ETAPAS
+* *Transição:* [Ícone: Separação de Líquido (Vinagre)] antes de entrar na secagem.
+* **Etapa 4.1 (Lenta):**
+    * [Ícone: Mesa Telada/Estufa com Sol suave] → Texto: **FASE 1: LENTA & HOMOGÊNEA**.
+    * **Subtexto:** "Estufas/Mesas Teladas. Saída gradual de ácidos voláteis (4–6 dias)."
+* → Seta de transição →
+* **Etapa 4.2 (Rápida/Final):**
+    * [Ícone: Secador Mecânico com símbolo de fogo/ar quente limpo] → Texto: **FASE 2: FINALIZAÇÃO MECÂNICA**.
+    * **Subtexto:** "Lenha sem fumaça. Ponto certo em 12–24h."
+
+### ZONA 5: Finalização e Rastreabilidade Total
+* **Título da Zona:** 5. PADRÃO PREMIUM & RASTREABILIDADE
+* **Ícones e Fluxo:**
+    * [Ícone: Ventilador (Resfriamento)] → [Ícone: Peneiras Vibratórias (Classificação)] → [Ícone: Ar comprimido/Limpeza final].
+    * → [Ícone: Microscópio e Lâmina de Corte (Laboratório Interno)] → Texto: "Carimbo de Qualidade (Cut test, umidade, padrão)".
+    * → **IMAGEM FINAL DESTA ZONA (Grande Destaque):** [Ícone: Saca de 60kg e Big Bag de 1t com um **QR CODE GIGANTE** na frente].
+    * **Texto do QR Code:** **RASTREABILIDADE COMPLETA**. "Trilha: Origem, Datas, Protocolo, Ranking de Dados."
+
+### ZONA 6: Agregação de Valor (O Ciclo Final)
+* **Título da Zona:** 6. AGREGAÇÃO DE VALOR (Indústria)
+* **Ícones e Fluxo:**
+    * [Ícone: Torrador Industrial] → Texto: "Linha de Torra".
+    * → [Ícone: Triturador/Nibs] → Texto: "Preparo de Nibs".
+    * **Caixa de Metas (Resumo Final):**
+        * "Capacidade: 120 kg/h (fino), 250 kg/h (bulk)."
+        * "Meta 2026: 400+ t/ano de cacau fino (50% em nibs)."
+        * "Consolidação: ~50 t/ano de néctar congelado."

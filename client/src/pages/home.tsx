@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, Leaf, Factory, Globe, CheckCircle2, Menu, Snowflake, Layers, Box, Droplet, Scale, Award, Instagram } from "lucide-react";
+import { ArrowRight, Leaf, Factory, Globe, CheckCircle2, Menu, Snowflake, Layers, Box, Droplet, Scale, Award, Instagram, Truck, Thermometer, Clock, Spline, Beaker, Smartphone, Sun, QrCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
@@ -501,6 +501,142 @@ const Features = () => {
             </motion.div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+};
+
+const ProcessDiagram = () => {
+  return (
+    <section className="py-24 bg-slate-50 overflow-x-hidden" id="diagrama-processo">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-20">
+           <span className="text-slate-500 font-bold uppercase tracking-widest text-sm mb-4 block">Fluxo Pós-Colheita</span>
+           <h2 className="font-display text-3xl md:text-4xl text-cocoa-900">Linha Industrial de Precisão</h2>
+        </div>
+
+        {/* Desktop Horizontal Flow */}
+        <div className="hidden lg:flex flex-col gap-8 relative">
+           {/* Connecting Line Background */}
+           <div className="absolute top-[120px] left-0 right-0 h-2 bg-slate-200 z-0 rounded-full"></div>
+
+           <div className="grid grid-cols-6 gap-4 relative z-10">
+              {/* Zone 1 */}
+              <div className="flex flex-col items-center text-center group">
+                 <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">1</div>
+                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center">
+                    <div className="w-16 h-16 bg-leaf-100 rounded-full flex items-center justify-center mb-4 text-leaf-700">
+                       <Truck className="w-8 h-8" />
+                    </div>
+                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Recepção & Buffer</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">Recepção de frutos selecionados e armazenamento em buffer climatizado para organizar o fluxo (até 1 semana).</p>
+                    <div className="mt-auto pt-4 flex gap-2">
+                       <Thermometer className="w-4 h-4 text-blue-400" />
+                       <Clock className="w-4 h-4 text-slate-400" />
+                    </div>
+                 </div>
+              </div>
+
+              {/* Zone 2 */}
+              <div className="flex flex-col items-center text-center group">
+                 <div className="w-10 h-10 rounded-full bg-gold-500 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">2</div>
+                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center relative overflow-hidden">
+                    <div className="w-16 h-16 bg-gold-100 rounded-full flex items-center justify-center mb-4 text-gold-700">
+                       <Spline className="w-8 h-8" />
+                    </div>
+                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Segregação</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">Abertura ergonômica e triagem rigorosa.</p>
+                    
+                    {/* Paths */}
+                    <div className="w-full mt-4 space-y-2">
+                       <div className="text-[10px] font-bold text-gold-600 bg-gold-50 px-2 py-1 rounded border border-gold-200">A. Premium</div>
+                       <div className="text-[10px] font-bold text-leaf-600 bg-leaf-50 px-2 py-1 rounded border border-leaf-200">B. Bulk</div>
+                       <div className="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-1 rounded border border-red-200">C. Descarte</div>
+                    </div>
+                 </div>
+              </div>
+
+              {/* Zone 3 */}
+              <div className="flex flex-col items-center text-center group">
+                 <div className="w-10 h-10 rounded-full bg-gold-600 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">3</div>
+                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gold-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center ring-2 ring-gold-100">
+                    <div className="w-16 h-16 bg-gold-100 rounded-full flex items-center justify-center mb-4 text-gold-700">
+                       <Beaker className="w-8 h-8" />
+                    </div>
+                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Fermentação Tech</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">Extração de Néctar (Theo Gold) e fermentação monitorada em caixas com viragem hidráulica.</p>
+                    <div className="mt-auto pt-4 flex gap-2">
+                       <Smartphone className="w-4 h-4 text-slate-400" />
+                       <Snowflake className="w-4 h-4 text-blue-400" />
+                    </div>
+                 </div>
+              </div>
+
+              {/* Zone 4 */}
+              <div className="flex flex-col items-center text-center group">
+                 <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">4</div>
+                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center">
+                    <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4 text-orange-700">
+                       <Sun className="w-8 h-8" />
+                    </div>
+                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Secagem Híbrida</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">Fase 1: Lenta em estufas solares (4-6 dias).<br/>Fase 2: Finalização mecânica precisa.</p>
+                 </div>
+              </div>
+
+              {/* Zone 5 */}
+              <div className="flex flex-col items-center text-center group">
+                 <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">5</div>
+                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center">
+                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-700">
+                       <QrCode className="w-8 h-8" />
+                    </div>
+                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Rastreabilidade</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">Limpeza final, classificação e carimbo de qualidade (Cut Test). Rastreabilidade total via QR Code.</p>
+                 </div>
+              </div>
+
+              {/* Zone 6 */}
+              <div className="flex flex-col items-center text-center group">
+                 <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold mb-4 z-20 border-4 border-slate-50 shadow-lg">6</div>
+                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 w-full h-full min-h-[280px] hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center bg-slate-50">
+                    <div className="w-16 h-16 bg-cocoa-100 rounded-full flex items-center justify-center mb-4 text-cocoa-700">
+                       <Factory className="w-8 h-8" />
+                    </div>
+                    <h4 className="font-bold text-cocoa-900 text-sm uppercase mb-2">Indústria</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">Torra, Nibs e agregação de valor final. Capacidade industrial.</p>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+        {/* Mobile Vertical Flow */}
+        <div className="lg:hidden flex flex-col gap-8 relative pl-8 border-l-2 border-slate-200 ml-4">
+            {[
+              { step: 1, title: "Recepção & Buffer", desc: "Recepção de frutos e buffer climatizado.", icon: Truck, color: "bg-slate-900" },
+              { step: 2, title: "Segregação Premium", desc: "Separação rigorosa: Premium, Bulk e Descarte.", icon: Spline, color: "bg-gold-500" },
+              { step: 3, title: "Fermentação & Néctar", desc: "Extração do Theo Gold e fermentação controlada.", icon: Beaker, color: "bg-gold-600" },
+              { step: 4, title: "Secagem Híbrida", desc: "Solar lenta + Mecânica precisa.", icon: Sun, color: "bg-slate-900" },
+              { step: 5, title: "Qualidade Total", desc: "Classificação, laboratório e QR Code.", icon: QrCode, color: "bg-slate-900" },
+              { step: 6, title: "Indústria Final", desc: "Torra e Nibs em escala.", icon: Factory, color: "bg-slate-900" },
+            ].map((item, i) => (
+               <div key={i} className="relative">
+                  <div className={`absolute -left-[42px] top-0 w-8 h-8 rounded-full ${item.color} text-white flex items-center justify-center text-sm font-bold border-4 border-white shadow-md`}>
+                     {item.step}
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                     <div className="flex items-center gap-4 mb-2">
+                        <div className="p-2 bg-slate-50 rounded-lg text-cocoa-700">
+                           <item.icon className="w-5 h-5" />
+                        </div>
+                        <h4 className="font-bold text-cocoa-900">{item.title}</h4>
+                     </div>
+                     <p className="text-sm text-slate-600">{item.desc}</p>
+                  </div>
+               </div>
+            ))}
+        </div>
+
       </div>
     </section>
   );
@@ -1042,6 +1178,7 @@ export default function Home() {
       <Hero />
       <InfrastructureShowcase />
       <MarketThesis />
+      <ProcessDiagram />
       <Features />
       <AboutSplit />
       <Products />
