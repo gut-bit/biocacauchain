@@ -1138,13 +1138,18 @@ const Impact = () => {
 
 const Partners = () => {
   return (
-    <section className="py-20 bg-white border-t border-cocoa-100">
-      <div className="container mx-auto px-6 text-center">
-        <p className="text-sm font-bold uppercase tracking-widest text-cocoa-300 mb-12">
+    <section className="py-20 bg-cocoa-900 border-t border-cocoa-800 relative overflow-hidden">
+      {/* Subtle pattern overlay */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
+         <img src={ASSETS.tech_wireframe} className="w-full h-full object-cover" />
+      </div>
+
+      <div className="container mx-auto px-6 text-center relative z-10">
+        <p className="text-sm font-bold uppercase tracking-widest text-gold-500/80 mb-12">
           Parceiros e Clientes que Confiam na Qualitheo
         </p>
         
-        <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-80">
+        <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24">
           {[
             { src: ASSETS.partner_bonnat, alt: "Bonnat Chocolatier", width: "w-32" },
             { src: ASSETS.partner_lasevicius, alt: "Casa Lasevicius", width: "w-28" },
@@ -1155,12 +1160,12 @@ const Partners = () => {
           ].map((logo, idx) => (
             <div 
               key={idx} 
-              className={`grayscale hover:grayscale-0 transition-all duration-500 hover:scale-110 hover:opacity-100 opacity-60 ${logo.width} aspect-[3/2] flex items-center justify-center`}
+              className={`group relative ${logo.width} aspect-[3/2] flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-500 opacity-50 hover:opacity-100 hover:scale-110`}
             >
               <img 
                 src={logo.src} 
                 alt={logo.alt} 
-                className="max-w-full max-h-full object-contain mix-blend-multiply" 
+                className="max-w-full max-h-full object-contain brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all duration-500" 
               />
             </div>
           ))}
@@ -1172,72 +1177,102 @@ const Partners = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-cocoa-950 text-cocoa-200 py-16 border-t border-cocoa-900" id="contato">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-2 flex flex-col items-start">
-            <div className="bg-white p-4 rounded-xl mb-6 w-fit">
-              <img src={ASSETS.logo_vertical} alt="Qualitheo Logo" className="h-32 w-auto object-contain" />
+    <footer className="bg-cocoa-950 text-cocoa-200 py-20 border-t border-cocoa-900 relative overflow-hidden" id="contato">
+      {/* Background Texture */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-soft-light">
+         <img src={ASSETS.infra_aerial_2} className="w-full h-full object-cover blur-3xl grayscale" />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-20">
+          
+          {/* Brand Column */}
+          <div className="col-span-1 md:col-span-5 flex flex-col items-start">
+            <div className="bg-white p-6 rounded-2xl mb-8 shadow-2xl shadow-black/50 border border-white/10">
+              <img src={ASSETS.logo_vertical} alt="Qualitheo Logo" className="h-24 w-auto object-contain" />
             </div>
-            <p className="max-w-md text-cocoa-400 leading-relaxed">
-              Agroindústria bioeconômica que conecta a riqueza da Amazônia ao mundo com qualidade, tecnologia e transparência.
+            <p className="text-cocoa-300/80 leading-relaxed text-lg font-light max-w-md mb-8">
+              Conectando a biodiversidade amazônica aos mercados globais através de tecnologia, rastreabilidade e excelência industrial.
             </p>
-            <div className="mt-8">
-               <QuoteForm />
+            <div className="flex gap-4">
+               <a href="#" className="w-10 h-10 rounded-full bg-cocoa-900 border border-cocoa-800 flex items-center justify-center text-gold-500 hover:bg-gold-500 hover:text-cocoa-950 transition-all duration-300">
+                  <Instagram className="w-5 h-5" />
+               </a>
+               <a href="#" className="w-10 h-10 rounded-full bg-cocoa-900 border border-cocoa-800 flex items-center justify-center text-gold-500 hover:bg-gold-500 hover:text-cocoa-950 transition-all duration-300">
+                  <Globe className="w-5 h-5" />
+               </a>
             </div>
           </div>
           
-          <div>
-            <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6">Links Rápidos</h4>
-            <ul className="space-y-3">
-              {["Origem", "Processo", "Produtos", "Sustentabilidade", "Blog"].map((item) => (
+          {/* Navigation Column */}
+          <div className="col-span-1 md:col-span-3">
+            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-8 flex items-center gap-2">
+               <span className="w-8 h-[1px] bg-gold-500"></span>
+               Navegação
+            </h4>
+            <ul className="space-y-4">
+              {["Origem", "Processo Industrial", "Produtos", "Sustentabilidade", "Blog"].map((item) => (
                 <li key={item}>
-                  <a href="#" className="hover:text-gold-400 transition-colors">{item}</a>
+                  <a href="#" className="text-cocoa-400 hover:text-gold-400 transition-colors flex items-center gap-2 group">
+                     <ArrowRight className="w-3 h-3 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 text-gold-500" />
+                     {item}
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div>
-            <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6">Contato</h4>
-            <ul className="space-y-3 text-cocoa-400">
-              <li className="font-medium text-white">Helton Gutzeit | CEO</li>
-              <li>
-                <a href="mailto:gut@qualihteo.com" className="hover:text-gold-400">gut@qualihteo.com</a>
-              </li>
-              <li>
-                 <a href="mailto:Qualitheo@gmail.com" className="hover:text-gold-400">Qualitheo@gmail.com</a>
-              </li>
-              <li>
-                 <a href="https://wa.me/5593992356251" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400">
-                  +55 93 99235-6251
-                 </a>
-              </li>
-              <li>Pará, Amazônia, Brasil</li>
-              <li className="pt-4 flex flex-col gap-4">
-                <div className="flex gap-4">
-                  <a 
-                    href="https://www.instagram.com/gutcacao" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-cocoa-900 flex items-center justify-center hover:bg-cocoa-800 cursor-pointer transition-colors text-gold-500 hover:text-gold-400"
-                    title="Siga-nos no Instagram"
-                  >
-                    <Instagram className="w-5 h-5" />
+          {/* Contact Column */}
+          <div className="col-span-1 md:col-span-4">
+            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-8 flex items-center gap-2">
+               <span className="w-8 h-[1px] bg-gold-500"></span>
+               Contato Direto
+            </h4>
+            <div className="bg-cocoa-900/50 backdrop-blur-sm p-6 rounded-2xl border border-cocoa-800 space-y-6">
+               <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-500 shrink-0">
+                     <Award className="w-5 h-5" />
+                  </div>
+                  <div>
+                     <p className="text-white font-medium">Helton Gutzeit</p>
+                     <p className="text-xs text-gold-500 uppercase tracking-wider font-bold">CEO & Founder</p>
+                  </div>
+               </div>
+               
+               <div className="space-y-3 text-sm text-cocoa-300">
+                  <a href="mailto:gut@qualihteo.com" className="flex items-center gap-3 hover:text-white transition-colors p-2 hover:bg-cocoa-800/50 rounded-lg -ml-2">
+                     <div className="w-1 h-1 rounded-full bg-gold-500"></div>
+                     gut@qualihteo.com
                   </a>
-                </div>
-                {/* QR Code Display */}
-                <div className="mt-2 bg-white p-2 rounded-lg w-32 h-32 shadow-lg border border-cocoa-800">
-                  <img src={ASSETS.qr_code} alt="Instagram QR Code" className="w-full h-full object-contain" />
-                </div>
-              </li>
-            </ul>
+                  <a href="mailto:Qualitheo@gmail.com" className="flex items-center gap-3 hover:text-white transition-colors p-2 hover:bg-cocoa-800/50 rounded-lg -ml-2">
+                     <div className="w-1 h-1 rounded-full bg-gold-500"></div>
+                     Qualitheo@gmail.com
+                  </a>
+                  <a href="https://wa.me/5593992356251" className="flex items-center gap-3 hover:text-white transition-colors p-2 hover:bg-cocoa-800/50 rounded-lg -ml-2">
+                     <div className="w-1 h-1 rounded-full bg-gold-500"></div>
+                     +55 93 99235-6251
+                  </a>
+               </div>
+
+               <div className="pt-4 border-t border-cocoa-800/50 flex items-center gap-4">
+                  <div className="bg-white p-1 rounded shadow-sm">
+                     <img src={ASSETS.qr_code} alt="QR" className="w-12 h-12 object-contain" />
+                  </div>
+                  <p className="text-xs text-cocoa-500 leading-tight">Escaneie para contato<br/>via WhatsApp</p>
+               </div>
+            </div>
           </div>
+
         </div>
         
-        <div className="border-t border-cocoa-900 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-cocoa-500">
-          <p>&copy; 2025 Qualitheo. Todos os direitos reservados.</p>
-          <p>Desenvolvido com orgulho na Amazônia.</p>
+        <div className="border-t border-cocoa-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-cocoa-600 font-medium uppercase tracking-wider">
+          <p>&copy; 2025 Qualitheo Agroindústria. Todos os direitos reservados.</p>
+          <div className="flex items-center gap-6 mt-4 md:mt-0">
+             <a href="#" className="hover:text-gold-500 transition-colors">Privacidade</a>
+             <a href="#" className="hover:text-gold-500 transition-colors">Termos</a>
+             <span className="text-cocoa-700">|</span>
+             <p>Amazônia, Brasil</p>
+          </div>
         </div>
       </div>
     </footer>
