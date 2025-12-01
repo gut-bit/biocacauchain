@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, Leaf, Factory, Globe, CheckCircle2, Menu, Snowflake, Layers, Box, Droplet, Scale, Award, Instagram, Truck, Thermometer, Clock, Spline, Beaker, Smartphone, Sun, QrCode } from "lucide-react";
+import { ArrowRight, Leaf, Factory, Globe, CheckCircle2, Menu, Snowflake, Layers, Box, Droplet, Scale, Award, Instagram, Truck, Thermometer, Clock, Spline, Beaker, Smartphone, Sun, QrCode, ZoomIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
 
 // Asset Imports
 import hero_bg from "@assets/hero_bg.jpg";
@@ -543,11 +544,33 @@ const ProcessDiagram = () => {
                  </div>
               </div>
               <div className="w-full md:w-2/3">
-                 <img 
-                   src={ASSETS.infographic_process} 
-                   alt="Infográfico do Processo Qualitheo" 
-                   className="w-full h-auto rounded-lg shadow-md border border-slate-100"
-                 />
+                 <Dialog>
+                    <DialogTrigger asChild>
+                       <div className="relative group cursor-zoom-in">
+                          <img 
+                            src={ASSETS.infographic_process} 
+                            alt="Infográfico do Processo Qualitheo" 
+                            className="w-full h-auto rounded-lg shadow-md border border-slate-100 transition-all duration-300 group-hover:brightness-95"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/10 rounded-lg">
+                             <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-cocoa-900 font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                <ZoomIn className="w-4 h-4" />
+                                <span>Ampliar Diagrama</span>
+                             </div>
+                          </div>
+                       </div>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-[95vw] w-full h-[90vh] p-0 bg-transparent border-none shadow-none flex items-center justify-center">
+                       <DialogTitle className="sr-only">Diagrama do Processo Qualitheo</DialogTitle>
+                       <div className="relative w-full h-full flex items-center justify-center p-4" onClick={(e) => e.stopPropagation()}>
+                          <img 
+                            src={ASSETS.infographic_process} 
+                            alt="Infográfico do Processo Qualitheo Detalhado" 
+                            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl bg-white"
+                          />
+                       </div>
+                    </DialogContent>
+                 </Dialog>
               </div>
            </div>
         </div>
