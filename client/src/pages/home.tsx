@@ -1030,55 +1030,80 @@ const QuoteForm = () => {
 
 const Impact = () => {
   return (
-    <section className="py-24 bg-leaf-800 text-white relative overflow-hidden" id="impacto">
-      {/* Background Image Overlay */}
-      <div className="absolute inset-0 z-0 opacity-40 mix-blend-overlay">
-         <img src={ASSETS.dense_trees} className="w-full h-full object-cover" alt="Floresta de Cacau" />
+    <section className="py-24 bg-leaf-950 text-white relative overflow-hidden" id="impacto">
+      {/* Clean High-Res Background */}
+      <div className="absolute inset-0 z-0">
+         <img 
+           src={ASSETS.dense_trees} 
+           className="w-full h-full object-cover opacity-20 grayscale-[20%] contrast-125" 
+           alt="Floresta de Cacau Background" 
+         />
+         <div className="absolute inset-0 bg-gradient-to-r from-leaf-950/95 via-leaf-950/80 to-leaf-950/60" />
       </div>
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
-          <div className="w-full lg:w-1/2 relative">
-             <div className="absolute -top-10 -left-10 w-32 z-20 animate-pulse delay-1000">
-                <img src={ASSETS.macaw} alt="Arara" className="rounded-full border-4 border-white/20 shadow-xl" />
+        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+          {/* Visual Side */}
+          <div className="w-full lg:w-1/2 relative group">
+             {/* Floating decorative element */}
+             <div className="absolute -top-12 -left-12 w-40 z-20 animate-pulse delay-1000 hidden md:block">
+                <img 
+                  src={ASSETS.macaw} 
+                  alt="Arara" 
+                  className="rounded-full border-4 border-leaf-900/50 shadow-2xl object-cover aspect-square" 
+                />
              </div>
-             {/* Swapped image to focus on plantation/nature as requested */}
-             <img 
-              src={ASSETS.infra_aerial_1} 
-              alt="Plantação e Fábrica na Floresta" 
-              className="rounded-2xl shadow-2xl rotate-1 border border-white/10 w-full h-[500px] object-cover"
-            />
-            <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-xl max-w-[200px] text-cocoa-900 z-20">
-                <p className="font-display text-lg leading-tight">"Garantimos a compra, garantimos o futuro."</p>
-                <p className="text-xs text-cocoa-500 mt-2 font-bold uppercase tracking-wider">- Helton Gutzeit</p>
+             
+             <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-leaf-700/30">
+               <img 
+                src={ASSETS.infra_aerial_1} 
+                alt="Plantação e Fábrica na Floresta" 
+                className="w-full h-[600px] object-cover transition-transform duration-1000 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
+             </div>
+
+            <div className="absolute -bottom-8 -right-8 bg-white/10 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20 max-w-xs z-30 hidden md:block">
+                <div className="flex gap-1 mb-2">
+                  {[1,2,3,4,5].map(i => <Award key={i} className="w-4 h-4 text-gold-400 fill-gold-400" />)}
+                </div>
+                <p className="font-display text-xl leading-tight text-white mb-2">"Garantimos a compra, garantimos o futuro."</p>
+                <p className="text-xs text-leaf-200 font-bold uppercase tracking-wider">- Helton Gutzeit</p>
             </div>
           </div>
+
+          {/* Content Side */}
           <div className="w-full lg:w-1/2">
-            <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-leaf-600/50 border border-leaf-400/30 text-leaf-100 text-xs font-bold uppercase tracking-widest">
-                <Globe className="w-3 h-3" />
+            <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-leaf-900/80 border border-leaf-700 text-leaf-300 text-xs font-bold uppercase tracking-widest backdrop-blur-sm">
+                <Globe className="w-3 h-3 text-leaf-400" />
                 <span>Bioeconomia Amazônica</span>
             </div>
-            <h2 className="font-display text-4xl md:text-5xl mb-8 leading-tight">
-              Impacto Real <br/><span className="text-leaf-300">além da floresta</span>
+            
+            <h2 className="font-display text-5xl md:text-6xl mb-8 leading-tight text-white">
+              Impacto Real <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-600 italic">
+                além da floresta
+              </span>
             </h2>
-            <p className="text-leaf-100 text-lg leading-relaxed mb-8">
-              A Qualitheo não é apenas uma agroindústria; somos um ecossistema. Ao profissionalizar o produtor com assistência técnica e garantir a compra de toda a safra, criamos um ciclo virtuoso onde a floresta em pé vale mais.
+            
+            <p className="text-leaf-100/90 text-lg leading-relaxed mb-10 font-light border-l-2 border-leaf-700 pl-6">
+              A Qualitheo não é apenas uma agroindústria; somos um ecossistema vivo. Ao profissionalizar o produtor com assistência técnica e garantir a compra de toda a safra, criamos um ciclo virtuoso onde a floresta em pé vale mais do que derrubada.
             </p>
             
-            <div className="grid grid-cols-2 gap-8 mt-12 border-t border-leaf-600 pt-8">
-              <div>
-                <div className="text-4xl font-display text-gold-400 mb-2 flex items-baseline gap-1">
-                    +300<span className="text-xl">%</span>
+            <div className="grid grid-cols-2 gap-8 mb-12">
+              <div className="p-4 rounded-xl bg-leaf-900/40 border border-leaf-800 hover:border-leaf-600 transition-colors">
+                <div className="text-4xl font-display text-white mb-1 flex items-baseline gap-1">
+                    +300<span className="text-xl text-leaf-400">%</span>
                 </div>
-                <div className="text-sm text-leaf-200 uppercase tracking-wider">Renda do Produtor</div>
+                <div className="text-xs text-leaf-300 uppercase tracking-wider font-medium">Renda do Produtor</div>
               </div>
-              <div>
-                <div className="text-4xl font-display text-gold-400 mb-2">100%</div>
-                <div className="text-sm text-leaf-200 uppercase tracking-wider">Rastreabilidade</div>
+              <div className="p-4 rounded-xl bg-leaf-900/40 border border-leaf-800 hover:border-leaf-600 transition-colors">
+                <div className="text-4xl font-display text-white mb-1">100%</div>
+                <div className="text-xs text-leaf-300 uppercase tracking-wider font-medium">Rastreabilidade</div>
               </div>
             </div>
             
-             <div className="mt-10">
+             <div>
                 <QuoteForm />
              </div>
           </div>
