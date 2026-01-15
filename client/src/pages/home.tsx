@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
+import { useLanguage } from "@/lib/i18n";
 
 // Asset Imports
 import hero_bg from "@assets/hero_bg.jpg";
@@ -125,12 +126,21 @@ const ASSETS = {
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const navLinks = [
+    { key: 'nav.origin', href: '#origem' },
+    { key: 'nav.process', href: '#processo' },
+    { key: 'nav.products', href: '#produtos' },
+    { key: 'nav.impact', href: '#impacto' },
+    { key: 'nav.contact', href: '#contato' },
+  ];
 
   return (
     <nav
@@ -153,20 +163,50 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-8">
-          {["Origem", "Processo", "Produtos", "Impacto", "Contato"].map((item) => (
+          {navLinks.map((item) => (
             <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
+              key={item.key}
+              href={item.href}
               className={`text-sm font-medium uppercase tracking-widest hover:opacity-70 transition-opacity ${
                 isScrolled ? "text-cocoa-900" : "text-white/90"
               }`}
             >
-              {item}
+              {t(item.key)}
             </a>
           ))}
+          
+          {/* Language Switcher */}
+          <div className="flex items-center gap-3 ml-4 pl-4 border-l border-white/20">
+            <button 
+              onClick={() => setLanguage('en')}
+              className={`flex items-center gap-2 px-2 py-1 rounded transition-all ${language === 'en' ? 'bg-white/20 ring-1 ring-white/50' : 'opacity-60 hover:opacity-100'}`}
+              title="English"
+            >
+               <img src="https://flagcdn.com/us.svg" alt="USA Flag" className="w-5 h-auto rounded shadow-sm object-cover" />
+               <span className={`text-xs font-bold ${isScrolled ? "text-cocoa-900" : "text-white"}`}>EG</span>
+            </button>
+            <button 
+              onClick={() => setLanguage('pt')}
+              className={`flex items-center gap-2 px-2 py-1 rounded transition-all ${language === 'pt' ? 'bg-white/20 ring-1 ring-white/50' : 'opacity-60 hover:opacity-100'}`}
+              title="Português"
+            >
+               <img src="https://flagcdn.com/br.svg" alt="Brazil Flag" className="w-5 h-auto rounded shadow-sm object-cover" />
+               <span className={`text-xs font-bold ${isScrolled ? "text-cocoa-900" : "text-white"}`}>PTBT</span>
+            </button>
+          </div>
         </div>
         
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-4">
+             {/* Mobile Language Switcher */}
+             <div className="flex items-center gap-2">
+                <button onClick={() => setLanguage('en')} className={`w-6 h-4 rounded overflow-hidden shadow-sm ${language === 'en' ? 'ring-2 ring-gold-500' : 'opacity-70'}`}>
+                   <img src="https://flagcdn.com/us.svg" className="w-full h-full object-cover" />
+                </button>
+                <button onClick={() => setLanguage('pt')} className={`w-6 h-4 rounded overflow-hidden shadow-sm ${language === 'pt' ? 'ring-2 ring-gold-500' : 'opacity-70'}`}>
+                   <img src="https://flagcdn.com/br.svg" className="w-full h-full object-cover" />
+                </button>
+             </div>
+
              <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className={isScrolled ? "text-cocoa-900" : "text-white"}>
@@ -175,13 +215,13 @@ const Navbar = () => {
               </SheetTrigger>
               <SheetContent className="bg-cocoa-50 border-cocoa-200">
                 <div className="flex flex-col gap-6 mt-12">
-                  {["Origem", "Processo", "Produtos", "Impacto", "Contato"].map((item) => (
+                  {navLinks.map((item) => (
                     <a
-                      key={item}
-                      href={`#${item.toLowerCase()}`}
+                      key={item.key}
+                      href={item.href}
                       className="text-2xl font-display font-medium text-cocoa-900"
                     >
-                      {item}
+                      {t(item.key)}
                     </a>
                   ))}
                 </div>
@@ -238,6 +278,7 @@ const FloatingElements = () => {
 const Hero = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  const { t } = useLanguage();
   
   // Background slider logic
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -307,18 +348,18 @@ const Hero = () => {
         >
           <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-xs font-medium uppercase tracking-widest mb-6">
             <Award className="w-3 h-3 text-gold-400" />
-            <span>Cocoa of Excellence Award Winner</span>
+            <span>{t('hero.badge')}</span>
           </div>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white font-medium leading-[1.1] mb-6 drop-shadow-lg">
-            Excelência <br />
-            <span className="italic font-light text-gold-400">em escala industrial</span>
+            {t('hero.title.1')} <br />
+            <span className="italic font-light text-gold-400">{t('hero.title.2')}</span>
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 font-light leading-relaxed drop-shadow-md">
-            A maior infraestrutura de pós-colheita da Amazônia. Conectamos a origem ao mundo com tecnologia, rastreabilidade e precisão.
+            {t('hero.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-gold-500 hover:bg-gold-600 text-cocoa-950 font-bold rounded-full px-8 h-14 text-base shadow-lg shadow-gold-500/20">
-              Nossos Produtos
+              {t('hero.cta.products')}
             </Button>
             <Button 
               size="lg" 
@@ -326,7 +367,7 @@ const Hero = () => {
               className="bg-white/10 backdrop-blur-md border-white/40 text-white hover:bg-white/20 rounded-full px-8 h-14 text-base"
               onClick={() => document.getElementById('diagrama-processo')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Conheça a Fábrica
+              {t('hero.cta.factory')}
             </Button>
           </div>
         </motion.div>
@@ -337,16 +378,17 @@ const Hero = () => {
 
 const InfrastructureShowcase = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   return (
     <section className="relative py-24 bg-cocoa-900 -mt-10 rounded-t-[3rem] z-30 overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="flex flex-col gap-12 mb-12">
            <div className="max-w-3xl">
-              <h3 className="text-gold-400 font-bold uppercase tracking-widest text-sm mb-4">Infraestrutura de Ponta</h3>
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-white mb-6">Tecnologia em Meio à Floresta</h2>
+              <h3 className="text-gold-400 font-bold uppercase tracking-widest text-sm mb-4">{t('infra.label')}</h3>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-white mb-6">{t('infra.title')}</h2>
               <p className="text-cocoa-200 leading-relaxed text-lg">
-                Nossa unidade de beneficiamento conta com estufas solares automatizadas, pátios de secagem de alta capacidade e armazéns climatizados, garantindo homogeneidade e segurança alimentar para grandes volumes.
+                {t('infra.desc')}
               </p>
            </div>
            
@@ -355,7 +397,7 @@ const InfrastructureShowcase = () => {
               {/* Large Main Image - Factory Aerial */}
               <div className="md:col-span-4 md:row-span-2 relative group overflow-hidden rounded-2xl shadow-2xl border border-white/10 cursor-pointer" onClick={() => setSelectedImage(ASSETS.infra_aerial_3)}>
                 <div className="absolute top-4 left-4 z-10 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-xs font-medium text-white">
-                   Unidade de Beneficiamento
+                   {t('infra.badge.unit')}
                 </div>
                 <img 
                   src={ASSETS.infra_aerial_3} 
@@ -367,7 +409,7 @@ const InfrastructureShowcase = () => {
               {/* Top Right - Drying Beds */}
               <div className="md:col-span-2 md:row-span-1 relative group overflow-hidden rounded-2xl shadow-xl border border-white/10 cursor-pointer" onClick={() => setSelectedImage(ASSETS.infra_drying_beds)}>
                  <div className="absolute top-4 left-4 z-10 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-xs font-medium text-white">
-                   Estufas Solares
+                   {t('infra.badge.drying')}
                 </div>
                 <img 
                   src={ASSETS.infra_drying_beds} 
@@ -379,7 +421,7 @@ const InfrastructureShowcase = () => {
               {/* Bottom Right - Interior/Warehouse */}
               <div className="md:col-span-2 md:row-span-1 relative group overflow-hidden rounded-2xl shadow-xl border border-white/10 cursor-pointer" onClick={() => setSelectedImage(ASSETS.infra_warehouse_wide)}>
                  <div className="absolute top-4 left-4 z-10 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-xs font-medium text-white">
-                   Armazenamento
+                   {t('infra.badge.storage')}
                 </div>
                 <img 
                   src={ASSETS.infra_warehouse_wide} 
@@ -421,6 +463,8 @@ const InfrastructureShowcase = () => {
 };
 
 const MarketThesis = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-24 bg-white relative z-20">
       <div className="container mx-auto px-6">
@@ -428,18 +472,18 @@ const MarketThesis = () => {
            <div className="md:w-1/2">
              <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-cocoa-100 text-cocoa-700 text-xs font-bold uppercase tracking-widest">
                 <Scale className="w-3 h-3" />
-                <span>Tese de Mercado</span>
+                <span>{t('market.label')}</span>
              </div>
              <h2 className="font-display text-4xl md:text-5xl text-cocoa-900 mb-6 leading-tight">
-               Valorização em um <br/>Cenário Volátil
+               {t('market.title')}
              </h2>
              <p className="text-cocoa-600 text-lg leading-relaxed mb-8">
-               Com a oferta global de cacau apertada e preços historicamente elevados, o mercado exige mais do que volume: exige confiança. A volatilidade reforça o prêmio pago por qualidade consistente e rastreabilidade real.
+               {t('market.desc')}
              </p>
              <div className="p-6 bg-cocoa-50 rounded-2xl border border-cocoa-100">
-                <h4 className="font-display text-xl text-cocoa-800 mb-2">O Diferencial Qualitheo</h4>
+                <h4 className="font-display text-xl text-cocoa-800 mb-2">{t('market.diff.title')}</h4>
                 <p className="text-cocoa-600">
-                  Somos pioneiros na compra do fruto (pods) direto do produtor. Isso nos permite capturar valor integral: fermentação controlada, produção de nibs e extração de polpa, além de operar trading de bulk quando racional.
+                  {t('market.diff.desc')}
                 </p>
              </div>
            </div>
@@ -450,16 +494,16 @@ const MarketThesis = () => {
                  <img src={ASSETS.cocoa_hands} alt="Negociação Justa" className="rounded-2xl shadow-xl w-full object-cover h-[500px]" />
                  
                  <div className="absolute bottom-8 -left-8 bg-white p-6 rounded-xl shadow-lg max-w-xs border border-cocoa-100">
-                    <h4 className="font-bold text-cocoa-900 mb-1">Política de Fornecedor</h4>
-                    <p className="text-sm text-cocoa-500 mb-3">Ganha-ganha orientado por eficiência.</p>
+                    <h4 className="font-bold text-cocoa-900 mb-1">{t('market.policy.title')}</h4>
+                    <p className="text-sm text-cocoa-500 mb-3">{t('market.policy.subtitle')}</p>
                     <ul className="space-y-2">
                       <li className="flex items-center gap-2 text-xs font-medium text-cocoa-700">
                         <CheckCircle2 className="w-3 h-3 text-gold-500" />
-                        Preço Justo & Crédito Tokenizado
+                        {t('market.policy.item1')}
                       </li>
                       <li className="flex items-center gap-2 text-xs font-medium text-cocoa-700">
                         <CheckCircle2 className="w-3 h-3 text-gold-500" />
-                        Assistência, Insumos & Carbono
+                        {t('market.policy.item2')}
                       </li>
                     </ul>
                  </div>
@@ -472,6 +516,8 @@ const MarketThesis = () => {
 };
 
 const Features = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-24 bg-cocoa-50" id="origem">
       <div className="container mx-auto px-6">
@@ -479,18 +525,18 @@ const Features = () => {
           {[
             {
               icon: Leaf,
-              title: "Origem Amazônica",
-              desc: "Produzido em sistemas agroflorestais no Pará, preservando a floresta e garantindo a biodiversidade."
+              title: t('features.origin.title'),
+              desc: t('features.origin.desc')
             },
             {
               icon: Factory,
-              title: "Indústria 4.0",
-              desc: "Processamento controlado com protocolos de fermentação e secagem de precisão para qualidade superior."
+              title: t('features.industry.title'),
+              desc: t('features.industry.desc')
             },
             {
               icon: Globe,
-              title: "Conexão Global",
-              desc: "Logística integrada que conecta o produtor amazônico aos mercados mais exigentes do mundo."
+              title: t('features.global.title'),
+              desc: t('features.global.desc')
             }
           ].map((feature, idx) => (
             <motion.div
@@ -515,14 +561,16 @@ const Features = () => {
 };
 
 const ProcessDiagram = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-24 bg-slate-50 overflow-x-hidden" id="diagrama-processo">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-           <span className="text-slate-500 font-bold uppercase tracking-widest text-sm mb-4 block">Fluxo Pós-Colheita</span>
-           <h2 className="font-display text-3xl md:text-4xl text-cocoa-900 mb-6">Linha Industrial de Precisão</h2>
+           <span className="text-slate-500 font-bold uppercase tracking-widest text-sm mb-4 block">{t('process.label')}</span>
+           <h2 className="font-display text-3xl md:text-4xl text-cocoa-900 mb-6">{t('process.title')}</h2>
            <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-             Da recepção biométrica à agregação de valor industrial. Um processo desenhado para consistência e escala.
+             {t('process.desc')}
            </p>
         </div>
 
@@ -530,17 +578,17 @@ const ProcessDiagram = () => {
         <div className="mb-24 bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200">
            <div className="flex flex-col md:flex-row items-center gap-8">
               <div className="w-full md:w-1/3">
-                 <h3 className="font-display text-2xl text-cocoa-900 mb-4">O Mapa da Qualidade</h3>
+                 <h3 className="font-display text-2xl text-cocoa-900 mb-4">{t('process.map.title')}</h3>
                  <p className="text-slate-600 mb-6">
-                   Este diagrama ilustra o fluxo completo de nossa unidade em Medicilândia. Cada etapa foi projetada para maximizar a qualidade sensorial e garantir segurança alimentar em escala.
+                   {t('process.map.desc')}
                  </p>
                  <div className="flex gap-2 text-sm text-slate-500">
                     <CheckCircle2 className="w-4 h-4 text-gold-500" />
-                    <span>Fluxo contínuo sem gargalos</span>
+                    <span>{t('process.check1')}</span>
                  </div>
                  <div className="flex gap-2 text-sm text-slate-500 mt-2">
                     <CheckCircle2 className="w-4 h-4 text-gold-500" />
-                    <span>Segregação total de lotes</span>
+                    <span>{t('process.check2')}</span>
                  </div>
               </div>
               <div className="w-full md:w-2/3">
@@ -555,7 +603,7 @@ const ProcessDiagram = () => {
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/10 rounded-lg">
                              <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-cocoa-900 font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                                 <ZoomIn className="w-4 h-4" />
-                                <span>Ampliar Diagrama</span>
+                                <span>{t('process.zoom')}</span>
                              </div>
                           </div>
                        </div>
@@ -588,11 +636,11 @@ const ProcessDiagram = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
                     <div className="absolute bottom-6 left-6 text-white">
                        <Truck className="w-8 h-8 mb-3 text-gold-400" />
-                       <h3 className="font-display text-2xl">Recepção & Buffer</h3>
+                       <h3 className="font-display text-2xl">{t('process.step1')}</h3>
                     </div>
                  </div>
                  <p className="text-slate-600 leading-relaxed">
-                    Recepção de frutos selecionados e armazenamento em buffer climatizado ("Armazém Inteligente"). Organiza o fluxo de entrada e amplia a janela de processamento em até 1 semana, garantindo que a fábrica opere sempre na capacidade ideal de ~2.500 kg/dia.
+                    {t('process.desc1')}
                  </p>
               </div>
 
@@ -604,15 +652,11 @@ const ProcessDiagram = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
                     <div className="absolute bottom-6 left-6 text-white">
                        <Spline className="w-8 h-8 mb-3 text-gold-400" />
-                       <h3 className="font-display text-2xl">A Grande Segregação</h3>
+                       <h3 className="font-display text-2xl">{t('process.step2')}</h3>
                     </div>
                  </div>
                  <p className="text-slate-600 leading-relaxed">
-                    O coração do processo. Triagem manual rigorosa que divide o fluxo em três caminhos: 
-                    <span className="font-bold text-gold-600"> Premium (Ouro)</span>, 
-                    <span className="font-bold text-leaf-600"> Bulk (Verde)</span> e 
-                    <span className="font-bold text-red-500"> Descarte</span>. 
-                    Garante que apenas amêndoas perfeitas sigam para a fermentação fina.
+                    {t('process.desc2')}
                  </p>
               </div>
 
@@ -624,11 +668,11 @@ const ProcessDiagram = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
                     <div className="absolute bottom-6 left-6 text-white">
                        <Beaker className="w-8 h-8 mb-3 text-gold-400" />
-                       <h3 className="font-display text-2xl">Fermentação Tech</h3>
+                       <h3 className="font-display text-2xl">{t('process.step3')}</h3>
                     </div>
                  </div>
                  <p className="text-slate-600 leading-relaxed">
-                    Extração controlada do Néctar (Theo Gold) seguida de fermentação em cochos de madeira com monitoramento digital (pH, Brix, Temperatura). Uso de viragem hidráulica para oxigenação perfeita e repetibilidade do perfil aromático.
+                    {t('process.desc3')}
                  </p>
               </div>
 
@@ -640,13 +684,11 @@ const ProcessDiagram = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
                     <div className="absolute bottom-6 left-6 text-white">
                        <Sun className="w-8 h-8 mb-3 text-gold-400" />
-                       <h3 className="font-display text-2xl">Secagem Híbrida</h3>
+                       <h3 className="font-display text-2xl">{t('process.step4')}</h3>
                     </div>
                  </div>
                  <p className="text-slate-600 leading-relaxed">
-                    Sistema de duas fases: <br/>
-                    1. <strong>Fase Lenta:</strong> Estufas solares (4-6 dias) para saída gradual de ácidos voláteis.<br/>
-                    2. <strong>Finalização Mecânica:</strong> Secadores a lenha sem fumaça para atingir a umidade exata de exportação (7%) independente do clima.
+                    {t('process.desc4')}
                  </p>
               </div>
 
@@ -658,11 +700,11 @@ const ProcessDiagram = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
                     <div className="absolute bottom-6 left-6 text-white">
                        <QrCode className="w-8 h-8 mb-3 text-gold-400" />
-                       <h3 className="font-display text-2xl">Qualidade & Rastreio</h3>
+                       <h3 className="font-display text-2xl">{t('process.step5')}</h3>
                     </div>
                  </div>
                  <p className="text-slate-600 leading-relaxed">
-                    Limpeza final por densimetria e classificação granulométrica. Análise laboratorial interna (Cut Test) para validação do lote. Emissão do QR Code de rastreabilidade total que acompanha a saca até o cliente.
+                    {t('process.desc5')}
                  </p>
               </div>
 
@@ -674,11 +716,11 @@ const ProcessDiagram = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
                     <div className="absolute bottom-6 left-6 text-white">
                        <Factory className="w-8 h-8 mb-3 text-gold-400" />
-                       <h3 className="font-display text-2xl">Agregação Industrial</h3>
+                       <h3 className="font-display text-2xl">{t('process.step6')}</h3>
                     </div>
                  </div>
                  <p className="text-slate-600 leading-relaxed">
-                    Processamento secundário para produtos derivados. Linha de torra controlada e trituração para produção de Nibs, Líquor e Manteiga. Capacidade de escala para atender grandes contratos globais.
+                    {t('process.desc6')}
                  </p>
               </div>
 
@@ -828,28 +870,30 @@ const ProductBlock = ({
 };
 
 const Products = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-24 bg-white" id="produtos">
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-24">
-          <h2 className="font-display text-4xl md:text-5xl text-cocoa-900 mb-6">Showcase de Produtos</h2>
+          <h2 className="font-display text-4xl md:text-5xl text-cocoa-900 mb-6">{t('products.label')}</h2>
           <p className="text-cocoa-600 text-lg">
-            A Qualitheo apresenta sua linha completa de derivados, unindo a origem nobre do fruto à precisão da escala industrial para o mercado global B2B.
+            {t('products.title')}
           </p>
         </div>
 
         {/* BLOCO 1: Néctar */}
         <ProductBlock
           align="left"
-          subtitle="A Essência Fresca"
+          subtitle={t('products.nectar.title')}
           title="Frozen Cacao Nectar"
-          description="O puro frescor da floresta, conhecido como 'Suco de Deus'. Extraído via 'Clean Extraction' e submetido a congelamento rápido (Flash Frozen) para preservar nutrientes e o sabor cítrico único."
+          description={t('products.nectar.desc')}
           image={ASSETS.nectar}
           accentColor="leaf"
           products={[
             {
-              name: "Néctar de Cacau",
-              desc: "Ideal para indústria de bebidas, sucos premium, sorveterias e mixologia.",
+              name: t('products.nectar.title'),
+              desc: t('products.nectar.desc'),
               formats: ["Tetra Pak 1L", "Galão 5L", "Galão 25L", "Tambor"]
             }
           ]}
@@ -860,14 +904,14 @@ const Products = () => {
         {/* BLOCO 2: Amêndoas */}
         <ProductBlock
           align="right"
-          subtitle="Matéria-Prima Fundamental"
+          subtitle={t('products.beans.title')}
           title="Fermented Cacao Beans"
-          description="O alicerce da indústria. Amêndoas selecionadas na origem, com fermentação rigorosa para perfil aromático superior. Qualidade 'Export Standard'."
+          description={t('products.beans.desc')}
           image={ASSETS.beans_container}
           products={[
             {
-              name: "Amêndoas Padrão Exportação",
-              desc: "Para fabricantes Bean-to-Bar e grandes indústrias moageiras.",
+              name: t('products.beans.title'),
+              desc: t('products.beans.desc'),
               formats: ["Sacos Juta 60kg", "Palete 1 Ton", "Meio Container (12.5T)", "Container Cheio (25T)"]
             }
           ]}
@@ -878,14 +922,14 @@ const Products = () => {
         {/* BLOCO 3: Nibs */}
         <ProductBlock
           align="left"
-          subtitle="Crocância e Sabor Puro"
+          subtitle={t('products.nibs.title')}
           title="Cacao Nibs"
-          description="Amêndoas torradas e trituradas em pedaços puros. Sabor intenso de chocolate e textura crocante sem adição de açúcar."
+          description={t('products.nibs.desc')}
           image={ASSETS.nibs_bags}
           products={[
             {
-              name: "Cacao Nibs",
-              desc: "Perfeito para barras de cereais, granolas, iogurtes e cervejarias artesanais.",
+              name: t('products.nibs.title'),
+              desc: t('products.nibs.desc'),
               formats: ["Varejo (100g - 1kg)", "Sacos (5kg - 60kg)", "Big Bag 1 Ton", "Container (12.5T/25T)"]
             }
           ]}
@@ -896,14 +940,14 @@ const Products = () => {
         {/* BLOCO 4: Liquor */}
         <ProductBlock
           align="right"
-          subtitle="O Coração do Chocolate"
+          subtitle={t('products.liquor.title')}
           title="Cacao Liquor Block"
-          description="Pasta de cacau pura, obtida da moagem das amêndoas torradas. A base essencial para qualquer chocolate de alta qualidade."
+          description={t('products.liquor.desc')}
           image={ASSETS.liquor_blocks}
           products={[
             {
-              name: "Cacao Liquor",
-              desc: "Matéria-prima base para chocolates, coberturas e confeitaria.",
+              name: t('products.liquor.title'),
+              desc: t('products.liquor.desc'),
               formats: ["Blocos 12.5kg", "Blocos 100kg", "Blocos 500kg", "Bloco 1 Ton", "Container (12.5T/25T)"]
             }
           ]}
@@ -914,14 +958,14 @@ const Products = () => {
         {/* BLOCO 5: Butter */}
         <ProductBlock
           align="left"
-          subtitle="A Nobreza da Gordura"
+          subtitle={t('products.butter.title')}
           title="Cacao Butter Block"
-          description="Manteiga de cacau pura, extraída por prensagem. Responsável pela textura aveludada e derretimento perfeito do chocolate."
+          description={t('products.butter.desc')}
           image={ASSETS.butter_blocks}
           products={[
             {
-              name: "Cacao Butter",
-              desc: "Essencial para chocolates nobres, cosméticos e indústria farmacêutica.",
+              name: t('products.butter.title'),
+              desc: t('products.butter.desc'),
               formats: ["Blocos 12.5kg", "Blocos 100kg", "Blocos 500kg", "Bloco 1 Ton", "Container (12.5T/25T)"]
             }
           ]}
@@ -932,14 +976,14 @@ const Products = () => {
         {/* BLOCO 6: Powder */}
         <ProductBlock
           align="right"
-          subtitle="Versatilidade em Pó"
+          subtitle={t('products.powder.title')}
           title="Cacao Powder"
-          description="Cacau em pó alcalino ou natural, resultado da prensagem da torta de cacau. Sabor intenso e solubilidade ideal."
+          description={t('products.powder.desc')}
           image={ASSETS.powder_bags}
           products={[
             {
-              name: "Fine Quality Standard Cacao Powder",
-              desc: "Para bebidas, panificação, sobremesas e indústria de lácteos.",
+              name: t('products.powder.title'),
+              desc: t('products.powder.desc'),
               formats: ["Sacos 25kg", "Sacos 60kg", "Big Bag 1 Ton"]
             }
           ]}
@@ -952,6 +996,7 @@ const Products = () => {
 
 const QuoteForm = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -966,10 +1011,6 @@ const QuoteForm = () => {
     // Open WhatsApp in new tab
     window.open(whatsappUrl, '_blank');
     
-    // Optional: Attempt mailto as fallback/secondary (browsers might block dual popups)
-    // const mailtoUrl = `mailto:gut@qualihteo.com?subject=Orçamento Qualitheo - ${data.company}&body=${encodeURIComponent(message)}`;
-    // window.location.href = mailtoUrl;
-    
     setIsOpen(false);
   };
 
@@ -977,72 +1018,72 @@ const QuoteForm = () => {
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
          <Button size="lg" className="bg-gold-500 hover:bg-gold-600 text-cocoa-950 font-bold rounded-full px-8 h-14 text-base shadow-lg shadow-gold-500/20 animate-pulse">
-            Solicitar Orçamento
+            {t('nav.quote')}
          </Button>
       </SheetTrigger>
       <SheetContent className="bg-cocoa-50 border-cocoa-200 overflow-y-auto sm:max-w-md w-full">
         <div className="flex flex-col gap-6 mt-8">
           <div>
-            <h3 className="font-display text-2xl text-cocoa-900 mb-2">Solicite Cotação</h3>
-            <p className="text-cocoa-600 text-sm">Preencha os dados abaixo para iniciar seu atendimento comercial.</p>
+            <h3 className="font-display text-2xl text-cocoa-900 mb-2">{t('form.title')}</h3>
+            <p className="text-cocoa-600 text-sm">{t('form.subtitle')}</p>
           </div>
           
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="space-y-1">
-              <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">Nome Completo</label>
+              <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">{t('form.name')}</label>
               <input 
                 required
                 name="name"
                 id="name"
                 className="w-full px-4 py-3 rounded-lg bg-white border border-cocoa-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 outline-none transition-all text-cocoa-900"
-                placeholder="Seu nome"
+                placeholder={t('form.name')}
               />
             </div>
             
             <div className="space-y-1">
-              <label htmlFor="company" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">Empresa</label>
+              <label htmlFor="company" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">{t('form.company')}</label>
               <input 
                 required
                 name="company"
                 id="company"
                 className="w-full px-4 py-3 rounded-lg bg-white border border-cocoa-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 outline-none transition-all text-cocoa-900"
-                placeholder="Nome da sua empresa"
+                placeholder={t('form.company')}
               />
             </div>
 
             <div className="space-y-1">
-              <label htmlFor="product" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">Interesse Principal</label>
+              <label htmlFor="product" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">{t('form.product')}</label>
               <select 
                 name="product"
                 id="product"
                 className="w-full px-4 py-3 rounded-lg bg-white border border-cocoa-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 outline-none transition-all text-cocoa-900"
               >
-                <option value="Néctar de Cacau">Néctar de Cacau</option>
-                <option value="Amêndoas">Amêndoas Fermentadas</option>
-                <option value="Nibs">Nibs de Cacau</option>
-                <option value="Líquor">Líquor (Massa)</option>
-                <option value="Manteiga">Manteiga de Cacau</option>
-                <option value="Pó">Cacau em Pó</option>
-                <option value="Outro">Outro / Múltiplos</option>
+                <option value="Néctar de Cacau">{t('form.prod.nectar')}</option>
+                <option value="Amêndoas">{t('form.prod.beans')}</option>
+                <option value="Nibs">{t('form.prod.nibs')}</option>
+                <option value="Líquor">{t('form.prod.liquor')}</option>
+                <option value="Manteiga">{t('form.prod.butter')}</option>
+                <option value="Pó">{t('form.prod.powder')}</option>
+                <option value="Outro">{t('form.prod.other')}</option>
               </select>
             </div>
 
             <div className="space-y-1">
-              <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">Mensagem (Opcional)</label>
+              <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-cocoa-700">{t('form.message')}</label>
               <textarea 
                 name="message"
                 id="message"
                 rows={3}
                 className="w-full px-4 py-3 rounded-lg bg-white border border-cocoa-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 outline-none transition-all text-cocoa-900 resize-none"
-                placeholder="Volume estimado ou detalhes adicionais..."
+                placeholder={t('form.message')}
               />
             </div>
 
             <Button type="submit" size="lg" className="mt-4 bg-green-600 hover:bg-green-700 text-white w-full font-bold h-12 text-base">
-               Enviar via WhatsApp
+               {t('form.submit')}
             </Button>
             <p className="text-center text-xs text-cocoa-400 mt-2">
-              Você será redirecionado para o WhatsApp da Qualitheo.
+              {t('form.disclaimer')}
             </p>
           </form>
         </div>
@@ -1052,6 +1093,8 @@ const QuoteForm = () => {
 };
 
 const Impact = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-24 bg-leaf-950 text-white relative overflow-hidden" id="impacto">
       {/* Clean High-Res Background */}
@@ -1090,7 +1133,7 @@ const Impact = () => {
                 <div className="flex gap-1 mb-2">
                   {[1,2,3,4,5].map(i => <Award key={i} className="w-4 h-4 text-gold-400 fill-gold-400" />)}
                 </div>
-                <p className="font-display text-xl leading-tight text-white mb-2">"Garantimos a compra, garantimos o futuro."</p>
+                <p className="font-display text-xl leading-tight text-white mb-2">{t('impact.quote')}</p>
                 <p className="text-xs text-leaf-200 font-bold uppercase tracking-wider">- Helton Gutzeit</p>
             </div>
           </div>
@@ -1099,18 +1142,18 @@ const Impact = () => {
           <div className="w-full lg:w-1/2">
             <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-leaf-900/80 border border-leaf-700 text-leaf-300 text-xs font-bold uppercase tracking-widest backdrop-blur-sm">
                 <Globe className="w-3 h-3 text-leaf-400" />
-                <span>Bioeconomia Amazônica</span>
+                <span>{t('impact.badge')}</span>
             </div>
             
             <h2 className="font-display text-5xl md:text-6xl mb-8 leading-tight text-white">
-              Impacto Real <br/>
+              {t('impact.title.1')} <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-600 italic">
-                além da floresta
+                {t('impact.title.2')}
               </span>
             </h2>
             
             <p className="text-leaf-100/90 text-lg leading-relaxed mb-10 font-light border-l-2 border-leaf-700 pl-6">
-              A Qualitheo não é apenas uma agroindústria; somos um ecossistema vivo. Ao profissionalizar o produtor com assistência técnica e garantir a compra de toda a safra, criamos um ciclo virtuoso onde a floresta em pé vale mais do que derrubada.
+              {t('impact.desc')}
             </p>
             
             <div className="grid grid-cols-2 gap-8 mb-12">
@@ -1118,11 +1161,11 @@ const Impact = () => {
                 <div className="text-4xl font-display text-white mb-1 flex items-baseline gap-1">
                     +300<span className="text-xl text-leaf-400">%</span>
                 </div>
-                <div className="text-xs text-leaf-300 uppercase tracking-wider font-medium">Renda do Produtor</div>
+                <div className="text-xs text-leaf-300 uppercase tracking-wider font-medium">{t('impact.stat1')}</div>
               </div>
               <div className="p-4 rounded-xl bg-leaf-900/40 border border-leaf-800 hover:border-leaf-600 transition-colors">
                 <div className="text-4xl font-display text-white mb-1">100%</div>
-                <div className="text-xs text-leaf-300 uppercase tracking-wider font-medium">Rastreabilidade</div>
+                <div className="text-xs text-leaf-300 uppercase tracking-wider font-medium">{t('impact.stat2')}</div>
               </div>
             </div>
             
@@ -1137,6 +1180,8 @@ const Impact = () => {
 };
 
 const Partners = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-20 bg-cocoa-900 border-t border-cocoa-800 relative overflow-hidden">
       {/* Subtle pattern overlay */}
@@ -1146,7 +1191,7 @@ const Partners = () => {
 
       <div className="container mx-auto px-6 text-center relative z-10">
         <p className="text-sm font-bold uppercase tracking-widest text-gold-500/80 mb-12">
-          Parceiros e Clientes que Confiam na Qualitheo
+          {t('partners.title')}
         </p>
         
         <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24">
@@ -1176,6 +1221,16 @@ const Partners = () => {
 };
 
 const Footer = () => {
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { key: 'nav.origin', label: 'Origem' },
+    { key: 'nav.process', label: 'Processo Industrial' },
+    { key: 'nav.products', label: 'Produtos' },
+    { key: 'nav.sustainability', label: 'Sustentabilidade' },
+    { key: 'nav.blog', label: 'Blog' }
+  ];
+
   return (
     <footer className="bg-cocoa-950 text-cocoa-200 py-20 border-t border-cocoa-900 relative overflow-hidden" id="contato">
       {/* Background Texture */}
@@ -1192,7 +1247,7 @@ const Footer = () => {
               <img src={ASSETS.logo_vertical} alt="Qualitheo Logo" className="h-24 w-auto object-contain" />
             </div>
             <p className="text-cocoa-300/80 leading-relaxed text-lg font-light max-w-md mb-8">
-              Conectando a biodiversidade amazônica aos mercados globais através de tecnologia, rastreabilidade e excelência industrial.
+              {t('footer.desc')}
             </p>
             <div className="flex gap-4">
                <a href="#" className="w-10 h-10 rounded-full bg-cocoa-900 border border-cocoa-800 flex items-center justify-center text-gold-500 hover:bg-gold-500 hover:text-cocoa-950 transition-all duration-300">
@@ -1208,14 +1263,14 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-3">
             <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-8 flex items-center gap-2">
                <span className="w-8 h-[1px] bg-gold-500"></span>
-               Navegação
+               {t('footer.nav')}
             </h4>
             <ul className="space-y-4">
-              {["Origem", "Processo Industrial", "Produtos", "Sustentabilidade", "Blog"].map((item) => (
-                <li key={item}>
+              {navLinks.map((item) => (
+                <li key={item.key}>
                   <a href="#" className="text-cocoa-400 hover:text-gold-400 transition-colors flex items-center gap-2 group">
                      <ArrowRight className="w-3 h-3 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 text-gold-500" />
-                     {item}
+                     {t(item.key)}
                   </a>
                 </li>
               ))}
@@ -1226,7 +1281,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-4">
             <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-8 flex items-center gap-2">
                <span className="w-8 h-[1px] bg-gold-500"></span>
-               Contato Direto
+               {t('footer.contact')}
             </h4>
             <div className="bg-cocoa-900/50 backdrop-blur-sm p-6 rounded-2xl border border-cocoa-800 space-y-6">
                <div className="flex items-start gap-4">
@@ -1258,7 +1313,7 @@ const Footer = () => {
                   <div className="bg-white p-1 rounded shadow-sm">
                      <img src={ASSETS.qr_code} alt="QR" className="w-12 h-12 object-contain" />
                   </div>
-                  <p className="text-xs text-cocoa-500 leading-tight">Escaneie para contato<br/>via WhatsApp</p>
+                  <p className="text-xs text-cocoa-500 leading-tight">{t('footer.scan')}</p>
                </div>
             </div>
           </div>
@@ -1266,12 +1321,12 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-cocoa-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-cocoa-600 font-medium uppercase tracking-wider">
-          <p>&copy; 2025 Qualitheo Agroindústria. Todos os direitos reservados.</p>
+          <p>{t('footer.rights')}</p>
           <div className="flex items-center gap-6 mt-4 md:mt-0">
-             <a href="#" className="hover:text-gold-500 transition-colors">Privacidade</a>
-             <a href="#" className="hover:text-gold-500 transition-colors">Termos</a>
+             <a href="#" className="hover:text-gold-500 transition-colors">{t('footer.privacy')}</a>
+             <a href="#" className="hover:text-gold-500 transition-colors">{t('footer.terms')}</a>
              <span className="text-cocoa-700">|</span>
-             <p>Amazônia, Brasil</p>
+             <p>{t('footer.location')}</p>
           </div>
         </div>
       </div>
