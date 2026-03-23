@@ -2,77 +2,67 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import { seedInitialData } from "./seeds";
+import { pool } from "./db";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 const app = express();
 const httpServer = createServer(app);
 
 declare module "http" {
-  interface IncomingMessage {
-    rawBody: unknown;
-  }
+  interface IncomingMessage { rawBody: unknown; }
 }
 
-app.use(
-  express.json({
-    verify: (req, _res, buf) => {
-      req.rawBody = buf;
-    },
-  }),
-);
-
+app.use(express.json({ verify: (req, _res, buf) => { req.rawBody = buf; } }));
 app.use(express.urlencoded({ extended: false }));
 
+// ── Request logger ────────────────────────────────────────────────────────────
 export function log(message: string, source = "express") {
-  const formattedTime = new Date().toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-  });
-
-  console.log(`${formattedTime} [${source}] ${message}`);
+  const time = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  console.log(`${time} [${source}] ${message}`);
 }
 
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
-
   res.on("finish", () => {
-    const duration = Date.now() - start;
     if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      log(logLine);
+      log(`${req.method} ${path} ${res.statusCode} in ${Date.now() - start}ms`);
     }
   });
-
   next();
 });
 
+// ── Bootstrap ─────────────────────────────────────────────────────────────────
 (async () => {
+  // 1. Apply additive migration SQL directly (idempotent)
+  try {
+    log("Applying schema migration...", "db");
+    const migrationPath = join(process.cwd(), "migrations/0001_gutcacau_full_schema.sql");
+    const sql = readFileSync(migrationPath, "utf-8");
+    await pool.query(sql);
+    log("Migration applied ✅", "db");
+  } catch (e: any) {
+    // Non-fatal: tables may already exist with all columns
+    log(`Migration warning (may already be up to date): ${e.message}`, "db");
+  }
+
+  // 2. Seed immutable catalog data (idempotent)
+  await seedInitialData();
+
+  // 3. Register API routes
   await registerRoutes(httpServer, app);
 
+  // 4. Centralized error handler
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-
+    if (status >= 500) console.error("[error]", err.stack ?? err.message);
     res.status(status).json({ message });
-    throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // 5. Serve frontend
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
@@ -80,19 +70,9 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
+  // 6. Listen
   const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-    },
-  );
+  httpServer.listen({ port, host: "0.0.0.0" }, () => {
+    log(`🚀 Gutcacau server listening on port ${port}`);
+  });
 })();

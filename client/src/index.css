@@ -10,27 +10,27 @@
 
   /* Brand Colors - Extracted from Qualitheo Logo */
   /* Brown: Deep, earthy coffee/chocolate */
-  --color-cocoa-50: 30 20% 97%;
-  --color-cocoa-100: 30 20% 94%;
-  --color-cocoa-200: 28 25% 88%;
-  --color-cocoa-300: 28 25% 75%;
-  --color-cocoa-400: 25 30% 60%;
-  --color-cocoa-500: 25 35% 45%;
-  --color-cocoa-600: 25 40% 35%;
-  --color-cocoa-700: 22 55% 22%;  /* Main Brand Brown - Warmer/Richer */
-  --color-cocoa-800: 22 60% 18%;
-  --color-cocoa-900: 22 65% 12%;
-  --color-cocoa-950: 22 70% 8%;
+  --color-cocoa-50: hsl(30 20% 97%);
+  --color-cocoa-100: hsl(30 20% 94%);
+  --color-cocoa-200: hsl(28 25% 88%);
+  --color-cocoa-300: hsl(28 25% 75%);
+  --color-cocoa-400: hsl(25 30% 60%);
+  --color-cocoa-500: hsl(25 35% 45%);
+  --color-cocoa-600: hsl(25 40% 35%);
+  --color-cocoa-700: hsl(22 55% 22%);  /* Main Brand Brown - Warmer/Richer */
+  --color-cocoa-800: hsl(22 60% 18%);
+  --color-cocoa-900: hsl(22 65% 12%);
+  --color-cocoa-950: hsl(22 70% 8%);
 
   /* Gold: Warm amber/yolk from the flower icon */
-  --color-gold-200: 44 80% 85%;
-  --color-gold-400: 42 90% 65%;
-  --color-gold-500: 40 95% 55%;  /* Primary Brand Gold */
-  --color-gold-600: 38 100% 45%;
+  --color-gold-200: hsl(44 80% 85%);
+  --color-gold-400: hsl(42 90% 65%);
+  --color-gold-500: hsl(40 95% 55%);  /* Primary Brand Gold */
+  --color-gold-600: hsl(38 100% 45%);
 
-  --color-leaf-500: 100 40% 50%;
-  --color-leaf-600: 100 45% 40%;
-  --color-leaf-700: 100 50% 30%;
+  --color-leaf-500: hsl(100 40% 50%);
+  --color-leaf-600: hsl(100 45% 40%);
+  --color-leaf-700: hsl(100 50% 30%);
 
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
@@ -40,7 +40,7 @@
   --color-background: var(--color-cocoa-50);
   --color-foreground: var(--color-cocoa-900);
 
-  --color-card: 0 0% 100%;
+  --color-card: hsl(0 0% 100%);
   --color-card-foreground: var(--color-cocoa-900);
 
   --color-primary: var(--color-cocoa-700);
@@ -73,10 +73,18 @@
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+
+
+  /* Hero slideshow: promote each slide layer to its own GPU composite layer.
+     This ensures the crossfade is handled entirely on the GPU with zero layout impact. */
+  .hero-slide {
+    will-change: opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
-  .text-pretty {
-    text-wrap: pretty;
+
+  /* Smooth image scaling in hover transitions */
+  img {
+    image-rendering: -webkit-optimize-contrast;
   }
 }

@@ -17,23 +17,23 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.impact': 'Impacto',
     'nav.contact': 'Contato',
     'nav.quote': 'Solicitar Orçamento',
-    
+
     // Hero
     'hero.badge': 'Cocoa of Excellence Award Winner',
-    'hero.title.1': 'Excelência',
-    'hero.title.2': 'em escala industrial',
-    'hero.subtitle': 'A maior infraestrutura de pós-colheita da Amazônia. Conectamos a origem ao mundo com tecnologia, rastreabilidade e precisão.',
+    'hero.title.1': 'Gutzeit Farms',
+    'hero.title.2': '& Agroindústria Qualitheo',
+    'hero.subtitle': 'Da nossa fazenda para o mundo. Unindo a tradição da Gutzeit Farms à tecnologia da Qualitheo para um cacau de excelência.',
     'hero.cta.products': 'Nossos Produtos',
-    'hero.cta.factory': 'Conheça a Fábrica',
-    
+    'hero.cta.factory': 'Conheça a Fazenda',
+
     // Infrastructure
-    'infra.label': 'Infraestrutura de Ponta',
-    'infra.title': 'Tecnologia em Meio à Floresta',
-    'infra.desc': 'Nossa unidade de beneficiamento conta com estufas solares automatizadas, pátios de secagem de alta capacidade e armazéns climatizados, garantindo homogeneidade e segurança alimentar para grandes volumes.',
+    'infra.label': 'Infraestrutura Integrada',
+    'infra.title': 'Do Campo à Indústria',
+    'infra.desc': 'A Gutzeit Farms garante a qualidade na origem, enquanto a Qualitheo processa com tecnologia de ponta, estufas solares e armazéns climatizados.',
     'infra.badge.unit': 'Unidade de Beneficiamento',
     'infra.badge.drying': 'Estufas Solares',
     'infra.badge.storage': 'Armazenamento',
-    
+
     // Market Thesis
     'market.label': 'Tese de Mercado',
     'market.title': 'Valorização em um Cenário Volátil',
@@ -44,7 +44,7 @@ const translations: Record<Language, Record<string, string>> = {
     'market.policy.subtitle': 'Ganha-ganha orientado por eficiência.',
     'market.policy.item1': 'Preço Justo & Crédito Tokenizado',
     'market.policy.item2': 'Assistência, Insumos & Carbono',
-    
+
     // Process Diagram
     'process.label': 'Fluxo Pós-Colheita',
     'process.title': 'Linha Industrial de Precisão',
@@ -66,15 +66,15 @@ const translations: Record<Language, Record<string, string>> = {
     'process.desc5': 'Limpeza final por densimetria e classificação granulométrica. Análise laboratorial interna (Cut Test) para validação do lote. Emissão do QR Code de rastreabilidade total que acompanha a saca até o cliente.',
     'process.step6': 'Agregação Industrial',
     'process.desc6': 'Processamento secundário para produtos derivados. Linha de torra controlada e trituração para produção de Nibs, Líquor e Manteiga. Capacidade de escala para atender grandes contratos globais.',
-    
+
     // Features
-    'features.origin.title': 'Origem Amazônica',
-    'features.origin.desc': 'Produzido em sistemas agroflorestais no Pará, preservando a floresta e garantindo a biodiversidade.',
+    'features.origin.title': 'Gutzeit Farms',
+    'features.origin.desc': 'Nossa origem. Produzido em sistemas agroflorestais no Pará, preservando a floresta e garantindo a biodiversidade.',
     'features.industry.title': 'Indústria 4.0',
     'features.industry.desc': 'Processamento controlado com protocolos de fermentação e secagem de precisão para qualidade superior.',
     'features.global.title': 'Conexão Global',
     'features.global.desc': 'Logística integrada que conecta o produtor amazônico aos mercados mais exigentes do mundo.',
-    
+
     // About Split / Traceability
     'trace.badge': 'Traceability Tech',
     'trace.title': 'Rastreabilidade Total',
@@ -87,7 +87,7 @@ const translations: Record<Language, Record<string, string>> = {
     'trace.list2': 'Monitoramento biométrico da fermentação',
     'trace.list3': 'Secagem híbrida em estufas solares tech',
     'trace.list4': 'Análise sensorial em laboratório próprio',
-    
+
     // Products
     'products.label': 'Portfólio de Produtos',
     'products.title': 'Soluções em Cacau',
@@ -103,7 +103,7 @@ const translations: Record<Language, Record<string, string>> = {
     'products.butter.desc': 'Extraída por prensagem mecânica a partir do líquor. Pura, desodorizada ou natural, essencial para a fluidez do chocolate.',
     'products.powder.title': 'Cacau em Pó',
     'products.powder.desc': 'O sólido resultante da prensagem. Rico em sabor e cor, ideal para panificação, bebidas e sorvetes.',
-    
+
     // Impact
     'impact.quote': '"Garantimos a compra, garantimos o futuro."',
     'impact.badge': 'Bioeconomia Amazônica',
@@ -129,10 +129,10 @@ const translations: Record<Language, Record<string, string>> = {
     'form.prod.butter': 'Manteiga de Cacau',
     'form.prod.powder': 'Cacau em Pó',
     'form.prod.other': 'Outro / Múltiplos',
-    
+
     // Partners
     'partners.title': 'Parceiros e Clientes que Confiam na Qualitheo',
-    
+
     // Footer
     'footer.desc': 'Agroindústria bioeconômica que conecta a riqueza da Amazônia ao mundo com qualidade, tecnologia e transparência.',
     'footer.nav': 'Navegação',
@@ -142,7 +142,7 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.privacy': 'Privacidade',
     'footer.terms': 'Termos',
     'footer.location': 'Amazônia, Brasil',
-    
+
     // Nav links again for footer if needed specific
     'nav.blog': 'Blog',
     'nav.sustainability': 'Sustentabilidade',
@@ -155,23 +155,23 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.impact': 'Impact',
     'nav.contact': 'Contact',
     'nav.quote': 'Request Quote',
-    
+
     // Hero
     'hero.badge': 'Cocoa of Excellence Award Winner',
-    'hero.title.1': 'Excellence',
-    'hero.title.2': 'at industrial scale',
-    'hero.subtitle': 'The largest post-harvest infrastructure in the Amazon. Connecting origin to the world with technology, traceability, and precision.',
-    'hero.cta.products': 'Our Products',
-    'hero.cta.factory': 'Visit the Factory',
-    
+    'hero.title.1': 'Gutzeit Farms',
+    'hero.title.2': '& Agroindústria Qualitheo',
+    'hero.subtitle': 'Da nossa fazenda para o mundo. Unindo a tradição da Gutzeit Farms à tecnologia da Qualitheo para um cacau de excelência.',
+    'hero.cta.products': 'Nossos Produtos',
+    'hero.cta.factory': 'Conheça a Fazenda',
+
     // Infrastructure
-    'infra.label': 'Cutting-Edge Infrastructure',
-    'infra.title': 'Technology in the Forest',
-    'infra.desc': 'Our processing unit features automated solar greenhouses, high-capacity drying patios, and climate-controlled warehouses, ensuring homogeneity and food safety for large volumes.',
+    'infra.label': 'Infraestrutura Integrada',
+    'infra.title': 'Do Campo à Indústria',
+    'infra.desc': 'A Gutzeit Farms garante a qualidade na origem, enquanto a Qualitheo processa com tecnologia de ponta, estufas solares e armazéns climatizados.',
     'infra.badge.unit': 'Processing Unit',
     'infra.badge.drying': 'Solar Greenhouses',
     'infra.badge.storage': 'Storage',
-    
+
     // Market Thesis
     'market.label': 'Market Thesis',
     'market.title': 'Value in a Volatile Scenario',
@@ -182,7 +182,7 @@ const translations: Record<Language, Record<string, string>> = {
     'market.policy.subtitle': 'Efficiency-driven win-win.',
     'market.policy.item1': 'Fair Price & Tokenized Credit',
     'market.policy.item2': 'Assistance, Inputs & Carbon',
-    
+
     // Process Diagram
     'process.label': 'Post-Harvest Flow',
     'process.title': 'Precision Industrial Line',
@@ -204,15 +204,15 @@ const translations: Record<Language, Record<string, string>> = {
     'process.desc5': 'Final cleaning by densimetry and size grading. Internal lab analysis (Cut Test) for lot validation. Issuance of full traceability QR Code that travels with the bag to the client.',
     'process.step6': 'Industrial Aggregation',
     'process.desc6': 'Secondary processing for derived products. Controlled roasting line and winnowing for Nibs, Liquor, and Butter production. Scalable capacity to serve large global contracts.',
-    
+
     // Features
-    'features.origin.title': 'Amazonian Origin',
-    'features.origin.desc': 'Produced in agroforestry systems in Pará, preserving the forest and ensuring biodiversity.',
+    'features.origin.title': 'Gutzeit Farms',
+    'features.origin.desc': 'Our origin. Produced in agroforestry systems in Pará, preserving the forest and ensuring biodiversity.',
     'features.industry.title': 'Industry 4.0',
     'features.industry.desc': 'Controlled processing with precision fermentation and drying protocols for superior quality.',
     'features.global.title': 'Global Connection',
     'features.global.desc': 'Integrated logistics connecting the Amazonian producer to the most demanding markets in the world.',
-    
+
     // About Split / Traceability
     'trace.badge': 'Traceability Tech',
     'trace.title': 'Total Traceability',
@@ -225,7 +225,7 @@ const translations: Record<Language, Record<string, string>> = {
     'trace.list2': 'Biometric fermentation monitoring',
     'trace.list3': 'Hybrid drying in tech solar greenhouses',
     'trace.list4': 'Sensory analysis in proprietary lab',
-    
+
     // Products
     'products.label': 'Product Portfolio',
     'products.title': 'Cocoa Solutions',
@@ -241,7 +241,7 @@ const translations: Record<Language, Record<string, string>> = {
     'products.butter.desc': 'Extracted by mechanical pressing from liquor. Pure, deodorized or natural, essential for chocolate fluidity.',
     'products.powder.title': 'Cocoa Powder',
     'products.powder.desc': 'The solid resulting from pressing. Rich in flavor and color, ideal for baking, beverages, and ice cream.',
-    
+
     // Impact
     'impact.quote': '"We guarantee the purchase, we guarantee the future."',
     'impact.badge': 'Amazonian Bioeconomy',
@@ -267,10 +267,10 @@ const translations: Record<Language, Record<string, string>> = {
     'form.prod.butter': 'Cocoa Butter',
     'form.prod.powder': 'Cocoa Powder',
     'form.prod.other': 'Other / Multiple',
-    
+
     // Partners
     'partners.title': 'Partners and Clients Trusting Qualitheo',
-    
+
     // Footer
     'footer.desc': 'Bioeconomic agroindustry connecting Amazonian wealth to the world with quality, technology, and transparency.',
     'footer.nav': 'Navigation',
@@ -280,7 +280,7 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.privacy': 'Privacy',
     'footer.terms': 'Terms',
     'footer.location': 'Amazon, Brazil',
-    
+
     'nav.blog': 'Blog',
     'nav.sustainability': 'Sustainability',
   }
