@@ -65,18 +65,36 @@ interface PricingModel {
 
 interface Product {
   id: string;
+  brandId: string;
   nome: string;
+  slug: string;
   tipoProduto: string;
+  linha: string;
   descricao: string;
+  unidadeBase: string;
   ativo: boolean;
 }
 
 interface ProductPrice {
   id: string;
   productId: string;
+  priceListId: string;
   precoUnitario: string;
   moeda: string;
   moq: string;
+  descontosPorVolume: Record<string, number> | null;
+}
+
+interface Brand {
+  id: string;
+  nome: string;
+  slug: string;
+}
+
+interface PriceListItem {
+  id: string;
+  nome: string;
+  moeda: string;
 }
 
 // ─── Login Screen ─────────────────────────────────────────────────────────────
@@ -183,6 +201,11 @@ function MarketTab() {
   const [saving, setSaving] = useState<string | null>(null);
   const [saved, setSaved] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showNew, setShowNew] = useState(false);
+  const [newTipo, setNewTipo] = useState("");
+  const [newDesc, setNewDesc] = useState("");
+  const [newPreco, setNewPreco] = useState("0");
+  const [creating, setCreating] = useState(false);
 
   const load = useCallback(() => {
     setLoading(true);
@@ -221,10 +244,57 @@ function MarketTab() {
     }
   };
 
+  const handleCreate = async () => {
+    if (!newTipo.trim() || !newDesc.trim()) return;
+    setCreating(true);
+    try {
+      await adminFetch("/api/admin/market", {
+        method: "POST",
+        body: JSON.stringify({ tipo: newTipo.trim().toLowerCase().replace(/\s+/g, "_"), descricao: newDesc.trim(), precoMedioRKg: newPreco }),
+      });
+      setShowNew(false); setNewTipo(""); setNewDesc(""); setNewPreco("0");
+      load();
+    } finally { setCreating(false); }
+  };
+
+  const handleDelete = async (row: MarketPrice) => {
+    if (!confirm(`Remover "${row.descricao}"? Esta ação não pode ser desfeita.`)) return;
+    await adminFetch(`/api/admin/market/${row.id}`, { method: "DELETE" });
+    load();
+  };
+
   if (loading) return <LoadingSpinner />;
 
   return (
     <div className="space-y-6">
+      {/* Create button */}
+      <div className="flex justify-end">
+        <button onClick={() => setShowNew(!showNew)}
+          className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition-all">
+          <Plus className="w-4 h-4" /> Nova Categoria
+        </button>
+      </div>
+
+      {/* New category form */}
+      {showNew && (
+        <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 space-y-4">
+          <h3 className="font-bold text-emerald-900">Nova Categoria de Preço</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Field label="Identificador (ex: cacau_fino_gourmet)" type="text" value={newTipo} onChange={setNewTipo} />
+            <Field label="Descrição (ex: Cacau Fino de Aroma Gourmet)" type="text" value={newDesc} onChange={setNewDesc} />
+            <Field label="Preço Médio (R$/kg)" type="number" step="0.10" value={newPreco} onChange={setNewPreco} highlight="green" />
+          </div>
+          <div className="flex gap-2">
+            <button onClick={handleCreate} disabled={creating || !newTipo.trim() || !newDesc.trim()}
+              className="px-4 py-2 rounded-xl text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white disabled:bg-gray-300 disabled:text-gray-500 transition-all flex items-center gap-1.5">
+              {creating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
+              Criar
+            </button>
+            <button onClick={() => setShowNew(false)} className="px-4 py-2 rounded-xl text-sm font-semibold text-gray-500 hover:text-gray-800">Cancelar</button>
+          </div>
+        </div>
+      )}
+
       <div className="grid gap-4">
         {rows.map(row => {
           const val = (f: keyof MarketPrice) =>
@@ -244,20 +314,26 @@ function MarketTab() {
                     className="text-lg font-bold text-gray-900 bg-transparent border-0 focus:outline-none focus:border-b-2 focus:border-emerald-500 w-full"
                   />
                 </div>
-                <button
-                  onClick={() => save(row)}
-                  disabled={isSaving}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
-                    isSaved
-                      ? "bg-emerald-100 text-emerald-700"
-                      : "bg-emerald-600 hover:bg-emerald-700 text-white"
-                  }`}
-                >
-                  {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> :
-                   isSaved ? <CheckCircle2 className="w-3.5 h-3.5" /> :
-                   <Save className="w-3.5 h-3.5" />}
-                  {isSaved ? "Salvo!" : "Salvar"}
-                </button>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => handleDelete(row)} title="Remover categoria"
+                    className="p-2 rounded-xl text-red-400 hover:text-red-600 hover:bg-red-50 transition-all">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => save(row)}
+                    disabled={isSaving}
+                    className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                      isSaved
+                        ? "bg-emerald-100 text-emerald-700"
+                        : "bg-emerald-600 hover:bg-emerald-700 text-white"
+                    }`}
+                  >
+                    {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> :
+                     isSaved ? <CheckCircle2 className="w-3.5 h-3.5" /> :
+                     <Save className="w-3.5 h-3.5" />}
+                    {isSaved ? "Salvo!" : "Salvar"}
+                  </button>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -426,24 +502,84 @@ function PricingModelTab() {
   );
 }
 
+// ─── Volume Discounts Editor ──────────────────────────────────────────────────
+function VolumeDiscountsEditor({ value, onChange }: { value: Record<string, number> | null; onChange: (v: Record<string, number>) => void }) {
+  const entries = Object.entries(value ?? {});
+  const [newRange, setNewRange] = useState("");
+  const [newPct, setNewPct] = useState("0");
+
+  const update = (oldKey: string, newKey: string, pct: number) => {
+    const copy = { ...(value ?? {}) };
+    if (oldKey !== newKey) delete copy[oldKey];
+    copy[newKey] = pct;
+    onChange(copy);
+  };
+  const remove = (key: string) => {
+    const copy = { ...(value ?? {}) };
+    delete copy[key];
+    onChange(copy);
+  };
+  const add = () => {
+    if (!newRange.trim()) return;
+    onChange({ ...(value ?? {}), [newRange.trim()]: parseFloat(newPct) || 0 });
+    setNewRange(""); setNewPct("0");
+  };
+
+  return (
+    <div className="space-y-2">
+      <label className="block text-xs font-medium text-gray-500">Descontos por Volume</label>
+      {entries.map(([range, pct]) => (
+        <div key={range} className="flex items-center gap-2">
+          <input value={range} onChange={e => update(range, e.target.value, pct)}
+            className="flex-1 text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400"
+            placeholder="50-199" aria-label="Faixa de volume" />
+          <input type="number" step="0.01" value={pct} onChange={e => update(range, range, parseFloat(e.target.value) || 0)}
+            className="w-20 text-xs border border-gray-200 rounded-lg px-2 py-1.5 text-right focus:outline-none focus:ring-1 focus:ring-emerald-400"
+            aria-label="Percentual desconto" />
+          <span className="text-xs text-gray-400">%</span>
+          <button onClick={() => remove(range)} className="text-red-400 hover:text-red-600"><Trash2 className="w-3 h-3" /></button>
+        </div>
+      ))}
+      <div className="flex items-center gap-2 pt-1">
+        <input value={newRange} onChange={e => setNewRange(e.target.value)} placeholder="1000+"
+          className="flex-1 text-xs border border-dashed border-gray-300 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400"
+          aria-label="Nova faixa" />
+        <input type="number" step="0.01" value={newPct} onChange={e => setNewPct(e.target.value)}
+          className="w-20 text-xs border border-dashed border-gray-300 rounded-lg px-2 py-1.5 text-right focus:outline-none focus:ring-1 focus:ring-emerald-400"
+          aria-label="Novo percentual" />
+        <button onClick={add} className="text-emerald-600 hover:text-emerald-800"><Plus className="w-3.5 h-3.5" /></button>
+      </div>
+    </div>
+  );
+}
+
 // ─── Products Tab ─────────────────────────────────────────────────────────────
 function ProductsTab() {
   const [products, setProducts] = useState<Product[]>([]);
   const [prices, setPrices] = useState<ProductPrice[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [priceLists, setPriceLists] = useState<PriceListItem[]>([]);
   const [editedProducts, setEditedProducts] = useState<Record<string, Partial<Product>>>({});
   const [editedPrices, setEditedPrices] = useState<Record<string, Partial<ProductPrice>>>({});
   const [saving, setSaving] = useState<string | null>(null);
   const [saved, setSaved] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showNew, setShowNew] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [newProd, setNewProd] = useState({ nome: "", brandId: "", tipoProduto: "", linha: "qualitheo_b2b", descricao: "", unidadeBase: "kg" });
 
   const load = useCallback(() => {
     setLoading(true);
     Promise.all([
       adminFetch("/api/admin/products").then(r => r.json()),
       adminFetch("/api/admin/product-prices").then(r => r.json()),
-    ]).then(([prods, prs]) => {
+      adminFetch("/api/admin/brands").then(r => r.json()),
+      adminFetch("/api/admin/price-lists").then(r => r.json()),
+    ]).then(([prods, prs, br, pl]) => {
       setProducts(Array.isArray(prods) ? prods : []);
       setPrices(Array.isArray(prs) ? prs : []);
+      setBrands(Array.isArray(br) ? br : []);
+      setPriceLists(Array.isArray(pl) ? pl : []);
       setEditedProducts({});
       setEditedPrices({});
     }).finally(() => setLoading(false));
@@ -478,18 +614,98 @@ function ProductsTab() {
     }
   };
 
+  const handleCreate = async () => {
+    if (!newProd.nome.trim() || !newProd.brandId || !newProd.tipoProduto.trim()) return;
+    setCreating(true);
+    try {
+      const created = await adminFetch("/api/admin/products", {
+        method: "POST",
+        body: JSON.stringify(newProd),
+      }).then(r => r.json());
+      // Auto-create a price entry for the first price list
+      if (priceLists.length > 0) {
+        await adminFetch("/api/admin/product-prices", {
+          method: "POST",
+          body: JSON.stringify({ productId: created.id, priceListId: priceLists[0].id, precoUnitario: "0", moq: "1" }),
+        });
+      }
+      setShowNew(false);
+      setNewProd({ nome: "", brandId: "", tipoProduto: "", linha: "qualitheo_b2b", descricao: "", unidadeBase: "kg" });
+      load();
+    } finally { setCreating(false); }
+  };
+
+  const handleDelete = async (prod: Product) => {
+    if (!confirm(`Remover "${prod.nome}"? O produto será arquivado.`)) return;
+    await adminFetch(`/api/admin/products/${prod.id}`, { method: "DELETE" });
+    load();
+  };
+
+  const toggleActive = async (prod: Product) => {
+    await adminFetch(`/api/admin/products/${prod.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ ativo: !prod.ativo }),
+    });
+    load();
+  };
+
   if (loading) return <LoadingSpinner />;
 
   return (
     <div className="space-y-4">
+      {/* Create button */}
+      <div className="flex justify-end">
+        <button onClick={() => setShowNew(!showNew)}
+          className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition-all">
+          <Plus className="w-4 h-4" /> Novo Produto
+        </button>
+      </div>
+
+      {/* New product form */}
+      {showNew && (
+        <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 space-y-4">
+          <h3 className="font-bold text-emerald-900">Novo Produto</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Field label="Nome (ex: Cacau Fino de Aroma Gourmet)" type="text" value={newProd.nome} onChange={v => setNewProd(p => ({ ...p, nome: v }))} />
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">Marca</label>
+              <select value={newProd.brandId} onChange={e => setNewProd(p => ({ ...p, brandId: e.target.value }))}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400" aria-label="Marca">
+                <option value="">Selecione...</option>
+                {brands.map(b => <option key={b.id} value={b.id}>{b.nome}</option>)}
+              </select>
+            </div>
+            <Field label="Tipo/Categoria (ex: cacau_seco, nibs, liquor)" type="text" value={newProd.tipoProduto} onChange={v => setNewProd(p => ({ ...p, tipoProduto: v }))} />
+            <Field label="Linha (ex: qualitheo_b2b)" type="text" value={newProd.linha} onChange={v => setNewProd(p => ({ ...p, linha: v }))} />
+            <Field label="Unidade (kg, un, kit)" type="text" value={newProd.unidadeBase} onChange={v => setNewProd(p => ({ ...p, unidadeBase: v }))} />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Descrição</label>
+            <textarea value={newProd.descricao} onChange={e => setNewProd(p => ({ ...p, descricao: e.target.value }))} rows={2}
+              className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-400" aria-label="Descrição do novo produto" />
+          </div>
+          <div className="flex gap-2">
+            <button onClick={handleCreate} disabled={creating || !newProd.nome.trim() || !newProd.brandId || !newProd.tipoProduto.trim()}
+              className="px-4 py-2 rounded-xl text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white disabled:bg-gray-300 disabled:text-gray-500 transition-all flex items-center gap-1.5">
+              {creating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
+              Criar Produto
+            </button>
+            <button onClick={() => setShowNew(false)} className="px-4 py-2 rounded-xl text-sm font-semibold text-gray-500 hover:text-gray-800">Cancelar</button>
+          </div>
+        </div>
+      )}
+
       {products.map(prod => {
         const price = prices.find(p => p.productId === prod.id);
         const pVal = (f: keyof Product): string => (editedProducts[prod.id]?.[f] ?? prod[f]) as string;
         const prVal = (f: keyof ProductPrice): string => (price ? (editedPrices[price.id]?.[f] ?? price[f]) as string : "");
+        const currentDiscounts = price
+          ? (editedPrices[price.id]?.descontosPorVolume ?? price.descontosPorVolume) as Record<string, number> | null
+          : null;
 
         const setP = (f: keyof Product, v: string) =>
           setEditedProducts(prev => ({ ...prev, [prod.id]: { ...prev[prod.id], [f]: v } }));
-        const setPr = (f: keyof ProductPrice, v: string) => {
+        const setPr = (f: keyof ProductPrice, v: string | Record<string, number>) => {
           if (!price) return;
           setEditedPrices(prev => ({ ...prev, [price.id]: { ...prev[price.id], [f]: v } }));
         };
@@ -498,10 +714,17 @@ function ProductsTab() {
         const isSaved = saved === prod.id;
 
         return (
-          <div key={prod.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <div key={prod.id} className={`bg-white rounded-2xl border shadow-sm p-6 ${prod.ativo ? "border-gray-100" : "border-red-200 opacity-60"}`}>
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1 mr-4">
-                <p className="text-xs text-gray-400 font-mono uppercase tracking-wider mb-1">{prod.tipoProduto}</p>
+                {/* Editable tipoProduto */}
+                <input
+                  aria-label="Tipo do produto"
+                  value={pVal("tipoProduto")}
+                  onChange={e => setP("tipoProduto", e.target.value)}
+                  className="text-xs text-gray-500 font-mono uppercase tracking-wider mb-1 bg-transparent border-0 border-b border-transparent hover:border-gray-300 focus:border-emerald-500 focus:outline-none w-full transition-colors"
+                  placeholder="Tipo (ex: cacau_seco)"
+                />
                 <input
                   aria-label="Nome do produto"
                   value={pVal("nome")}
@@ -509,21 +732,33 @@ function ProductsTab() {
                   className="text-base font-bold text-gray-900 bg-transparent border-0 border-b border-transparent hover:border-gray-300 focus:border-emerald-500 focus:outline-none w-full transition-colors"
                 />
               </div>
-              <button
-                onClick={() => save(prod)}
-                disabled={isSaving}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all whitespace-nowrap ${
-                  isSaved ? "bg-emerald-100 text-emerald-700" :
-                  "bg-emerald-600 hover:bg-emerald-700 text-white"
-                }`}
-              >
-                {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> :
-                 isSaved ? <CheckCircle2 className="w-3.5 h-3.5" /> :
-                 <Save className="w-3.5 h-3.5" />}
-                {isSaved ? "Salvo!" : "Salvar"}
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Active toggle */}
+                <button onClick={() => toggleActive(prod)} title={prod.ativo ? "Desativar" : "Ativar"}
+                  className={`px-2 py-1 rounded-lg text-xs font-bold transition-all ${prod.ativo ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-600"}`}>
+                  {prod.ativo ? "Ativo" : "Inativo"}
+                </button>
+                <button onClick={() => handleDelete(prod)} title="Remover produto"
+                  className="p-2 rounded-xl text-red-400 hover:text-red-600 hover:bg-red-50 transition-all">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => save(prod)}
+                  disabled={isSaving}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all whitespace-nowrap ${
+                    isSaved ? "bg-emerald-100 text-emerald-700" :
+                    "bg-emerald-600 hover:bg-emerald-700 text-white"
+                  }`}
+                >
+                  {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> :
+                   isSaved ? <CheckCircle2 className="w-3.5 h-3.5" /> :
+                   <Save className="w-3.5 h-3.5" />}
+                  {isSaved ? "Salvo!" : "Salvar"}
+                </button>
+              </div>
             </div>
 
+            {/* Description */}
             <div className="mb-4">
               <label className="block text-xs text-gray-500 mb-1">Descrição</label>
               <textarea
@@ -535,14 +770,27 @@ function ProductsTab() {
               />
             </div>
 
+            {/* Extra fields: linha, unidade */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <Field label="Linha" type="text" value={pVal("linha")} onChange={v => setP("linha", v)} />
+              <Field label="Unidade base" type="text" value={pVal("unidadeBase")} onChange={v => setP("unidadeBase", v)} />
+            </div>
+
+            {/* Pricing */}
             {price && (
-              <div className="grid grid-cols-3 gap-3 bg-gray-50 rounded-xl p-4">
-                <Field label="Preço unitário (R$/kg ou un)" type="number" step="0.50" highlight="green"
-                  value={prVal("precoUnitario")} onChange={v => setPr("precoUnitario", v)} />
-                <Field label="MOQ (quantidade mínima)" type="number"
-                  value={prVal("moq")} onChange={v => setPr("moq", v)} />
-                <Field label="Moeda" type="text"
-                  value={prVal("moeda")} onChange={v => setPr("moeda", v)} />
+              <div className="bg-gray-50 rounded-xl p-4 space-y-4">
+                <div className="grid grid-cols-3 gap-3">
+                  <Field label="Preço unitário (R$/kg ou un)" type="number" step="0.50" highlight="green"
+                    value={prVal("precoUnitario")} onChange={v => setPr("precoUnitario", v)} />
+                  <Field label="MOQ (quantidade mínima)" type="number"
+                    value={prVal("moq")} onChange={v => setPr("moq", v)} />
+                  <Field label="Moeda" type="text"
+                    value={prVal("moeda")} onChange={v => setPr("moeda", v)} />
+                </div>
+                <VolumeDiscountsEditor
+                  value={currentDiscounts}
+                  onChange={v => setPr("descontosPorVolume", v as any)}
+                />
               </div>
             )}
           </div>
@@ -551,6 +799,7 @@ function ProductsTab() {
     </div>
   );
 }
+
 
 // ─── Shared UI Components ─────────────────────────────────────────────────────
 function Field({

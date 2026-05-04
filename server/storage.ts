@@ -94,11 +94,21 @@ export interface IStorage {
   // Market prices
   listMarketPrices(): Promise<MarketPrice[]>;
   upsertMarketPrice(tipo: string, data: Partial<MarketPrice>): Promise<MarketPrice>;
+  createMarketPrice(data: { tipo: string; descricao: string; precoMedioRKg: string }): Promise<MarketPrice>;
+  deleteMarketPrice(id: string): Promise<void>;
 
   // Admin — product editing
   updateProduct(id: string, data: Partial<Product>): Promise<Product>;
+  createProduct(data: { nome: string; brandId: string; tipoProduto: string; linha: string; descricao?: string; unidadeBase?: string }): Promise<Product>;
+  deleteProduct(id: string, hard?: boolean): Promise<void>;
   listProductPrices(): Promise<ProductPrice[]>;
   updateProductPrice(id: string, data: Partial<ProductPrice>): Promise<ProductPrice>;
+  createProductPrice(data: { productId: string; priceListId: string; precoUnitario: string; moeda?: string; moq?: string; descontosPorVolume?: Record<string, number> }): Promise<ProductPrice>;
+  deleteProductPrice(id: string): Promise<void>;
+
+  // Brands
+  listAllBrands(): Promise<Brand[]>;
+  listAllPriceLists(): Promise<PriceList[]>;
 
   // Admin — pricing model
   getActivePricingModel(): Promise<PricingModel | undefined>;
@@ -565,6 +575,21 @@ export class DrizzleStorage implements IStorage {
     }
   }
 
+  async createMarketPrice(data: { tipo: string; descricao: string; precoMedioRKg: string }): Promise<MarketPrice> {
+    const [row] = await db.insert(marketPrices).values({
+      tipo: data.tipo,
+      descricao: data.descricao,
+      precoMedioRKg: data.precoMedioRKg,
+      vigente: true,
+      atualizadoPor: "Admin",
+    }).returning();
+    return row;
+  }
+
+  async deleteMarketPrice(id: string): Promise<void> {
+    await db.delete(marketPrices).where(eq(marketPrices.id, id));
+  }
+
   // ── Catalog Seeds (idempotent via ON CONFLICT DO NOTHING) ──────────────────
   async seedBrand(brand: Brand): Promise<void> {
     await db.insert(brands).values(brand).onConflictDoNothing({ target: brands.id });
@@ -614,6 +639,7 @@ export class DrizzleStorage implements IStorage {
       ...(data.especificacoesTecnicas !== undefined && { especificacoesTecnicas: data.especificacoesTecnicas }),
       ...(data.imagens !== undefined && { imagens: data.imagens }),
       ...(data.ativo !== undefined && { ativo: data.ativo }),
+      ...(data.unidadeBase !== undefined && { unidadeBase: data.unidadeBase }),
     };
     const [updated] = await db.update(products)
       .set(safe)
@@ -621,6 +647,33 @@ export class DrizzleStorage implements IStorage {
       .returning();
     if (!updated) throw new NotFoundError("Product", id);
     return updated;
+  }
+
+  async createProduct(data: { nome: string; brandId: string; tipoProduto: string; linha: string; descricao?: string; unidadeBase?: string }): Promise<Product> {
+    const slug = data.nome
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const [row] = await db.insert(products).values({
+      brandId: data.brandId,
+      nome: data.nome,
+      slug,
+      tipoProduto: data.tipoProduto,
+      linha: data.linha,
+      descricao: data.descricao ?? "",
+      unidadeBase: data.unidadeBase ?? "kg",
+      ativo: true,
+    }).returning();
+    return row;
+  }
+
+  async deleteProduct(id: string, hard = false): Promise<void> {
+    if (hard) {
+      // First delete associated prices, then the product
+      await db.delete(productPrices).where(eq(productPrices.productId, id));
+      await db.delete(products).where(eq(products.id, id));
+    } else {
+      await db.update(products).set({ ativo: false }).where(eq(products.id, id));
+    }
   }
 
   async listProductPrices(): Promise<ProductPrice[]> {
@@ -640,6 +693,31 @@ export class DrizzleStorage implements IStorage {
       .returning();
     if (!updated) throw new NotFoundError("ProductPrice", id);
     return updated;
+  }
+
+  async createProductPrice(data: { productId: string; priceListId: string; precoUnitario: string; moeda?: string; moq?: string; descontosPorVolume?: Record<string, number> }): Promise<ProductPrice> {
+    const [row] = await db.insert(productPrices).values({
+      productId: data.productId,
+      priceListId: data.priceListId,
+      precoUnitario: data.precoUnitario,
+      moeda: data.moeda ?? "BRL",
+      moq: data.moq ?? "1",
+      descontosPorVolume: data.descontosPorVolume ?? {},
+    }).returning();
+    return row;
+  }
+
+  async deleteProductPrice(id: string): Promise<void> {
+    await db.delete(productPrices).where(eq(productPrices.id, id));
+  }
+
+  // ── Brands (admin) ─────────────────────────────────────────────────────────
+  async listAllBrands(): Promise<Brand[]> {
+    return db.select().from(brands).orderBy(asc(brands.nome));
+  }
+
+  async listAllPriceLists(): Promise<PriceList[]> {
+    return db.select().from(priceLists);
   }
 
   // ── Admin: Pricing model ────────────────────────────────────────────────────
