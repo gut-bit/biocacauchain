@@ -261,3 +261,18 @@ export const marketPrices = pgTable("market_prices", {
   index("idx_market_prices_vigente").on(t.vigente),
 ]);
 export type MarketPrice = typeof marketPrices.$inferSelect;
+
+// ── Content Blocks (CMS) ──────────────────────────────────────────────────────
+// Stores editable site content (hero text, about, contact, partners, etc.)
+// key: dot-notation identifier e.g. "hero.badge", "about.bullets"
+// type: "text" | "url" | "email" | "list_json" (JSON array stored as text)
+export const contentBlocks = pgTable("content_blocks", {
+  key: text("key").primaryKey(),
+  section: text("section").notNull(),      // hero | about | contact | partners | site
+  pt: text("pt").notNull().default(""),    // Portuguese value
+  en: text("en").notNull().default(""),    // English value
+  type: text("type").notNull().default("text"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+export type ContentBlock = typeof contentBlocks.$inferSelect;
+export type InsertContentBlock = typeof contentBlocks.$inferInsert;

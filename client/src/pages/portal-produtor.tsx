@@ -5,6 +5,8 @@ import {
     CheckSquare, TrendingUp, MapPin, Shield, CheckCircle2,
     AlertCircle, Loader2, Leaf, Plus, Package
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+import ProducerDataForm from "@/components/producer/ProducerDataForm";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type ProfileType = "individual" | "empresa" | "cooperativa";
@@ -166,7 +168,7 @@ export default function PortalProdutor() {
             });
             setProducerId(prod.id);
             go("propriedade");
-        } catch (e: any) { setError(e.message); }
+        } catch (e) { setError(e instanceof Error ? e.message : String(e)); }
         finally { setLoading(false); }
     };
 
@@ -177,7 +179,7 @@ export default function PortalProdutor() {
             const lot = await api("/api/lots", { producerId, ...loteForm });
             setLotId(lot.id);
             go("checklist");
-        } catch (e: any) { setError(e.message); }
+        } catch (e) { setError(e instanceof Error ? e.message : String(e)); }
         finally { setLoading(false); }
     };
 
@@ -188,7 +190,7 @@ export default function PortalProdutor() {
             const res = await api(`/api/lots/${lotId}/avaliar`, { itens: check });
             setScoreQualidade(res.score_qualidade);
             go("preco");
-        } catch (e: any) { setError(e.message); }
+        } catch (e) { setError(e instanceof Error ? e.message : String(e)); }
         finally { setLoading(false); }
     };
 
@@ -198,7 +200,7 @@ export default function PortalProdutor() {
         try {
             const data = await api(`/api/lots/${lotId}/preco`, { modalidade: loteForm.tipo, indice_fidelidade: 0.3 });
             setPrecoData(data);
-        } catch (e: any) { setError(e.message); }
+        } catch (e) { setError(e instanceof Error ? e.message : String(e)); }
         finally { setLoading(false); }
     };
 
@@ -215,6 +217,10 @@ export default function PortalProdutor() {
 
     return (
         <div className="min-h-screen bg-gray-50/50">
+            <Helmet>
+                <title>Portal do Produtor | Venda Direta de Cacau Fino</title>
+                <meta name="description" content="Portal de originação Qualitheo. Cadastre sua fazenda, registre lotes de cacau e receba propostas de compra direto da indústria com o melhor prêmio do mercado." />
+            </Helmet>
             {/* Header com Gradiente Premium */}
             <header className="bg-gradient-to-r from-green-950 via-green-900 to-green-800 px-6 py-5 sticky top-0 z-50 shadow-lg text-white">
                 <div className="container mx-auto flex items-center justify-between max-w-4xl">
@@ -370,57 +376,14 @@ export default function PortalProdutor() {
 
                 {/* ── STEP: Cadastro ─────────────────────────────────────────────────── */}
                 {step === "cadastro" && (
-                    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-                        <div className="flex items-center gap-2 mb-1">
-                            <h2 className="text-xl font-bold text-gray-900">Dados pessoais / empresa</h2>
-                            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium capitalize">{profileType}</span>
-                        </div>
-                        <p className="text-sm text-gray-500 mb-6">
-                            {profileType === "individual" ? "Preencha seus dados pessoais." : "Preencha os dados da sua empresa/cooperativa."}
-                        </p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="sm:col-span-2">
-                                <Field label={profileType === "individual" ? "Nome completo" : "Razão social"} required>
-                                    <Input value={prodForm.nome} onChange={e => setProdForm(p => ({ ...p, nome: e.target.value }))} placeholder="Nome completo ou Razão Social" />
-                                </Field>
-                            </div>
-                            {profileType !== "individual" && (
-                                <div className="sm:col-span-2">
-                                    <Field label="Nome fantasia">
-                                        <Input value={prodForm.nomeFantasia} onChange={e => setProdForm(p => ({ ...p, nomeFantasia: e.target.value }))} placeholder="Nome pelo qual é conhecido" />
-                                    </Field>
-                                </div>
-                            )}
-                            <Field label={profileType === "individual" ? "CPF" : "CNPJ"} required>
-                                <Input value={prodForm.cpfCnpj} onChange={e => setProdForm(p => ({ ...p, cpfCnpj: e.target.value }))}
-                                    placeholder={profileType === "individual" ? "000.000.000-00" : "00.000.000/0001-00"} />
-                            </Field>
-                            <Field label="Estado" required>
-                                <Select value={prodForm.estado} onChange={e => setProdForm(p => ({ ...p, estado: e.target.value }))}>
-                                    {["PA", "AM", "RO", "MT", "AC", "AP", "TO", "MA", "BA", "ES", "MG"].map(uf => <option key={uf}>{uf}</option>)}
-                                </Select>
-                            </Field>
-                            <div className="sm:col-span-2">
-                                <Field label="Município" required>
-                                    <Input value={prodForm.municipio} onChange={e => setProdForm(p => ({ ...p, municipio: e.target.value }))} placeholder="Ex: Altamira, Medicilândia, Uruará" />
-                                </Field>
-                            </div>
-                            <Field label="E-mail">
-                                <Input type="email" value={prodForm.contatoEmail} onChange={e => setProdForm(p => ({ ...p, contatoEmail: e.target.value }))} placeholder="email@exemplo.com" />
-                            </Field>
-                            <Field label="WhatsApp">
-                                <Input value={prodForm.contatoTelefone} onChange={e => setProdForm(p => ({ ...p, contatoTelefone: e.target.value }))} placeholder="(93) 99999-9999" />
-                            </Field>
-                        </div>
-                        <div className="flex gap-3 mt-6">
-                            <button onClick={() => go("perfil")} className="flex-1 border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium rounded-xl py-3 text-sm">
-                                ← Voltar
-                            </button>
-                            <PrimaryBtn onClick={handleCadastro} loading={loading}>
-                                Salvar e continuar →
-                            </PrimaryBtn>
-                        </div>
-                    </div>
+                    <ProducerDataForm
+                        profileType={profileType}
+                        onBack={() => go("perfil")}
+                        onSuccess={(id) => {
+                            setProducerId(id);
+                            go("propriedade");
+                        }}
+                    />
                 )}
 
                 {/* ── STEP: Propriedade ──────────────────────────────────────────────── */}

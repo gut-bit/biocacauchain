@@ -96,3 +96,10 @@ WHERE NOT EXISTS (SELECT 1 FROM market_prices WHERE tipo = 'fermentado_seco' AND
 INSERT INTO market_prices (tipo, descricao, preco_medio_r_kg, premium_qualidade, desconto_logistica, fator_socio_ambiental, notas, atualizado_por, vigente)
 SELECT 'amendoa_seca', 'Amêndoa Seca (beneficiada)', 13.50, 15, 5, 5, 'Preços de referência — safra 2026', 'Qualitheo', TRUE
 WHERE NOT EXISTS (SELECT 1 FROM market_prices WHERE tipo = 'amendoa_seca' AND vigente = TRUE);
+
+-- ── 9. brands and products: add missin ativo column ──────────────────────────
+ALTER TABLE brands
+  ADD COLUMN IF NOT EXISTS ativo BOOLEAN NOT NULL DEFAULT TRUE;
+
+ALTER TABLE products
+  ADD COLUMN IF NOT EXISTS ativo BOOLEAN NOT NULL DEFAULT TRUE;

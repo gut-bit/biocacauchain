@@ -160,14 +160,14 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.badge': 'Cocoa of Excellence Award Winner',
     'hero.title.1': 'Gutzeit Farms',
     'hero.title.2': '& Agroindústria Qualitheo',
-    'hero.subtitle': 'Da nossa fazenda para o mundo. Unindo a tradição da Gutzeit Farms à tecnologia da Qualitheo para um cacau de excelência.',
-    'hero.cta.products': 'Nossos Produtos',
-    'hero.cta.factory': 'Conheça a Fazenda',
+    'hero.subtitle': 'From our farm to the world. Merging the tradition of Gutzeit Farms with Qualitheo technology for cocoa of excellence.',
+    'hero.cta.products': 'Our Products',
+    'hero.cta.factory': 'Visit the Farm',
 
     // Infrastructure
-    'infra.label': 'Infraestrutura Integrada',
-    'infra.title': 'Do Campo à Indústria',
-    'infra.desc': 'A Gutzeit Farms garante a qualidade na origem, enquanto a Qualitheo processa com tecnologia de ponta, estufas solares e armazéns climatizados.',
+    'infra.label': 'Integrated Infrastructure',
+    'infra.title': 'From Field to Industry',
+    'infra.desc': 'Gutzeit Farms ensures quality at origin, while Qualitheo processes with cutting-edge technology, solar greenhouses, and climate-controlled warehouses.',
     'infra.badge.unit': 'Processing Unit',
     'infra.badge.drying': 'Solar Greenhouses',
     'infra.badge.storage': 'Storage',
@@ -289,14 +289,21 @@ const translations: Record<Language, Record<string, string>> = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('pt');
+  const [language, setLanguage] = useState<Language>(
+    () => (localStorage.getItem('biocacau_lang') as Language) ?? 'pt'
+  );
+
+  const setLanguagePersisted = (lang: Language) => {
+    localStorage.setItem('biocacau_lang', lang);
+    setLanguage(lang);
+  };
 
   const t = (key: string) => {
     return translations[language][key] || key;
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage: setLanguagePersisted, t }}>
       {children}
     </LanguageContext.Provider>
   );

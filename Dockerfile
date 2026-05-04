@@ -14,6 +14,8 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
+RUN apk add --no-cache tini
+
 ENV NODE_ENV=production
 ENV PORT=8080
 
@@ -27,4 +29,5 @@ COPY --from=builder /app/migrations ./migrations
 
 EXPOSE 8080
 
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "dist/index.cjs"]

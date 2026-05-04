@@ -458,8 +458,9 @@ export default function PortalQualitheo() {
                                     {/* Payment terms */}
                                     <div className="grid grid-cols-2 gap-3">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Condições de pagamento</label>
+                                            <label htmlFor="condicoes-pag" className="block text-sm font-medium text-gray-700 mb-1">Condições de pagamento</label>
                                             <select
+                                                id="condicoes-pag"
                                                 value={condicoesPag}
                                                 onChange={e => setCondicoesPag(e.target.value)}
                                                 className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -468,8 +469,9 @@ export default function PortalQualitheo() {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Validade da proposta</label>
+                                            <label htmlFor="validade-dias" className="block text-sm font-medium text-gray-700 mb-1">Validade da proposta</label>
                                             <select
+                                                id="validade-dias"
                                                 value={validadeDias}
                                                 onChange={e => setValidadeDias(e.target.value)}
                                                 className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -741,6 +743,7 @@ function PrecosManager() {
                                             <div className="flex items-center gap-2">
                                                 <span className="text-gray-500 text-sm font-medium">R$</span>
                                                 <input
+                                                    aria-label={`Preço médio por kg — ${p.descricao}`}
                                                     type="number"
                                                     step="0.10"
                                                     min="0"
@@ -769,6 +772,7 @@ function PrecosManager() {
                                             <div className="flex items-center gap-2">
                                                 <span className={`font-bold text-sm ${color.includes("green") ? "text-green-700" : color.includes("red") ? "text-red-700" : "text-blue-700"}`}>{sign}</span>
                                                 <input
+                                                    aria-label={label}
                                                     type="number" step="1" min="0" max="100" value={value}
                                                     onChange={e => set(Number(e.target.value))}
                                                     className={`w-full border-2 ${color} rounded-lg px-3 py-2 text-xl font-extrabold text-center focus:outline-none`}

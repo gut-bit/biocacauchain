@@ -62,8 +62,7 @@ export default function PrecosWidget() {
     return (
         <section className="relative bg-gradient-to-r from-cocoa-950 via-cocoa-900 to-cocoa-950 border-y border-white/10 py-6 px-4 overflow-hidden">
             {/* Subtle background pattern */}
-            <div className="absolute inset-0 opacity-5"
-                style={{ backgroundImage: "repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%)", backgroundSize: "12px 12px" }} />
+            <div className="absolute inset-0 opacity-5 bg-[repeating-linear-gradient(45deg,#fff_0,#fff_1px,transparent_0,transparent_50%)] bg-[size:12px_12px]" />
 
             <div className="container mx-auto max-w-6xl relative">
                 {/* Header row */}
@@ -76,7 +75,7 @@ export default function PrecosWidget() {
                     </div>
                     <div className="flex items-center gap-3">
                         <span className="text-xs text-cocoa-500">Atualizado {updatedDate}</span>
-                        <button onClick={fetchPrecos} className="text-cocoa-500 hover:text-cocoa-300 transition-colors">
+                        <button onClick={fetchPrecos} aria-label="Atualizar preços" title="Atualizar preços" className="text-cocoa-500 hover:text-cocoa-300 transition-colors">
                             <RefreshCw className="w-3.5 h-3.5" />
                         </button>
                     </div>

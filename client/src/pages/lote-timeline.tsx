@@ -20,7 +20,7 @@ interface Lot {
     createdAt: string;
 }
 
-const eventConfig: Record<string, { icon: any; label: string; color: string }> = {
+const eventConfig: Record<string, { icon: React.ElementType; label: string; color: string }> = {
     registro: { icon: Package, label: "Lote registrado", color: "text-cocoa-400 border-cocoa-700 bg-cocoa-800" },
     avaliacao: { icon: CheckSquare, label: "Avaliação de qualidade", color: "text-blue-400 border-blue-700 bg-blue-900/20" },
     proposta_qualitheo: { icon: TrendingUp, label: "Proposta da Qualitheo", color: "text-gold-400 border-gold-700 bg-gold-900/20" },

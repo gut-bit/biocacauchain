@@ -1,0 +1,1 @@
+client/src/pages/home.tsx(11,32): error TS2307: Cannot find module '@/components/home/MarketplaceSection' or its corresponding type declarations.

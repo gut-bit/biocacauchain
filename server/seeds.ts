@@ -197,8 +197,75 @@ export async function seedInitialData() {
         await storage.seedProductPrice(priceKit1kg);
 
         await storage.seedMarketPrices();
-        console.log("[seeds] ✅ Catalog + market prices seeded (idempotent).");
+        await seedDemoLots();
+        console.log("[seeds] ✅ Catalog + market prices + demo lots seeded (idempotent).");
     } catch (err: any) {
         console.error("[seeds] ❌ Seed error:", err.message);
     }
+}
+
+// ─── Demo Traceability Lots ────────────────────────────────────────────────────
+async function seedDemoLots() {
+    const { pool } = await import("./db");
+
+    // Only seed if lots don't already exist
+    const existing = await pool.query("SELECT id FROM lots WHERE id IN ('QT-2024-001','QT-2024-002','QT-2024-003') LIMIT 3");
+    if (existing.rows.length >= 3) return;
+
+    // Use raw pool so we can force specific IDs for demo lots
+    // Lot 1 — Fully purchased (complete chain)
+    await pool.query(`
+        INSERT INTO lots (id, producer_id, tipo, safra, peso_kg, score_qualidade, status, created_at)
+        VALUES ('QT-2024-001', 'demo_producer_1', 'cacau_amêndoa_fermentado', '2024', 850, 87.5, 'comprado', NOW() - INTERVAL '45 days')
+        ON CONFLICT (id) DO NOTHING
+    `);
+    await pool.query(`
+        INSERT INTO lots (id, producer_id, tipo, safra, peso_kg, score_qualidade, status, created_at)
+        VALUES ('QT-2024-002', 'demo_producer_1', 'cacau_molhado_baba', '2024', 1200, 74.3, 'em_negociacao', NOW() - INTERVAL '10 days')
+        ON CONFLICT (id) DO NOTHING
+    `);
+    await pool.query(`
+        INSERT INTO lots (id, producer_id, tipo, safra, peso_kg, score_qualidade, status, created_at)
+        VALUES ('QT-2024-003', 'demo_producer_2', 'cacau_amêndoa_seca', '2024', 640, null, 'draft', NOW() - INTERVAL '3 days')
+        ON CONFLICT (id) DO NOTHING
+    `);
+
+    // Events for Lot 1 (complete chain)
+    const events1 = [
+        { lot: 'QT-2024-001', tipo: 'registro',           data: 'NOW() - INTERVAL \'45 days\'', det: '{"tipo":"cacau_amêndoa_fermentado","safra":"2024","pesoKg":850}' },
+        { lot: 'QT-2024-001', tipo: 'fermentacao',         data: 'NOW() - INTERVAL \'42 days\'', det: '{"dias":7,"temperatura_media_c":38.5,"clone":"CCN-51+Comum"}' },
+        { lot: 'QT-2024-001', tipo: 'secagem',             data: 'NOW() - INTERVAL \'35 days\'', det: '{"dias":6,"umidade_final_pct":7.2,"metodo":"estufa solar"}' },
+        { lot: 'QT-2024-001', tipo: 'avaliacao',           data: 'NOW() - INTERVAL \'28 days\'', det: '{"scoreQualidade":87.5,"itens":{"selecao_frutos":9,"higiene_colheita":10,"tempo_colheita_quebra":9,"selecao_interna":8,"uniformidade_lote":9,"ausencia_corpos_estranhos":10,"condicoes_transporte":9}}' },
+        { lot: 'QT-2024-001', tipo: 'proposta_qualitheo',  data: 'NOW() - INTERVAL \'25 days\'', det: '{"preco_oferecido_r_kg":28.50,"validade_dias":5}' },
+        { lot: 'QT-2024-001', tipo: 'compra',              data: 'NOW() - INTERVAL \'23 days\'', det: '{"preco_final_r_kg":28.50,"nota_fiscal":"NF-2024-1042"}' },
+        { lot: 'QT-2024-001', tipo: 'envio',               data: 'NOW() - INTERVAL \'18 days\'', det: '{"transportadora":"VL Logística","placa":"PQR-4521","destino":"Belém - PA"}' },
+    ];
+
+    for (const ev of events1) {
+        await pool.query(
+            `INSERT INTO lot_events (lot_id, tipo_evento, data_evento, detalhes) VALUES ($1,$2,${ev.data},$3) ON CONFLICT DO NOTHING`,
+            [ev.lot, ev.tipo, ev.det]
+        );
+    }
+
+    // Events for Lot 2 (in negotiation)
+    const events2 = [
+        { lot: 'QT-2024-002', tipo: 'registro',           data: 'NOW() - INTERVAL \'10 days\'', det: '{"tipo":"cacau_molhado_baba","safra":"2024","pesoKg":1200}' },
+        { lot: 'QT-2024-002', tipo: 'avaliacao',           data: 'NOW() - INTERVAL \'7 days\'',  det: '{"scoreQualidade":74.3,"itens":{"selecao_frutos":7,"higiene_colheita":8,"tempo_colheita_quebra":7,"selecao_interna":7,"uniformidade_lote":8,"ausencia_corpos_estranhos":9,"condicoes_transporte":8}}' },
+        { lot: 'QT-2024-002', tipo: 'proposta_qualitheo',  data: 'NOW() - INTERVAL \'4 days\'',  det: '{"preco_oferecido_r_kg":7.80,"validade_dias":5}' },
+    ];
+
+    for (const ev of events2) {
+        await pool.query(
+            `INSERT INTO lot_events (lot_id, tipo_evento, data_evento, detalhes) VALUES ($1,$2,${ev.data},$3) ON CONFLICT DO NOTHING`,
+            [ev.lot, ev.tipo, ev.det]
+        );
+    }
+
+    // Events for Lot 3 (just registered)
+    await pool.query(
+        `INSERT INTO lot_events (lot_id, tipo_evento, data_evento, detalhes) VALUES ('QT-2024-003','registro',NOW() - INTERVAL '3 days','{"tipo":"cacau_amêndoa_seca","safra":"2024","pesoKg":640}') ON CONFLICT DO NOTHING`
+    );
+
+    console.log("[seeds] ✅ Demo traceability lots seeded.");
 }

@@ -16,12 +16,13 @@ import {
   users, brands, products, priceLists, productPrices,
   customers, orders, orderItems, producers, producerProperties,
   producerCompliance, lots, lotEvents, pricingModels, lotNegotiations,
-  marketPrices,
+  marketPrices, contentBlocks,
   type User, type InsertUser, type Brand, type Product,
   type ProductPrice, type PriceList, type Customer,
   type Order, type OrderItem, type Producer, type Lot,
   type LotEvent, type PricingModel, type LotNegotiation,
   type ProducerProperty, type ProducerCompliance, type MarketPrice,
+  type ContentBlock, type InsertContentBlock,
 } from "@shared/schema";
 
 // ── Typed Error ───────────────────────────────────────────────────────────────
@@ -93,6 +94,21 @@ export interface IStorage {
   // Market prices
   listMarketPrices(): Promise<MarketPrice[]>;
   upsertMarketPrice(tipo: string, data: Partial<MarketPrice>): Promise<MarketPrice>;
+
+  // Admin — product editing
+  updateProduct(id: string, data: Partial<Product>): Promise<Product>;
+  listProductPrices(): Promise<ProductPrice[]>;
+  updateProductPrice(id: string, data: Partial<ProductPrice>): Promise<ProductPrice>;
+
+  // Admin — pricing model
+  getActivePricingModel(): Promise<PricingModel | undefined>;
+  upsertPricingModel(data: Partial<PricingModel>): Promise<PricingModel>;
+
+  // Content Blocks CMS
+  listContentBlocks(): Promise<ContentBlock[]>;
+  getContentBlock(key: string): Promise<ContentBlock | undefined>;
+  upsertContentBlock(key: string, data: Partial<InsertContentBlock>): Promise<ContentBlock>;
+  seedContentBlocks(): Promise<void>;
 
   // Seeds (catalog only — idempotent)
   seedBrand(brand: Brand): Promise<void>;
@@ -174,6 +190,16 @@ export class DrizzleStorage implements IStorage {
   async getOrderById(id: string) {
     const [row] = await db.select().from(orders).where(eq(orders.id, id)).limit(1);
     return row;
+  }
+
+  async getOrderItemsWithProduct(orderId: string) {
+    return db.select({
+      item: orderItems,
+      product: products,
+    })
+    .from(orderItems)
+    .innerJoin(products, eq(orderItems.productId, products.id))
+    .where(eq(orderItems.orderId, orderId));
   }
 
   async upsertOrderItem(input: { orderId: string; productId: string; quantidade: number }): Promise<{ order: Order; item: OrderItem }> {
@@ -575,6 +601,136 @@ export class DrizzleStorage implements IStorage {
       }
     }
   }
+
+  // ── Admin: Product editing ─────────────────────────────────────────────────
+  async updateProduct(id: string, data: Partial<Product>): Promise<Product> {
+    // Allowlist: only permit safe editable fields, never id/brandId/slug
+    const safe = {
+      ...(data.nome !== undefined && { nome: data.nome }),
+      ...(data.descricao !== undefined && { descricao: data.descricao }),
+      ...(data.tipoProduto !== undefined && { tipoProduto: data.tipoProduto }),
+      ...(data.linha !== undefined && { linha: data.linha }),
+      ...(data.usoPrincipal !== undefined && { usoPrincipal: data.usoPrincipal }),
+      ...(data.especificacoesTecnicas !== undefined && { especificacoesTecnicas: data.especificacoesTecnicas }),
+      ...(data.imagens !== undefined && { imagens: data.imagens }),
+      ...(data.ativo !== undefined && { ativo: data.ativo }),
+    };
+    const [updated] = await db.update(products)
+      .set(safe)
+      .where(eq(products.id, id))
+      .returning();
+    if (!updated) throw new NotFoundError("Product", id);
+    return updated;
+  }
+
+  async listProductPrices(): Promise<ProductPrice[]> {
+    return db.select().from(productPrices);
+  }
+
+  async updateProductPrice(id: string, data: Partial<ProductPrice>): Promise<ProductPrice> {
+    const safe = {
+      ...(data.precoUnitario !== undefined && { precoUnitario: String(data.precoUnitario) }),
+      ...(data.moq !== undefined && { moq: String(data.moq) }),
+      ...(data.descontosPorVolume !== undefined && { descontosPorVolume: data.descontosPorVolume }),
+      ...(data.moeda !== undefined && { moeda: data.moeda }),
+    };
+    const [updated] = await db.update(productPrices)
+      .set(safe)
+      .where(eq(productPrices.id, id))
+      .returning();
+    if (!updated) throw new NotFoundError("ProductPrice", id);
+    return updated;
+  }
+
+  // ── Admin: Pricing model ────────────────────────────────────────────────────
+  async getActivePricingModel(): Promise<PricingModel | undefined> {
+    const [row] = await db.select().from(pricingModels)
+      .where(eq(pricingModels.ativo, true))
+      .limit(1);
+    return row;
+  }
+
+  async upsertPricingModel(data: Partial<PricingModel>): Promise<PricingModel> {
+    const MODEL_ID = "model_molhado_default";
+    const [existing] = await db.select().from(pricingModels)
+      .where(eq(pricingModels.id, MODEL_ID)).limit(1);
+
+    const safe = {
+      ...(data.precoRefMercadoUsdTon !== undefined && { precoRefMercadoUsdTon: String(data.precoRefMercadoUsdTon) }),
+      ...(data.fxUsdBrl !== undefined && { fxUsdBrl: String(data.fxUsdBrl) }),
+      ...(data.precoRefSecoBrutoRKg !== undefined && { precoRefSecoBrutoRKg: String(data.precoRefSecoBrutoRKg) }),
+      ...(data.fatorConversaoBabaParaSeco !== undefined && { fatorConversaoBabaParaSeco: String(data.fatorConversaoBabaParaSeco) }),
+      ...(data.custoProcessamentoRKgSeco !== undefined && { custoProcessamentoRKgSeco: String(data.custoProcessamentoRKgSeco) }),
+      ...(data.margemQualitheoPct !== undefined && { margemQualitheoPct: String(data.margemQualitheoPct) }),
+      ...(data.bonusQualidadePctMin !== undefined && { bonusQualidadePctMin: String(data.bonusQualidadePctMin) }),
+      ...(data.bonusQualidadePctMax !== undefined && { bonusQualidadePctMax: String(data.bonusQualidadePctMax) }),
+      ...(data.bonusFidelidadePctMax !== undefined && { bonusFidelidadePctMax: String(data.bonusFidelidadePctMax) }),
+    };
+
+    if (existing) {
+      const [updated] = await db.update(pricingModels).set(safe)
+        .where(eq(pricingModels.id, MODEL_ID)).returning();
+      return updated;
+    } else {
+      const [inserted] = await db.insert(pricingModels).values({
+        id: MODEL_ID,
+        modalidade: "molhado_baba",
+        precoRefMercadoUsdTon: "5200",
+        fxUsdBrl: "5.10",
+        precoRefSecoBrutoRKg: "26.52",
+        fatorConversaoBabaParaSeco: "2.80",
+        custoProcessamentoRKgSeco: "3.50",
+        margemQualitheoPct: "0.20",
+        bonusQualidadePctMin: "0.05",
+        bonusQualidadePctMax: "0.10",
+        bonusFidelidadePctMax: "0.05",
+        ativo: true,
+        ...safe,
+      }).returning();
+      return inserted;
+    }
+  }
+
+  // ── Content Blocks CMS ────────────────────────────────────────────────────────
+  async listContentBlocks(): Promise<ContentBlock[]> {
+    return db.select().from(contentBlocks).orderBy(asc(contentBlocks.section), asc(contentBlocks.key));
+  }
+
+  async getContentBlock(key: string): Promise<ContentBlock | undefined> {
+    const [row] = await db.select().from(contentBlocks)
+      .where(eq(contentBlocks.key, key)).limit(1);
+    return row;
+  }
+
+  async upsertContentBlock(key: string, data: Partial<InsertContentBlock>): Promise<ContentBlock> {
+    const safe = {
+      ...(data.section !== undefined && { section: data.section }),
+      ...(data.pt !== undefined && { pt: data.pt }),
+      ...(data.en !== undefined && { en: data.en }),
+      ...(data.type !== undefined && { type: data.type }),
+      updatedAt: new Date(),
+    };
+    const [row] = await db.insert(contentBlocks)
+      .values({ key, section: data.section ?? "site", pt: data.pt ?? "", en: data.en ?? "", type: data.type ?? "text", ...safe })
+      .onConflictDoUpdate({ target: contentBlocks.key, set: safe })
+      .returning();
+    return row;
+  }
+
+  async seedContentBlocks(): Promise<void> {
+    const { contentSeeds } = await import("./seeds/content.seeds");
+    for (const seed of contentSeeds) {
+      await db.insert(contentBlocks).values({
+        key: seed.key,
+        section: seed.section,
+        pt: seed.pt,
+        en: seed.en,
+        type: seed.type ?? "text",
+      }).onConflictDoNothing({ target: contentBlocks.key });
+    }
+  }
 }
 
 export const storage = new DrizzleStorage();
+
+
