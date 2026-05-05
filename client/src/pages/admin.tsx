@@ -537,7 +537,7 @@ function VolumeDiscountsEditor({ value, onChange }: { value: Record<string, numb
             className="w-20 text-xs border border-gray-200 rounded-lg px-2 py-1.5 text-right focus:outline-none focus:ring-1 focus:ring-emerald-400"
             aria-label="Percentual desconto" />
           <span className="text-xs text-gray-400">%</span>
-          <button onClick={() => remove(range)} className="text-red-400 hover:text-red-600"><Trash2 className="w-3 h-3" /></button>
+          <button onClick={() => remove(range)} title="Remover faixa" aria-label="Remover faixa de desconto" className="text-red-400 hover:text-red-600"><Trash2 className="w-3 h-3" /></button>
         </div>
       ))}
       <div className="flex items-center gap-2 pt-1">
@@ -547,7 +547,7 @@ function VolumeDiscountsEditor({ value, onChange }: { value: Record<string, numb
         <input type="number" step="0.01" value={newPct} onChange={e => setNewPct(e.target.value)}
           className="w-20 text-xs border border-dashed border-gray-300 rounded-lg px-2 py-1.5 text-right focus:outline-none focus:ring-1 focus:ring-emerald-400"
           aria-label="Novo percentual" />
-        <button onClick={add} className="text-emerald-600 hover:text-emerald-800"><Plus className="w-3.5 h-3.5" /></button>
+        <button onClick={add} title="Adicionar faixa" aria-label="Adicionar faixa de desconto" className="text-emerald-600 hover:text-emerald-800"><Plus className="w-3.5 h-3.5" /></button>
       </div>
     </div>
   );
